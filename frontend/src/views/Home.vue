@@ -4,7 +4,8 @@
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
-          Groupomania          
+          <img src="../../public/logos/logo-only.svg" alt="logo groupomania" class="resize_logo">
+          {{ societyName }}     
         </h1>
         <h2 class="subtitle">
           Entre nous, c'est entre vous...
@@ -17,14 +18,25 @@
   </section>
 </div>
 </template>
+
 <script>
+import { mapState } from "vuex"
+
 export default {
   name: 'home',
   components: {
+  },
+  computed: {
+    ...mapState({
+        societyName: "societyName"
+    })
   }
 }
 </script>
+
 <style lang="scss" scoped>
+@import '../styles/_mixins.scss';
+
   .hero {    
     text-align: center;
     background-image: url('../../public/img/earth_spaceview.jpg');
@@ -36,7 +48,14 @@ export default {
   .hero-body .title {
     text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.6);
     padding: 40px 0 20px 0;
-    font-size: 60px;
+    font-size: 60px; 
+    @include for-tablet-portrait-up;
+  }
+ .resize_logo {
+    width: .9em;
+  }
+  .container h2 {
+    font-size: 1.2em;
   }
   .subtitle {
     text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.7);
