@@ -11,16 +11,20 @@
           Entre nous, c'est entre vous...
         </h2>
         <div class="button-block">
-          <button class="button is-xl is-dark">Inscrivez-vous</button>
+          <button v-on:click="displayLogin()" class="button is-xl is-dark" id="val_btn">Inscrivez-vous
+          </button>
         </div>
       </div>
     </div>
+  </section>
+  <section class="container" id="val_frm">
   </section>
 </div>
 </template>
 
 <script>
 import { mapState } from "vuex"
+//import LoginButton from '../components/LoginButton.vue'
 
 export default {
   name: 'home',
@@ -30,6 +34,21 @@ export default {
     ...mapState({
         societyName: "societyName"
     })
+  },
+  methods: {
+      displayLogin: function () {
+      //alert('Hello');
+      let valButton = document.getElementById("val_btn");
+      let valForm = document.getElementById("val_frm");
+
+      let displayForm = document.createElement("div");
+      displayForm.setAttribute("class", "form");
+
+      valForm.appendChild(displayForm);
+
+      //valButton.addEventListener("click", function () {
+      valButton.style.visibility = "hidden";
+    }
   }
 }
 </script>
@@ -50,6 +69,11 @@ export default {
     padding: 40px 0 20px 0;
     font-size: 60px; 
     @include for-tablet-portrait-up;
+  }
+  .form {
+    width: 300px;
+    height: 200px;
+    background-color: red;
   }
  .resize_logo {
     width: .9em;

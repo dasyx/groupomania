@@ -1,0 +1,1 @@
+// Création d'une fonction qui rend invisible le bouton d'incription une fois cliqué
