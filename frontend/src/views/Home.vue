@@ -25,7 +25,6 @@
 
 <script>
 import { mapState } from "vuex"
-//import LoginButton from '../components/LoginButton.vue'
 
 export default {
   name: 'home',
@@ -38,7 +37,7 @@ export default {
   },
   methods: {
     goToSignup(){
-      this.$router.push('/Signup'); 
+      this.$router.push('/signup'); 
     }
   }
 }

@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import 'bulma/css/bulma.css';
 import store from './store'
+
+import 'bulma/css/bulma.css';
+//import './assets/css/main.css'
 
 Vue.config.productionTip = false
 
