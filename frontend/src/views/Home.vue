@@ -11,13 +11,14 @@
           Entre nous, c'est entre vous...
         </h2>
         <div class="button-block">
-          <button v-on:click="displayLogin()" class="button is-xl is-dark" id="val_btn">Inscrivez-vous
+          <button 
+          v-on:click="goToSignup()" 
+          class="button is-xl is-dark" id="val_btn">
+          Inscrivez-vous
           </button>
         </div>
       </div>
     </div>
-  </section>
-  <section class="container" id="val_frm">
   </section>
 </div>
 </template>
@@ -36,18 +37,8 @@ export default {
     })
   },
   methods: {
-      displayLogin: function () {
-      //alert('Hello');
-      let valButton = document.getElementById("val_btn");
-      let valForm = document.getElementById("val_frm");
-
-      let displayForm = document.createElement("div");
-      displayForm.setAttribute("class", "form");
-
-      valForm.appendChild(displayForm);
-
-      //valButton.addEventListener("click", function () {
-      valButton.style.visibility = "hidden";
+    goToSignup(){
+      this.$router.push('/Signup'); 
     }
   }
 }
@@ -70,9 +61,7 @@ export default {
     font-size: 60px; 
     @include for-tablet-portrait-up;
   }
-  .form {
-    width: 300px;
-    height: 200px;
+  .formulaire {
     background-color: red;
   }
  .resize_logo {
