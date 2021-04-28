@@ -17,6 +17,12 @@
   },
   "homepage": "https://github.com/dasyx/groupomania#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "cookie-session": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^4.5.0",
+    "mongoose": "^5.12.5",
+    "path": "^0.12.7"
   }
 }

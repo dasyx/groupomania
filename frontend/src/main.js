@@ -4,7 +4,8 @@ import router from './router'
 import store from './store'
 
 import 'bulma/css/bulma.css';
-//import './assets/css/main.css'
+
+require('./assets/main.scss');
 
 Vue.config.productionTip = false
 

@@ -1,16 +1,11 @@
 <template>
     <div class="form">
-        <div class="field">
-            <label class="label">Nom</label>
-            <div class="control">
-                <input class="input" type="text" placeholder="Veuillez saisir votre nom" />
-            </div>
-        </div>
+        <h2 class="title is-2">Inscription</h2>
 
         <div class="field">
-            <label class="label">Nom d'utilisateur</label>
+            <label class="label">Nom</label>
             <div class="control has-icons-left has-icons-right">
-                <input class="input" type="text" placeholder="Veuillez saisir le nom tel que vous apparaitrez aux yeux des autres utilisateurs du réseau" value="" />
+                <input class="input" type="text" placeholder="Veuillez saisir votre nom d'utilisateur" value="" />
                 <span class="icon is-small is-left">
                     <i class="fas fa-user"></i>
                 </span>
@@ -65,11 +60,9 @@
 </template>
 
 <script>
+
 </script>
 
 <style lang="scss" scoped>
-    .flex {
-        display: flex;
-        justify-content: center;
-    }
+    
 </style>
