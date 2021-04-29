@@ -1,10 +1,6 @@
 @import '../styles/mixins.scss';
 @import '../styles/variables.scss';
 
-  * {
-    margin: 0 auto;
-    padding: 0;
-  }
 /* Feuille de style de Home.vue
 ========================================*/
   .hero {    
@@ -16,7 +12,7 @@
     height: 400px;
   }
   .hero-body .title {
-    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.6);
+    text-shadow: 4px 4px 4px #00000099;
     padding: 40px 0 20px 0;
     font-size: 60px; 
     @include for-tablet-portrait-up;
@@ -31,7 +27,7 @@
     font-size: 1.2em;
   }
   .subtitle {
-    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.7);
+    text-shadow: 4px 4px 4px #000000b3;
     font-size: 30px;
   }
   .button-block {
@@ -60,33 +56,47 @@
 /* Feuille de style de Signup.vue
 =========================================================*/
 
+#nav {
+  padding: 20px;
+  margin-bottom: 100px;
+}
 .flex {
   display: flex;
   justify-content: center;
 }
 .form {
+  margin: 0 auto;
   background: $signup_background;
   border-radius: 20px;
   box-shadow: 5px 6px 5px;
-  margin: 5rem 10rem 10rem 10rem;
   padding: 3rem;
-  @media screen and (max-width: 768px) {
+  width: 500px;
+  @media screen and (max-width: 320px) {
+    width: 300px;
+    padding: 1.2rem;
+  }
+  /*@media screen and (min-width: 769px) and (max-width: 1439px) {
     margin: .9rem;
     padding: 1rem;
   }
-  /*@media screen and (min-width: 1440px) and (max-width: 2160px) {
-    margin: 28rem;
-    padding: 3rem;
-  }
-  @media screen and (min-width: 2161px){
-    margin: 50rem;
+  @media screen and (min-width: 1440px) and (max-width: 2160px) {
+    margin: 10rem 35rem 20rem;
     padding: 3rem;
   }*/
 }
 .title, .label, .checkbox, .radio {
-  color: white;
+  color: #ffffff;
 }
 .placeholder {
-  color:rgb(0, 0, 0);
+  color:#000000;
+}
+.field:nth-child(2) {
+  @include form_field_warning;
+}
+.label {
+  margin-top: 50px;
+}
+.mail_Warning {
+  @include form_field_warning;
 }
 /*======================================================*/
