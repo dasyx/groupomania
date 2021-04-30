@@ -70,7 +70,7 @@
   border-radius: 20px;
   box-shadow: 5px 6px 5px;
   padding: 3rem;
-  width: 500px;
+  width: 550px;
   @media screen and (max-width: 320px) {
     width: 300px;
     padding: 1.2rem;
@@ -90,13 +90,11 @@
 .placeholder {
   color:#000000;
 }
-.field:nth-child(2) {
-  @include form_field_warning;
-}
 .label {
   margin-top: 50px;
 }
-.mail_Warning {
+.field:nth-child(-n+5) {
   @include form_field_warning;
 }
 /*======================================================*/
+//.mail_Warning .create_Password .confirm_Password {
