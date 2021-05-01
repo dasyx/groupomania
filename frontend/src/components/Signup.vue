@@ -101,26 +101,6 @@
                 <span v-if="!$v.userForm.email.email"><i class="fas fa-exclamation-triangle">Veuillez renseigner une adresse email valide !</i></span>
             </div>
         </div>
-        <div class="field">
-            <div class="control">
-                <label class="checkbox">
-                    <input type="checkbox" />
-                    J'accepte <a href="#">les termes et conditions d'utilisation</a>
-                </label>
-            </div>
-        </div>
-        <div class="field">
-            <div class="control">
-                <label class="radio">
-                    <input type="radio" name="question" />
-                    Oui
-                </label>
-                <label class="radio">
-                    <input type="radio" name="question" />
-                    Non
-                </label>
-            </div>
-        </div>
         <div class="field flex is-centered">
             <div class="control">
                 <button class="button is-link">Soumettre</button>
@@ -133,6 +113,8 @@
 </template>
 
 <script>
+const axios = require('axios');
+const nameRegex = /^[a-zA-Z]+[a-zA-Z éè-]+[a-zA-Z]$/;
 import {
         required,
         email,
@@ -148,7 +130,6 @@ import {
                     email: "",
                     password: "",
                     confirmPassword: "",
-                    accept: ""
                 },
                 submitted: false
             };
@@ -158,7 +139,7 @@ import {
                 username: {
                     required,
                     regexNameRule: function(value) {
-                        return /^[a-zA-Z]+[a-zA-Z éè-]+[a-zA-Z]$/.test(value)
+                        return nameRegex.test(value)
                     }
                 },
                 email: {
@@ -185,11 +166,6 @@ import {
                     required,
                     sameAsPassword: sameAs('password')
                 },
-                accept: {
-                    required (val) {
-                      return val
-                    }
-                }
             }
         },
         methods: {
@@ -198,13 +174,28 @@ import {
 
                 this.$v.$touch();
                 if (this.$v.$invalid) {
-                    return;
+                   console.log("Une erreur inconnue est survenue, veuillez recommencer la saisie du formulaire")
                 }
-
-                alert("SUCCESS!" + JSON.stringify(this.userForm));
+                else {
+                    //console.log("test ok");
+                    axios
+                        .post("http://localhost:3000/user/signup/", {
+                            username: this.userForm.username,
+                            email: this.userForm.email,
+                            password: this.userForm.password,
+                        })
+                        .then(response => {
+                            console.log(response);
+                            window.location.href = "/login"
+                        })
+                        .catch(function(error) {
+                        console.log(error);
+                    });
+                }
             }
         }
     };
+
 </script>
 
 <style lang="scss" scoped>

@@ -3,6 +3,8 @@ const express = require('express');
 const helmet = require('helmet');
 // Importation du package mongoose pour accèder à la base de données
 const mongoose = require('mongoose');
+// Importation du routeur contenant les middlewares d'authentification
+const userRoutes = require('./routes/user');
 // Importation qui donne accès au système de fichiers
 const path = require('path');
 // Importation du package gérant la connexion par cookie
@@ -28,25 +30,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  console.log('Requête reçue !');
-  next();
-});
-
-app.use((req, res, next) => {
-  res.status(201);
-  next();
-});
-
-app.use((req, res, next) => {
-  res.json({ message: 'Votre requête a bien été reçue !' });
-  next();
-});
-
-app.use((req, res, next) => {
-  console.log('Réponse envoyée avec succès !');
-});
-
 // Sécurisation de la session et paramètrage du cookie de la session
 app.use(cookieSession({
   name: 'session',
@@ -70,5 +53,8 @@ app.use(express.json({ limit: '5kb' }));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(helmet());
+
+//enregistre routers
+app.use('/user', require('./routes/user'));
 
 module.exports = app;
