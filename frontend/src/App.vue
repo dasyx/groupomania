@@ -3,7 +3,8 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/user">Espace utilisateur</router-link> |
-      <router-link to="/signup">S'inscrire</router-link>
+      <router-link to="/signup">S'inscrire</router-link> |
+      <router-link to="/login">Se connecter</router-link>
     </div>
     <router-view/>
   </div>

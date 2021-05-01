@@ -62,14 +62,15 @@
 }
 .flex {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+  margin-top: 50px;
 }
 .form {
   margin: 0 auto;
   background: $signup_background;
   border-radius: 20px;
   box-shadow: 5px 6px 5px;
-  padding: 3rem;
+  padding: 2rem;
   width: 550px;
   @media screen and (max-width: 320px) {
     width: 300px;
@@ -95,6 +96,15 @@
 }
 .field:nth-child(-n+5) {
   @include form_field_warning;
+}
+.control .check_conditions {
+  margin-top: 20px;
+}
+.forgot-password {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 50px;
+  color: #ffffff;
 }
 /*======================================================*/
 //.mail_Warning .create_Password .confirm_Password {

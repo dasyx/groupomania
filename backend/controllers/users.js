@@ -12,7 +12,8 @@ exports.signup = (req, res, next) => {
         const user = new User({
           username: req.body.username,
           email: req.body.email,
-          password: hash
+          password: hash,
+          chkvalid:req.body.accept,
         });
         // Enregistrement de l'utilisateur dans la base de données
         user.save()

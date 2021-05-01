@@ -101,6 +101,22 @@
                 <span v-if="!$v.userForm.email.email"><i class="fas fa-exclamation-triangle">Veuillez renseigner une adresse email valide !</i></span>
             </div>
         </div>
+        <div class="field">
+            <div class="control">
+                <label class="checkbox check_conditions">
+                    <input 
+                    type="checkbox"
+                    v-model="userForm.accept"
+                    @change="$v.userForm.accept.$touch()"
+                    id="accept"
+                    class="form-check"
+                     />
+                        <span>
+                        J'accepte <a href="#">les termes et conditions d'utilisation</a>
+                        </span>
+                </label>
+            </div>
+        </div>
         <div class="field flex is-centered">
             <div class="control">
                 <button class="button is-link">Soumettre</button>
@@ -108,6 +124,12 @@
             <div class="control">
                 <button class="button is-link is-light">Annuler</button>
             </div>
+        </div>
+        <div class="forgot-password">
+            <p>
+            Déjà inscrit ?
+            <router-link :to="{name: 'login'}">Se connecter</router-link>
+            </p>
         </div>
     </form>
 </template>
@@ -130,6 +152,7 @@ import {
                     email: "",
                     password: "",
                     confirmPassword: "",
+                    accept:"",
                 },
                 submitted: false
             };
@@ -166,6 +189,11 @@ import {
                     required,
                     sameAsPassword: sameAs('password')
                 },
+                accept: {
+                    required (val) {
+                      return val
+                    }
+                }
             }
         },
         methods: {
@@ -174,19 +202,20 @@ import {
 
                 this.$v.$touch();
                 if (this.$v.$invalid) {
-                   console.log("Une erreur inconnue est survenue, veuillez recommencer la saisie du formulaire")
+                   console.log("Une erreur est survenue, veuillez recommencer la saisie du formulaire")
                 }
                 else {
-                    //console.log("test ok");
+                    //console.log("formulaire valide");
                     axios
                         .post("http://localhost:3000/user/signup/", {
                             username: this.userForm.username,
                             email: this.userForm.email,
                             password: this.userForm.password,
+                            chkvalid: this.userForm.accept,
                         })
                         .then(response => {
                             console.log(response);
-                            window.location.href = "/login"
+                            this.$router.push('/login');
                         })
                         .catch(function(error) {
                         console.log(error);
