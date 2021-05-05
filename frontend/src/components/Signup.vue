@@ -101,22 +101,7 @@
                 <span v-if="!$v.userForm.email.email"><i class="fas fa-exclamation-triangle">Veuillez renseigner une adresse email valide !</i></span>
             </div>
         </div>
-        <div class="field">
-            <div class="control">
-                <label class="checkbox check_conditions">
-                    <input 
-                    type="checkbox"
-                    v-model="userForm.accept"
-                    @change="$v.userForm.accept.$touch()"
-                    id="accept"
-                    class="form-check"
-                     />
-                        <span>
-                        J'accepte <a href="#">les termes et conditions d'utilisation</a>
-                        </span>
-                </label>
-            </div>
-        </div>
+        
         <div class="field flex is-centered">
             <div class="control">
                 <button class="button is-link">Soumettre</button>
@@ -152,7 +137,7 @@ import {
                     email: "",
                     password: "",
                     confirmPassword: "",
-                    accept:"",
+                    //accept:"",
                 },
                 submitted: false
             };
@@ -189,11 +174,11 @@ import {
                     required,
                     sameAsPassword: sameAs('password')
                 },
-                accept: {
+                /*accept: {
                     required (val) {
                       return val
                     }
-                }
+                }*/
             }
         },
         methods: {
@@ -211,7 +196,7 @@ import {
                             username: this.userForm.username,
                             email: this.userForm.email,
                             password: this.userForm.password,
-                            chkvalid: this.userForm.accept,
+                            //chkvalid: this.userForm.accept,
                         })
                         .then(response => {
                             console.log(response);
@@ -226,7 +211,3 @@ import {
     };
 
 </script>
-
-<style lang="scss" scoped>
-    
-</style>
