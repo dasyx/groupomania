@@ -190,7 +190,7 @@ import {
                    console.log("Une erreur est survenue, veuillez recommencer la saisie du formulaire")
                 }
                 else {
-                    //console.log("formulaire valide");
+                    console.log("formulaire valide");
                     axios
                         .post("http://localhost:3000/user/signup/", {
                             username: this.userForm.username,
@@ -199,8 +199,15 @@ import {
                             //chkvalid: this.userForm.accept,
                         })
                         .then(response => {
+                            if (response.status === 201) {
+                            return response;
+                        } else {
+                            console.log("Erreur d'envoi de formulaire");
+                            }
+                        })
+                        .then(response => {
                             console.log(response);
-                            this.$router.push('/login');
+                            //this.$router.push('/login');
                         })
                         .catch(function(error) {
                         console.log(error);

@@ -1,19 +1,13 @@
-var mysql = require('mysql');
-  
-console.log('Get connection ...');
-
-// création de la connexion à la groupomania.sql(db)
-var connectdb = mysql.createConnection({
-  database: 'grp7',
-  host: 'localhost',
-  user: 'root',
-  password: ''
-});
-
-// connexion :
-connectdb.connect(function() {
-  //if (err) throw err;
-  console.log("Vous êtes connecté!");
-});
- 
-module.exports = connectdb;
+module.exports = {
+    HOST: "localhost",
+    USER: "root",
+    PASSWORD: "elyah.19",
+    DB: "groupomania",
+    dialect: "mysql",
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    }
+  };

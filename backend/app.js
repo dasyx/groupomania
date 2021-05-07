@@ -4,17 +4,8 @@ const helmet = require('helmet');
 // Importation qui donne accès au système de fichiers
 const path = require('path');
 
-//ID pour connexion à la DB :
-const connectdb = require('./config/database');
-
 // Application Express :
 const app = express();
-
-// Importation du routeur contenant les middlewares d'authentification
-const userRoutes = require('./routes/user');
-
-//connexion DB :
-app.connect(connectdb);
 
 // Grâce à ces headers, on pourra accèder notre API depuis n'importe quelle origine, et envoyer différents types de requêtes
 app.use((req, res, next) => {
@@ -31,12 +22,20 @@ app.use(express.json());
 // On limitera le payload qu'un utilisateur pourra soumettre à l'API
 app.use(express.json({ limit: '5kb' }));
 
+const db = require("./models");
+
+db.sequelize.sync();
+// // drop the table if it already exists
+ //db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and re-sync db.");
+//});
+
 // Ce middleware répondra aux requêtes envoyées à /images
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(helmet());
 
 //enregistre routers
-app.use('/user', userRoutes);
+app.use('/user', require('./routes/user'));
 
 module.exports = app;
