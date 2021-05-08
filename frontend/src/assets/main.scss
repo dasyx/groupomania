@@ -2,6 +2,7 @@
 @import '../styles/variables.scss';
 
 /* Feuille de style de Home.vue
+
 ========================================*/
   .hero {    
     text-align: center;
@@ -54,6 +55,7 @@
 /*=======================================================*/
 
 /* Feuille de style de Signup.vue
+
 =========================================================*/
 
 #nav {
@@ -67,7 +69,7 @@
 }
 .form {
   margin: 0 auto;
-  background: $signup_background;
+  background: $background;
   border-radius: 20px;
   box-shadow: 5px 6px 5px;
   padding: 2rem;
@@ -105,6 +107,12 @@
   justify-content: flex-end;
   margin-top: 50px;
   color: #ffffff;
+}
+#validName, #validMail {
+  visibility: hidden;
+}
+#wrongName, #wrongMail {
+  visibility: hidden;
 }
 /*======================================================*/
 //.mail_Warning .create_Password .confirm_Password {

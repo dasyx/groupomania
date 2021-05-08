@@ -8,7 +8,8 @@
                 class="input"
                 type="text"
                 v-model="userForm.username"
-                id="name"
+                v-on:input="usernameValidInput"
+                id="name_signup"
                 name="name"
                 :class="{ 'is-invalid': submitted && $v.userForm.username.$error }"
                 placeholder="Veuillez saisir votre nom d'utilisateur" 
@@ -18,7 +19,8 @@
                     <i class="fas fa-user"></i>
                 </span>
                 <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
+                    <i class="fas fa-check" id="validName"></i>
+                    <i class="fas fa-times" id="wrongName"></i>
                 </span>
             </div>
             <div v-if="submitted && $v.userForm.username.$error">
@@ -33,7 +35,7 @@
                 class="input" 
                 type="password" 
                 v-model="userForm.password"
-                id="password"
+                id="password_signup"
                 name="password"
                 :class="{ 'is-invalid': submitted && $v.userForm.password.$error }"
                 placeholder="Veuillez créer votre mot de passe" 
@@ -43,7 +45,6 @@
                     <i class="fas fa-key"></i>
                 </span>
                 <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
                 </span>
             </div>
             <div v-if="submitted && $v.userForm.password.$error" class="create_Password">
@@ -58,7 +59,7 @@
                 class="input" 
                 type="password" 
                 v-model="userForm.confirmPassword"
-                id="confirmPassword"
+                id="confirmPassword_signup"
                 name="confirmPassword"
                 :class="{ 'is-invalid': submitted && $v.userForm.confirmPassword.$error }"
                 placeholder="Veuillez confirmer votre mot de passe" 
@@ -68,7 +69,6 @@
                     <i class="fas fa-key"></i>
                 </span>
                 <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
                 </span>
             </div>
             <div v-if="submitted && $v.userForm.confirmPassword.$error" class="confirm_Password">
@@ -83,7 +83,8 @@
                 class="input" 
                 type="email" 
                 v-model="userForm.email"
-                id="email"
+                v-on:input="emailValidInput"
+                id="email_signup"
                 name="email"
                 :class="{ 'is-invalid': submitted && $v.userForm.email.$error }"
                 placeholder="Veuillez saisir votre adresse email" 
@@ -93,7 +94,8 @@
                     <i class="fas fa-envelope"></i>
                 </span>
                 <span class="icon is-small is-right">
-                    <i class="fas fa-check"></i>
+                    <i class="fas fa-check" id="validMail"></i>
+                    <i class="fas fa-times" id="wrongMail"></i>
                 </span>
             </div>
             <div v-if="submitted && $v.userForm.email.$error" class="mail_Warning">
@@ -101,7 +103,22 @@
                 <span v-if="!$v.userForm.email.email"><i class="fas fa-exclamation-triangle">Veuillez renseigner une adresse email valide !</i></span>
             </div>
         </div>
-        
+        <div class="field">
+            <div class="control">
+                <label class="checkbox check_conditions">
+                    <input 
+                    type="checkbox"
+                    v-model="userForm.accept"
+                    @change="$v.userForm.accept.$touch()"
+                    id="accept"
+                    class="form-check"
+                     />
+                        <span>
+                        J'accepte <a href="#">les termes et conditions d'utilisation</a>
+                        </span>
+                </label>
+            </div>
+        </div>
         <div class="field flex is-centered">
             <div class="control">
                 <button class="button is-link">Soumettre</button>
@@ -121,10 +138,11 @@
 
 <script>
 const axios = require('axios');
-const nameRegex = /^[a-zA-Z]+[a-zA-Z éè-]+[a-zA-Z]$/;
+const nameRegex = /^[^=*'<>{}0-9]{3,}$/;
+const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/
 import {
         required,
-        email,
+        //email,
         minLength,
         sameAs
     } from 'vuelidate/lib/validators';
@@ -152,7 +170,9 @@ import {
                 },
                 email: {
                     required,
-                    email
+                    regexNameRule: function(value) {
+                        return mailRegex.test(value)
+                    }
                 },
                 password: {
                     required,
@@ -167,18 +187,18 @@ import {
                         return /[0-9]/.test(value)
                     },
                     containsSpecial: function(value) {
-                        return /[ !@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value)
+                        return /^[^=*<>{}]{8,}$/.test(value)
                     }
                 },
                 confirmPassword: {
                     required,
                     sameAsPassword: sameAs('password')
                 },
-                /*accept: {
+                accept: {
                     required (val) {
                       return val
                     }
-                }*/
+                }
             }
         },
         methods: {
@@ -207,14 +227,43 @@ import {
                         })
                         .then(response => {
                             console.log(response);
-                            //this.$router.push('/login');
+                            this.$router.push('/login');
                         })
                         .catch(function(error) {
                         console.log(error);
                     });
                 }
-            }
+            },
+            usernameValidInput(){
+                var name = document.getElementById("name_signup").value
+                var nameResult = nameRegex.test(name);
+                if( nameResult == true){
+                    document.getElementById("validName").style.visibility = "visible";
+                    document.getElementById("wrongName").style.visibility = "hidden";
+                    document.getElementById("validName").style.color = "green";
+                    return true;
+                } else {
+                    document.getElementById("validName").style.visibility = "hidden";
+                    document.getElementById("wrongName").style.visibility = "visible";
+                    document.getElementById("wrongName").style.color = "red";
+                    return false;
+                }
+            },
+            emailValidInput(){
+                var email = document.getElementById("email_signup").value
+                var emailResult = mailRegex.test(email);
+                if( emailResult == true){
+                    document.getElementById("validMail").style.visibility = "visible";
+                    document.getElementById("wrongMail").style.visibility = "hidden";
+                    document.getElementById("validMail").style.color = "green";
+                    return true;
+                } else {
+                    document.getElementById("validMail").style.visibility = "hidden";
+                    document.getElementById("wrongMail").style.visibility = "visible";
+                    document.getElementById("wrongMail").style.color = "red";
+                    return false;
+                }
+            },
         }
-    };
-
+    }
 </script>

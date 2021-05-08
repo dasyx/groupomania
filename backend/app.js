@@ -15,6 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// Utilisation du package Express qui permet de gérer des données
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
