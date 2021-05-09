@@ -99,10 +99,11 @@
 .field:nth-child(-n+5) {
   @include form_field_warning;
 }
+
 .control .check_conditions {
   margin-top: 20px;
 }
-.forgot-password {
+.forgot-password, .already-signed {
   display: flex;
   justify-content: flex-end;
   margin-top: 50px;

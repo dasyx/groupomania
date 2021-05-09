@@ -84,7 +84,7 @@
                 type="email" 
                 v-model="userForm.email"
                 v-on:input="emailValidInput"
-                id="email_signup"
+                id="email"
                 name="email"
                 :class="{ 'is-invalid': submitted && $v.userForm.email.$error }"
                 placeholder="Veuillez saisir votre adresse email" 
@@ -127,7 +127,7 @@
                 <button class="button is-link is-light">Annuler</button>
             </div>
         </div>
-        <div class="forgot-password">
+        <div class="already-signed">
             <p>
             Déjà inscrit ?
             <router-link :to="{name: 'login'}">Se connecter</router-link>
@@ -137,15 +137,13 @@
 </template>
 
 <script>
+
 const axios = require('axios');
 const nameRegex = /^[^=*'<>{}0-9]{3,}$/;
-const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/
-import {
-        required,
-        //email,
-        minLength,
-        sameAs
-    } from 'vuelidate/lib/validators';
+const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+
+import { mapState } from 'vuex'
+import { required, minLength, sameAs } from 'vuelidate/lib/validators';
 
     export default {
         data() {
@@ -170,6 +168,7 @@ import {
                 },
                 email: {
                     required,
+
                     regexNameRule: function(value) {
                         return mailRegex.test(value)
                     }
@@ -201,6 +200,9 @@ import {
                 }
             }
         },
+        computed: {
+            ...mapState(['emailValidInput', 'usernameValidInput'])
+        },
         methods: {
             handleSubmit() {
                 this.submitted = true;
@@ -221,7 +223,7 @@ import {
                         .then(response => {
                             if (response.status === 201) {
                             return response;
-                        } else {
+                        }   else {
                             console.log("Erreur d'envoi de formulaire");
                             }
                         })
@@ -232,36 +234,6 @@ import {
                         .catch(function(error) {
                         console.log(error);
                     });
-                }
-            },
-            usernameValidInput(){
-                var name = document.getElementById("name_signup").value
-                var nameResult = nameRegex.test(name);
-                if( nameResult == true){
-                    document.getElementById("validName").style.visibility = "visible";
-                    document.getElementById("wrongName").style.visibility = "hidden";
-                    document.getElementById("validName").style.color = "green";
-                    return true;
-                } else {
-                    document.getElementById("validName").style.visibility = "hidden";
-                    document.getElementById("wrongName").style.visibility = "visible";
-                    document.getElementById("wrongName").style.color = "red";
-                    return false;
-                }
-            },
-            emailValidInput(){
-                var email = document.getElementById("email_signup").value
-                var emailResult = mailRegex.test(email);
-                if( emailResult == true){
-                    document.getElementById("validMail").style.visibility = "visible";
-                    document.getElementById("wrongMail").style.visibility = "hidden";
-                    document.getElementById("validMail").style.color = "green";
-                    return true;
-                } else {
-                    document.getElementById("validMail").style.visibility = "hidden";
-                    document.getElementById("wrongMail").style.visibility = "visible";
-                    document.getElementById("wrongMail").style.color = "red";
-                    return false;
                 }
             },
         }

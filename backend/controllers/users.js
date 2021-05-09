@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const sequelize = require('../models/index.js');
 const User = require('../models/User');
 const db = require('../models');
@@ -6,10 +7,13 @@ const {
   DataTypes,
 } = require('sequelize');
 
-//recherche de l'utilisateur
-let mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
-let nameRegex = /^[^=*'<>{}0-9]{3,}$/;
-let passwordRegex = /^[^=*<>{}]{8,}$/;
+//let mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+//let nameRegex = /^[^=*'<>{}0-9]{3,}$/;
+//let passwordRegex = /^[^=*<>{}]{8,}$/;
+
+
+/*****   USER SIGNUP    
+========================****/
 
 exports.signup = (req, res, next) => {
     db.sequelize.sync()
@@ -25,26 +29,6 @@ exports.signup = (req, res, next) => {
                 error: "Utilisateur déjà créé ou adresse email déjà utilisée !"
               })
             }
-            //le mail n'est pas utilisé
-            //vérifications des données
-            try {
-              if (req.body.username === "") throw "Veuillez renseigner un nom";
-              if (req.body.email === "") throw "Veuillez renseigner un mail";
-              if (!nameRegex.test(req.body.username)) {
-                throw "Le nom d'utlisateur doit contenir au moins 3 caractères, les caractères suivants ne sont pas autorisés : ^=*<>{}"
-              }
-              if (!passwordRegex.test(req.body.mdpHash)) {
-                throw "Le mot de passe doit contenir au moins 8 caractères et ne doit pas contenir les caractères suivants: ^=*<>{}"
-              }
-              if (!mailRegex.test(req.body.email)) {
-                throw "Veuillez entrer une adresse mail valide";
-              }
-            } catch (error) {
-              return res.status(400).json({
-                error: error
-              });
-            }
-  
             //hashage du mot de passe
             let hash = bcrypt.hashSync(req.body.password, 10);
   
@@ -80,3 +64,44 @@ exports.signup = (req, res, next) => {
       })
       .catch(error => console.log(error));
   }
+
+/*****   USER LOGIN    
+========================****/
+exports.login = (req, res, next) => {
+
+  sequelize.User.findOne({
+    where: {
+      email: req.body.email
+    }
+  })
+  .then(user => {
+    if (!user) {
+      return res.status(401).json({
+        error: "Utilisateur non trouvé"
+      })
+    }
+    //utilisateur trouvé, comparaison des mdp
+    bcrypt.compare(req.body.password, user.password)
+      .then(valid => {
+        if (!valid) {
+          return res.status(401).json({
+            error: "Password invalide"
+          })
+        }
+        //mdp valide, envoi d'un token d'authentification
+        res.status(200).json({
+          userId: user.id,
+          token: jwt.sign({
+              userId: user.id,
+            },
+            'MY_SECRET_TOKEN', {
+              expiresIn: '24h'
+            })
+        })
+      })
+      .catch(error => res.status(500).json({
+        error: "erreur bcrypt"
+      }));
+  })
+  .catch(error => console.log(error));
+}
