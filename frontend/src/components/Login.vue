@@ -60,12 +60,6 @@
                 <button class="button is-link is-light">Annuler</button>
             </div>
         </div>
-        <div class="forgot-password">
-            <p>
-            Mot de passe oublié ?
-            <router-link :to="{name: 'login'}">Réinitialiser</router-link>
-            </p>
-        </div>
     </form>
 </template>
 
