@@ -94,7 +94,7 @@ exports.login = (req, res, next) => {
           token: jwt.sign({
               userId: user.id,
             },
-            'MY_SECRET_TOKEN', {
+            process.env.SECRET_TOKEN, {
               expiresIn: '24h'
             })
         })
@@ -104,4 +104,17 @@ exports.login = (req, res, next) => {
       }));
   })
   .catch(error => console.log(error));
+}
+
+/*****   MODIFIER UN UTILISATEUR    
+===================================****/
+exports.modifyUser = (req, res, next) => {
+  const userObject = req.file ?
+      {
+          ...req.body.userId,
+          imgProfile: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+      } : { ... req.body}
+  User.update({ ...userObject, id:  req.params.id}, { where: { id: req.params.id }})
+    .then(() => res.status(200).json({ ...userObject }))
+    .catch(error => res.status(400).json({ error }))
 }

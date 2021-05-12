@@ -4,6 +4,8 @@ const helmet = require('helmet');
 // Importation qui donne accès au système de fichiers
 const path = require('path');
 
+require('dotenv').config()
+
 // Application Express :
 const app = express();
 
