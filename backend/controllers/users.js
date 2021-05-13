@@ -77,7 +77,7 @@ exports.login = (req, res, next) => {
   .then(user => {
     if (!user) {
       return res.status(401).json({
-        error: "Utilisateur non trouvé"
+        error: "Utilisateur Introuvable"
       })
     }
     //utilisateur trouvé, comparaison des mdp
@@ -85,14 +85,16 @@ exports.login = (req, res, next) => {
       .then(valid => {
         if (!valid) {
           return res.status(401).json({
-            error: "Password invalide"
+            error: "Mot de passe non valide"
           })
         }
         //mdp valide, envoi d'un token d'authentification
         res.status(200).json({
           userId: user.id,
+          userAdmin: user.admin,
           token: jwt.sign({
               userId: user.id,
+              userAdmin: user.admin,
             },
             process.env.SECRET_TOKEN, {
               expiresIn: '24h'
@@ -100,7 +102,7 @@ exports.login = (req, res, next) => {
         })
       })
       .catch(error => res.status(500).json({
-        error: "erreur bcrypt"
+        error: "erreur"
       }));
   })
   .catch(error => console.log(error));

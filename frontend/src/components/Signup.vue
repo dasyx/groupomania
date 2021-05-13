@@ -137,14 +137,11 @@
 </template>
 
 <script>
-
 const axios = require('axios');
 const nameRegex = /^[^=*'<>{}0-9]{3,}$/;
 const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
-
 import { mapState } from 'vuex'
 import { required, minLength, sameAs } from 'vuelidate/lib/validators';
-
     export default {
         data() {
             return {
@@ -168,7 +165,6 @@ import { required, minLength, sameAs } from 'vuelidate/lib/validators';
                 },
                 email: {
                     required,
-
                     regexNameRule: function(value) {
                         return mailRegex.test(value)
                     }
@@ -206,7 +202,6 @@ import { required, minLength, sameAs } from 'vuelidate/lib/validators';
         methods: {
             handleSubmit() {
                 this.submitted = true;
-
                 this.$v.$touch();
                 if (this.$v.$invalid) {
                    console.log("Une erreur est survenue, veuillez recommencer la saisie du formulaire")

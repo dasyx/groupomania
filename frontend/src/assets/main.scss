@@ -116,4 +116,21 @@
   visibility: hidden;
 }
 /*======================================================*/
-//.mail_Warning .create_Password .confirm_Password {
+
+/* Feuille de style de Mainboard.vue
+
+=========================================================*/
+
+.navbar {
+  background: $background;
+  height: 100px;
+}
+.navbar img {
+  width: 50%;
+}
+.navbar-brand { 
+  align-items: center;
+}
+.navbar-item a {
+  color: #ffffff;
+}

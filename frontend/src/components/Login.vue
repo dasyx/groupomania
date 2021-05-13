@@ -140,10 +140,12 @@ export default {
                             }
                         })
                         .then(response => {
+                            // enregistrement des données utilisateur dans le stockage local
                             console.log(response);
                             sessionStorage.setItem("key", response.data.token);
                             sessionStorage.setItem("user", response.data.userId);
-                            //this.$router.push('/dashboard');
+                            localStorage.setItem("admin", response.data.userAdmin);
+                            this.$router.push('/mainboard');
                         })
                         .catch(function(error) {
                         console.log(error);
