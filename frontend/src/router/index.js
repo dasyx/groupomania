@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Mainboard from '../components/Mainboard'
+import UserProfile from '../components/UserProfile.vue'
 
 Vue.use(VueRouter)
 
@@ -25,6 +26,11 @@ const routes = [
     path: '/mainboard',
     name: 'mainboard',
     component: Mainboard
+  },
+  {
+    path: '/userprofile',
+    name: 'userprofile',
+    component: UserProfile
   },
 ]
 

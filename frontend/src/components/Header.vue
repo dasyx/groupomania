@@ -60,7 +60,7 @@ export default {
     //Deconnexion, suppression des données stockées
     logOut() {
       sessionStorage.clear("user");
-      sessionStorage.clear("key");
+      sessionStorage.clear("user-token");
       localStorage.clear("admin");
       window.location.href = "/login";
     }

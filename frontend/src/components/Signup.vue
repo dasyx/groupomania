@@ -227,7 +227,7 @@ import { required, minLength, sameAs } from 'vuelidate/lib/validators';
                             this.$router.push('/login');
                         })
                         .catch(function(error) {
-                        console.log(error);
+                            console.log(error);
                     });
                 }
             },

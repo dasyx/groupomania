@@ -108,6 +108,25 @@ exports.login = (req, res, next) => {
   .catch(error => console.log(error));
 }
 
+
+/*****   AFFICHER UN UTILISATEUR    
+======================================****/
+
+exports.getOneUser = (req, res, next) => {
+  sequelize.User.findOne({
+      where: {
+        id: req.params.id
+      },
+      attributes: ["id", "username", "admin"]
+    })
+    .then(user => {
+      console.log(user);
+      res.status(200).json(user);
+    })
+    .catch(error => console.log(error));
+}
+
+
 /*****   MODIFIER UN UTILISATEUR    
 ===================================****/
 exports.modifyUser = (req, res, next) => {
