@@ -131,6 +131,22 @@
 .navbar-brand { 
   align-items: center;
 }
+.navbar-brand p {
+  color: #ffffff;
+}
 .navbar-item a {
   color: #ffffff;
+}
+.welcome_msg {
+  width: 10em;
+  margin-top: 20px;
+}
+/*======================================================*/
+
+/* Feuille de style de UserProfile.vue
+
+=========================================================*/
+
+#userFormMod {
+  margin-top: 100px;
 }

@@ -4,6 +4,18 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.STRING,
           allowNull: false
         },
+        firstname: {
+          type: DataTypes.STRING,
+          allowNull: true
+        },
+        lastname: {
+          type: DataTypes.STRING,
+          allowNull: true
+        },
+        bio: {
+          type: DataTypes.STRING,
+          allowNull: true
+        },
         email: {
           type: DataTypes.STRING,
           unique: true,
@@ -17,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.BOOLEAN,
           allowNull: false,
           defaultValue: false
+        },
+        imageUrl: {
+          type: DataTypes.STRING,
+          allowNull: true,
         }
     });
 

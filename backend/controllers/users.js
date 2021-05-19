@@ -135,7 +135,9 @@ exports.modifyUser = (req, res, next) => {
           ...req.body.userId,
           imgProfile: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
       } : { ... req.body}
-  User.update({ ...userObject, id:  req.params.id}, { where: { id: req.params.id }})
+  sequelize.User.update({
+      ...userObject, id:  req.params.id}, 
+      { where: { id: req.params.id }})
     .then(() => res.status(200).json({ ...userObject }))
     .catch(error => res.status(400).json({ error }))
 }

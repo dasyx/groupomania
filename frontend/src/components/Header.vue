@@ -4,6 +4,7 @@
     <div class="navbar-brand">
       <router-link to="/mainboard">
         <img src="../../public/logos/icon-left-font-monochrome-white.svg" alt="groupomania-logo"/>
+        <p>Espace utilisateur</p>
       </router-link>
     </div>
 
@@ -12,7 +13,7 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <router-link to="/mainboard" 
-                v-if="userLogged">Espace de discussion
+                v-if="userLogged">Forum
                 </router-link>
             </div>
             <div class="navbar-item">
