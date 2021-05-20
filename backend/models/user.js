@@ -2,19 +2,10 @@ module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define("User", {
         username: {
           type: DataTypes.STRING,
+          unique: {
+              args: true, msg: "Ce nom est déjà utilisé"
+          },
           allowNull: false
-        },
-        firstname: {
-          type: DataTypes.STRING,
-          allowNull: true
-        },
-        lastname: {
-          type: DataTypes.STRING,
-          allowNull: true
-        },
-        bio: {
-          type: DataTypes.STRING,
-          allowNull: true
         },
         email: {
           type: DataTypes.STRING,
@@ -30,10 +21,11 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
           defaultValue: false
         },
-        imageUrl: {
+        imgProfile: {
           type: DataTypes.STRING,
-          allowNull: true,
-        }
+          allowNull: false,
+          defaultValue: "http://127.0.0.1:3000/images/avatars/user_default.jpg"
+        },
     });
 
     return User;

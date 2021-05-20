@@ -207,7 +207,7 @@ import { required, minLength, sameAs } from 'vuelidate/lib/validators';
                    console.log("Une erreur est survenue, veuillez recommencer la saisie du formulaire")
                 }
                 else {
-                    console.log("formulaire valide");
+                    //console.log("formulaire valide");
                     axios
                         .post("http://localhost:3000/user/signup/", {
                             username: this.userForm.username,
@@ -224,7 +224,8 @@ import { required, minLength, sameAs } from 'vuelidate/lib/validators';
                         })
                         .then(response => {
                             console.log(response);
-                            this.$router.push('/login');
+                            window.location.href = "#/login"
+                            //this.$router.push('/login');
                         })
                         .catch(function(error) {
                             console.log(error);

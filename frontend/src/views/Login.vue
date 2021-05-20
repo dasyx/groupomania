@@ -145,7 +145,8 @@ export default {
                             sessionStorage.setItem("user-token", response.data.token);
                             sessionStorage.setItem("user", response.data.userId);
                             localStorage.setItem("admin", response.data.userAdmin);
-                            this.$router.push('/mainboard');
+                            window.location.href = "#/mainboard"
+                            //this.$router.push('/mainboard');
                         })
                         .catch(function(error) {
                             console.log(error);
