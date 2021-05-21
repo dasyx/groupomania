@@ -224,8 +224,8 @@ import { required, minLength, sameAs } from 'vuelidate/lib/validators';
                         })
                         .then(response => {
                             console.log(response);
-                            window.location.href = "#/login"
-                            //this.$router.push('/login');
+                            //window.location.href = "#/login"
+                            this.$router.push('/login');
                         })
                         .catch(function(error) {
                             console.log(error);

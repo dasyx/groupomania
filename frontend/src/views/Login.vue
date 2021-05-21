@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="logValid" class="form">
-        <h2 class="title is-2">Inscription</h2>
+        <h2 class="title is-2">Connexion</h2>
         <div class="field_login">
             <label for="email" class="label">Adresse électronique</label>
             <div class="control has-icons-left has-icons-right">
@@ -145,8 +145,7 @@ export default {
                             sessionStorage.setItem("user-token", response.data.token);
                             sessionStorage.setItem("user", response.data.userId);
                             localStorage.setItem("admin", response.data.userAdmin);
-                            window.location.href = "#/mainboard"
-                            //this.$router.push('/mainboard');
+                            this.$router.push('/mainboard');
                         })
                         .catch(function(error) {
                             console.log(error);

@@ -5,9 +5,9 @@ const User = require("../models/User");
 const db = require("../models");
 const { DataTypes } = require("sequelize");
 
-//let mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+let emailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 //let nameRegex = /^[^=*'<>{}0-9]{3,}$/;
-//let passwordRegex = /^[^=*<>{}]{8,}$/;
+let passwordRegex = /^[^=*<>{}]{8,}$/;
 
 /*****   USER SIGNUP    
 ========================****/
@@ -73,8 +73,8 @@ exports.login = (req, res, next) => {
             email: req.body.email,
         },
     })
-        .then((User) => {
-            if (!User) {
+        .then((user) => {
+            if (!user) {
                 return res.status(401).json({
                     error: "Utilisateur Introuvable",
                 });
@@ -130,5 +130,60 @@ exports.getOneUser = (req, res, next) => {
         .catch((error) => console.log(error));
 };
 
-/*****   MODIFIER UN UTILISATEUR    
+/*****   SUPPRIMER UN UTILISATEUR    
 ===================================****/
+exports.deleteUser = (req, res, next) => {
+  //vérification des inputs
+  try {
+    if (req.body.email === "") throw "Veuillez renseigner un mail";
+    if (req.body.password === "") throw "Veuillez renseigner un mot de passe";
+    if (!passwordRegex.test(req.body.password)) {
+      throw "Mot de passe incorrect"
+    }
+    if (!emailRegex.test(req.body.email)) {
+      throw "Veuillez vérifier votre adresse mail";
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: error
+    });
+  }  
+    //recherche de l'utilisateur
+  sequelize.User.findOne({
+    where: {
+      email: req.body.email
+    }
+  })
+  .then(user => {
+    if (!user) {
+      return res.status(401).json({
+        error: "Utilisateur non trouvé"
+      })
+    }
+    //utlisateur est trouvé, comparaison des mots de passe
+    bcrypt.compare(req.body.password, user.password)
+      .then(valid => {
+        if (!valid) {
+          return res.status(401).json({
+            error: "Le mot de passe ne correspond pas"
+          })
+        }
+        //suppression de l'utilisateur
+        sequelize.User.destroy({
+            where: {
+              email: req.body.email
+            }
+          })
+          .then(() => res.status(201).json({
+            message: "Utilisateur bien supprimé"
+          }))
+          .catch(error => res.status(400).json({
+            error: "l'utilisateur n'a pas pu être supprimé"
+          }));
+      })
+      .catch(error => res.status(500).json({
+        error: "erreur bcrypt"
+      }));
+  })
+  .catch(error => console.log(error));
+}
