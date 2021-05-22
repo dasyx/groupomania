@@ -1,31 +1,32 @@
 <template>
-    <form class="user-profile_form">
-        <div class="user-profile_form-field">
-          <label for="mail" class="user-profile_label">Mail</label>
+    <form class="form">
+      <h2 class="title is-2">Supprimer mon compte</h2>
+        <div class="field">
+          <label for="mail" class="label">Adresse email</label>
           <input
             id="mail"
-            class="user-profile_input"
+            class="input"
             type="email"
-            v-model.lazy="email"
-            placeholder="user@groupomania.com"
+            v-model="email"
+            placeholder="Entrez l'adresse email de votre compte"
           />
         </div>
-        <div class="user-profile_form-field">
-          <label for="password" class="user-profile_label">Pass</label>
+        <div class="field">
+          <label for="password" class="label">Mot de passe</label>
           <input
             id="password"
-            class="user-profile_input"
+            class="input"
             type="password"
-            v-model.lazy="password"
-            placeholder="password"
+            v-model="password"
+            placeholder="Mot de passe actuel"
           />
         </div>
         <button
           class="user-profile_delete"
           @click="deleteUserProfile"
         >Confirmation de suppression</button>
-        <p id="alert">{{msgError}}</p>
-      </form>
+        <p id="delete_alert">{{msgError}}</p>
+  </form>
 </template>
 
 <script>
@@ -42,7 +43,7 @@ export default {
         };
     },
     methods: {
-        //suppression du compte utilisateur
+    //suppression du compte utilisateur
     deleteUserProfile() {
       let mailRegex = /.+@.+\..+/;
       this.msgError = "";

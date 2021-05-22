@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+      <div>
         <Header />
         <div class="welcome_msg">
             <div v-if="!userLogged">
@@ -9,7 +9,7 @@
                 <span>Bonjour <b>{{ userLogged.username }}</b> !</span>
             </div>
         </div>   
-    </div>
+      </div>
 </template>
 
 <script>

@@ -4,7 +4,7 @@
     <div class="navbar-brand">
       <router-link to="/mainboard">
         <img src="../../public/logos/icon-left-font-monochrome-white.svg" alt="groupomania-logo"/>
-        <p>Espace utilisateur</p>
+        <p>Accueil utilisateur</p>
       </router-link>
     </div>
 
@@ -22,6 +22,11 @@
                 v-if="userAdmin == 0"
                 >Mon profil
                 </a>
+            </div>
+            <div class="navbar-item">
+                <router-link to="/delete_user" 
+                v-if="userLogged">Supprimer le compte
+                </router-link>
             </div>
             <div class="navbar-item">
                 <a

@@ -122,8 +122,15 @@
 =========================================================*/
 
 .navbar {
+  width: 100%;
+  display: flex;
   background: $background;
   height: 100px;
+  align-content: space-between;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: baseline;
 }
 .navbar img {
   width: 50%;
@@ -148,5 +155,15 @@
 =========================================================*/
 
 #userFormMod {
-  margin-top: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+/*======================================================*/
+
+/* Feuille de style de DeleteUser.vue
+
+=========================================================*/
+#delete_alert {
+  color: white;
 }

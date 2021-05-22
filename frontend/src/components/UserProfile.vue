@@ -118,7 +118,6 @@
                 </div>
             </form>
         </div>
-        <DeleteUser />
     </div>
 </template>
 
@@ -129,11 +128,10 @@ const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 import { mapState } from "vuex";
 import { required, minLength, sameAs } from "vuelidate/lib/validators";
 import Header from "@/components/Header.vue";
-import DeleteUser from "@/components/DeleteUser.vue";
 
 export default {
     name: "UserProfile",
-    components: { Header, DeleteUser },
+    components: { Header},
     props: {
         password: {
             type: String,
