@@ -7,11 +7,17 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         ownerId: { 
-            type: DataTypes.INTEGER },
+            type: DataTypes.INTEGER 
+        },
+        title: {
+            type: DataTypes.STRING
+        },
         text: { 
-            type: DataTypes.TEXT },
+            type: DataTypes.TEXT 
+        },
         imgFile: { 
-            type: DataTypes.STRING }
+            type: DataTypes.STRING 
+        }
     });
     return Post;
 };
