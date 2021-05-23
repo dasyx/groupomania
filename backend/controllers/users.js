@@ -1,9 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sequelize = require("../models/index.js");
-const User = require("../models/User");
 const db = require("../models");
-const { DataTypes } = require("sequelize");
 
 let emailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 //let nameRegex = /^[^=*'<>{}0-9]{3,}$/;
@@ -38,7 +36,7 @@ exports.signup = (req, res, next) => {
 
                     //création de l'utilisateur
                     if (req.body.username !== "" || req.body.email !== "") {
-                        console.log("database connected...");
+                        console.log("Base de données connectée !");
                         sequelize.User.create({
                             username: username,
                             email: email,

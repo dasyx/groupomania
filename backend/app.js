@@ -34,11 +34,12 @@ db.sequelize.sync();
 //});
 
 // Ce middleware répondra aux requêtes envoyées à /images
-app.use('/images', express.static(path.join(__dirname, 'images')));
+//app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(helmet());
 
 //enregistre routers
 app.use('/user', require('./routes/user'));
+app.use('/post', require('./routes/post'));
 
 module.exports = app;
