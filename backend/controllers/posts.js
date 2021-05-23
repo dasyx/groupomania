@@ -5,11 +5,6 @@ const db = require("../models");
 
 //const fs = require('fs');
 
-// Stock functions
-function getUserIdFromRequest(req) {
-    return req.headers.authorization.split(' ')[2]; 
-}
-
 /*****  CREATE NEW POST    
 ========================****/
 exports.newPost = (req, res, next) => {
@@ -32,11 +27,11 @@ exports.newPost = (req, res, next) => {
     if(req.file) { 
         imgLink = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`; }
     newPost = { 
-        ownerId: getUserIdFromRequest(req), 
+        ownerId: req.body.ownerId, 
+        title: req.body.title,
         text: req.body.text, 
         imgFile: imgLink }
 
-  
     // creation d 'un nouveau post
     sequelize.Post.create(newPost)
       .then(response => res.status(200).json({

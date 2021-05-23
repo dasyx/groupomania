@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Signup from '../views/Signup.vue'
+import Login from '../views/Login.vue'
 import Mainboard from '../components/Mainboard.vue'
 import UserProfile from '../components/UserProfile.vue'
-import Login from '../views/Login.vue'
-import Signup from '../views/Signup.vue'
 import DeleteUser from '../components/DeleteUser.vue'
 
 Vue.use(VueRouter)
