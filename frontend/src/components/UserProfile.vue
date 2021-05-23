@@ -6,7 +6,7 @@
         </div>
         <div v-else>
             <span>Vous êtes connecté en tant que <b>{{ userLogged.username }}</b></span>
-            <form @submit.prevent="handleSubmit" class="form" id="userFormMod">
+            <form @submit.prevent="handleSubmit" class="form form_display">
                 <h2 class="title is-2">Modifier mes informations</h2>
                 <div class="field">
                     <label for="name" class="label">Nom</label>

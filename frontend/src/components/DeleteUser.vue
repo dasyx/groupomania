@@ -1,5 +1,10 @@
 <template>
-    <form class="form">
+  <div>
+    <Header />
+    <div v-if="!userLogged">
+            <p>Acces non authorisé</p>
+    </div>
+    <form v-else class="form form_display">
       <h2 class="title is-2">Supprimer mon compte</h2>
         <div class="field">
           <label for="mail" class="label">Adresse email</label>
@@ -26,13 +31,16 @@
           @click="deleteUserProfile"
         >Confirmation de suppression</button>
         <p id="delete_alert">{{msgError}}</p>
-  </form>
+    </form>
+  </div>
 </template>
 
 <script>
+import Header from './Header.vue';
 const axios = require("axios");
 
 export default {
+  components: { Header },
     name: "DeleteUser",
     data() {
         return {
@@ -42,6 +50,20 @@ export default {
             msgError: ""
         };
     },
+    mounted() {
+    //récupère informations pour personnalisation header
+    if (sessionStorage.user) {
+      this.userLogged = sessionStorage.user;
+    }
+    if(localStorage.role) {
+      this.userAdmin = localStorage.role;
+    }
+  },
+  watch: {
+    isUserLogged() {
+      this.userLogged = sessionStorage.user;
+    }
+  },
     methods: {
     //suppression du compte utilisateur
     deleteUserProfile() {
@@ -59,7 +81,6 @@ export default {
       if (!mailRegex.test(this.email)) {
         error = "Mail invalide";
       }
-
       if (error) {
         this.msgError = error;
       } else {
