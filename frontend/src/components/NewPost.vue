@@ -1,12 +1,12 @@
 <template>
-    <div class="new-post_linkBox">
+    <div class="container">
         <img 
             src="../assets/icon.svg" 
             alt="groupomania-logo-small" 
             class="new-post_logo" />
         <button 
             v-on:click="isHidden = false" 
-            class="new-post_Link">
+            class="button is-info">
             Créer un nouveau post
         </button>
 
@@ -19,7 +19,7 @@
             id="title"
             class="new-post_form-input"
             type="text"
-            v-model.lazy="title"
+            v-model="title"
             placeholder="Votre titre ..."
           />
           <label for="message" class="new-post_form-label">Message</label>
@@ -27,17 +27,17 @@
             id="message"
             class="new-post_form-input"
             type="text"
-            v-model.lazy="text"
+            v-model="text"
             placeholder="Votre message ..."
           />
-          <label for="image" class="new-post_form-label">Image</label>
+          <!--<label for="image" class="new-post_form-label">Image</label>
           <input
             id="Image"
             class="new-post_form-file"
             type="file"
             @change="onFileSelected"
             placeholder="upload image"
-          />
+          />-->
           <!-- form submit -->
           <button class="new-post_form-button" v-on:click="sendNewContent">Envoyer</button>
           <p id="alert">{{msgError}}</p>
@@ -49,13 +49,19 @@
 <script>
 const axios = require("axios");
 export default {
-    name: "NewPost",
-    data() {
-        return {
-            isHidden: true
-        };
-    },
-    methods: {
+  name: "NewPost",
+  components: {
+  },
+  data() {
+    return {
+      isUserLogged: "",
+      isHidden: true,
+      title: "",
+      text: "",
+      msgError: "",
+    };
+  },
+  methods: {
     // Empeche l'affichage du formulaire de nouveau post si utilisateur non connecté
     userLogged() {
       if (sessionStorage.getItem("user")) {
@@ -96,27 +102,27 @@ export default {
         this.msgError = error;
       } else {
         //test si image upload, si image, l'ajoute à postData
-        const postData = new FormData();
-        if (this.selectedFile !== undefined) {
+        let postData = new FormData();
+        
+        /*if (this.selectedFile !== undefined) {
           postData.append("image", this.selectedFile);
-        }
+        }*/
 
         postData.append("title", this.title);
         postData.append("text", this.text);
-        postData.append("ownerId", sessionStorage.getItem("user"));
-
+        postData.append("userId", sessionStorage.getItem("user"));
+        console.log(...postData);
         //requete
         axios({
           headers: {
-            "Content-Type": "application/json",
+           "Content-Type" : "application/json",
             Authorization: "Bearer " + sessionStorage.getItem("user-token")
           },
           method: "post",
-          url: "http://localhost:3000/posts/newpost/",
-          data: postData
+          url: "http://localhost:3000/post/newpost",
+          body: postData
         })
           .then(response => {
-            this.dashboardLoading();
             if (response.status === 201) {
               return response;
             } else {
@@ -124,12 +130,29 @@ export default {
             }
           })
           .catch(error => {
-            this.msgError = error.response.data.error;
+            console.log(error)
+            //this.msgError = error.response.data.error;
           });
       }
     },
   },
+  //Récupération des posts
+   /*allPostsDisplay() {
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + sessionStorage.getItem("user-token")
+        }
+      };
+      axios
+        .get("http://localhost:3000/post/", options)
+        .then(response => {
+          this.messageContent = response.data;
+        })
+        .catch(error => console.log(error));
+    },*/
   mounted() {
+    //this.allPostsDisplay();
     this.userLogged();
   }
 };

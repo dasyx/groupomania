@@ -9,19 +9,21 @@
             <div v-else>
                 <span>Bonjour <b>{{ userLogged.username }}</b> !</span>
             </div>
-        </div> 
+        </div>
+        <NewPost />   
       </div>
 </template>
 
 <script>
 const axios = require("axios");
 import Header from "@/components/Header.vue";
+import NewPost from "@/components/NewPost.vue";
 
 export default {
-    name: "Mainboard",
-    title: "Groupomania - Espace Utilisateur",
+    name: "MyPosts",
     components: {
-        Header
+        Header,
+        NewPost
     },
     data() {
       return {

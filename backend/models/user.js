@@ -28,7 +28,10 @@ module.exports = (sequelize, DataTypes) => {
           defaultValue: "http://127.0.0.1:3000/images/avatars/user_default.jpg"
         },
     });
-
+    User.associate = function (models) {
+      models.User.hasMany(models.Post, {
+        onDelete: 'CASCADE'
+      });
+    };
     return User;
-    
   };

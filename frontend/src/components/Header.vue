@@ -12,8 +12,8 @@
     <nav class="navbar-menu">
         <div class="navbar-end">
             <div class="navbar-item">
-                <router-link to="/mainboard" 
-                v-if="userLogged">Forum
+                <router-link to="/my_posts" 
+                v-if="userLogged">Mes messages
                 </router-link>
             </div>
             <div class="navbar-item">

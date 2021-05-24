@@ -6,6 +6,7 @@ import Login from '../views/Login.vue'
 import Mainboard from '../components/Mainboard.vue'
 import UserProfile from '../components/UserProfile.vue'
 import DeleteUser from '../components/DeleteUser.vue'
+import MyPosts from '../components/MyPosts.vue'
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,11 @@ const routes = [
     path: '/userprofile',
     name: 'userprofile',
     component: UserProfile
+  },
+  {
+    path: '/my_posts',
+    name: 'my_posts',
+    component: MyPosts
   },
   {
     path: '/delete_user',
