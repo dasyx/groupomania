@@ -19,7 +19,7 @@
             id="title"
             class="new-post_form-input"
             type="text"
-            v-model="title"
+            v-model.lazy="title"
             placeholder="Votre titre ..."
           />
           <label for="message" class="new-post_form-label">Message</label>
@@ -27,7 +27,7 @@
             id="message"
             class="new-post_form-input"
             type="text"
-            v-model="text"
+            v-model.lazy="content"
             placeholder="Votre message ..."
           />
           <!--<label for="image" class="new-post_form-label">Image</label>
@@ -43,22 +43,37 @@
           <p id="alert">{{msgError}}</p>
         </form>
       </transition>
+      <NewPostItems
+          v-for="message in messageContent"
+          v-bind:key="message.id"
+          v-bind:username="message.User.username"
+          v-bind:title="message.title"
+          v-bind:content="message.content"
+          v-bind:postId="message.id"
+        />   
     </div>
 </template>
 
 <script>
 const axios = require("axios");
+import NewPostItems from "@/components/NewPostItems.vue";
 export default {
   name: "NewPost",
   components: {
-  },
+        NewPostItems
+    },
   data() {
     return {
       isUserLogged: "",
       isHidden: true,
+      username: "",
+      userInfos: {},
+      messageContent: [],
       title: "",
-      text: "",
+      content: "",
       msgError: "",
+      //imgFile: "",
+      //selectedFile: "",
     };
   },
   methods: {
@@ -69,9 +84,9 @@ export default {
       }
     },
     //Selection image
-    onFileSelected(event) {
+    /*onFileSelected(event) {
       this.selectedFile = event.target.files[0];
-    },
+    },*/
     //Envoi du formulaire
     sendNewContent(e) {
       let textRegex = /^[^=*<>{}]+$/;
@@ -89,11 +104,11 @@ export default {
       }
 
       //test input content
-      if (this.text === "" || this.text == null) {
+      if (this.content === "" || this.content == null) {
         error = "Contenu requis";
-      } else if (this.text.length < 3) {
+      } else if (this.content.length < 3) {
         error = "Un minimum de 3 caractères est requis";
-      } else if (!textRegex.test(this.text)) {
+      } else if (!textRegex.test(this.content)) {
         error = "Les caractères suivants sont interdits: = * < > { }";
       }
 
@@ -102,27 +117,29 @@ export default {
         this.msgError = error;
       } else {
         //test si image upload, si image, l'ajoute à postData
-        let postData = new FormData();
+        var postData = new FormData();
         
         /*if (this.selectedFile !== undefined) {
-          postData.append("image", this.selectedFile);
+          postData.append("imgFile", this.selectedFile);
         }*/
 
         postData.append("title", this.title);
-        postData.append("text", this.text);
-        postData.append("userId", sessionStorage.getItem("user"));
+        postData.append("content", this.content);
+        postData.append("UserId", sessionStorage.getItem("user"));
         console.log(...postData);
         //requete
         axios({
           headers: {
-           "Content-Type" : "application/json",
-            Authorization: "Bearer " + sessionStorage.getItem("user-token")
+            "Content-Type": "application/json",
+            Authorization : "Bearer " + sessionStorage.getItem("user-token")
           },
           method: "post",
           url: "http://localhost:3000/post/newpost",
-          body: postData
+          data: postData
         })
           .then(response => {
+            console.log(response)
+            //this.dashboardLoading();
             if (response.status === 201) {
               return response;
             } else {
@@ -137,7 +154,7 @@ export default {
     },
   },
   //Récupération des posts
-   /*allPostsDisplay() {
+   /*dashboardLoading() {
       const options = {
         headers: {
           "Content-Type": "application/json",
@@ -152,7 +169,7 @@ export default {
         .catch(error => console.log(error));
     },*/
   mounted() {
-    //this.allPostsDisplay();
+    //this.dashboardLoading();
     this.userLogged();
   }
 };

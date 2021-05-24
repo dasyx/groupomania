@@ -1,24 +1,23 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const Post = sequelize.define('Post', {
-        userId: {
-            type: DataTypes.TEXT,
-        },
+    const Post = sequelize.define("Post", {
         title: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
+            //allowNull: false
         },
-        text: { 
-            type: DataTypes.TEXT,
+        content: {
+            type: DataTypes.STRING,
+            //allowNull: false
         },
         /*imgFile: {
             type: DataTypes.TEXT,
         },*/
-    });
+    })
     Post.associate = function (models) {
         models.Post.belongsTo(models.User,{
-          onDelete: 'CASCADE',
-          hooks: true
-        });
+            onDelete: 'CASCADE',
+             hooks: true
+        }); 
     };
     return Post;
 };

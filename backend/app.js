@@ -18,8 +18,8 @@ app.use((req, res, next) => {
 });
 
 // Utilisation du package Express qui permet de gérer des données
-app.use(express.urlencoded({extended:true}));
-app.use(express.json());
+//app.use(express.urlencoded({extended:true}));
+//app.use(express.json());
 
 // Afin de prévenir les attaques DDOS,
 // On limitera le payload qu'un utilisateur pourra soumettre à l'API

@@ -1,6 +1,5 @@
 const dbConfig = require("../config/database.js");
 const Sequelize = require("sequelize");
-const path = require('path');
 
 const db = {};
 
@@ -25,6 +24,12 @@ try {
   console.error('Unable to connect to the database:', error);
 }
   
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
   db.Sequelize = Sequelize;
   db.sequelize = sequelize;
   

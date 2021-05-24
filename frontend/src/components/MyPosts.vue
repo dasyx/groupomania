@@ -10,7 +10,7 @@
                 <span>Bonjour <b>{{ userLogged.username }}</b> !</span>
             </div>
         </div>
-        <NewPost />   
+        <NewPost />
       </div>
 </template>
 
@@ -23,7 +23,7 @@ export default {
     name: "MyPosts",
     components: {
         Header,
-        NewPost
+        NewPost,
     },
     data() {
       return {

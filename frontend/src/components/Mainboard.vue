@@ -4,7 +4,6 @@
         <div class="welcome_msg">
             <div v-if="!userLogged">
                 <p>Utilisateur non authorisé</p>
-                <!-- Lien pour afficher un nouveau post -->
             </div>
             <div v-else>
                 <span>Bonjour <b>{{ userLogged.username }}</b> !</span>
