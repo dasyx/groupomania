@@ -78,11 +78,11 @@ export default {
   },
   methods: {
     // Empeche l'affichage du formulaire de nouveau post si utilisateur non connecté
-    userLogged() {
+    /*userLogged() {
       if (sessionStorage.getItem("user")) {
         this.isUserLogged = true;
       }
-    },
+    },*/
     //Selection image
     /*onFileSelected(event) {
       this.selectedFile = event.target.files[0];
@@ -117,17 +117,14 @@ export default {
         this.msgError = error;
       } else {
         //test si image upload, si image, l'ajoute à postData
-        var postData = new FormData();
-        
-        /*if (this.selectedFile !== undefined) {
-          postData.append("imgFile", this.selectedFile);
-        }*/
+       const postData = new FormData();
 
         postData.append("title", this.title);
         postData.append("content", this.content);
-        postData.append("UserId", sessionStorage.getItem("user"));
-        console.log(...postData);
-        //requete
+        postData.append("UserId", sessionStorage.getItem("user"))
+        console.log(...postData)
+
+         //requete
         axios({
           headers: {
             "Content-Type": "application/json",
@@ -135,8 +132,12 @@ export default {
           },
           method: "post",
           url: "http://localhost:3000/post/newpost",
-          data: postData
-        })
+            data: {
+              UserId: sessionStorage.getItem("user"),
+              title: this.title,
+              content: this.content
+            }
+          })
           .then(response => {
             console.log(response)
             //this.dashboardLoading();
@@ -170,7 +171,7 @@ export default {
     },*/
   mounted() {
     //this.dashboardLoading();
-    this.userLogged();
+    //this.userLogged();
   }
 };
 </script>
