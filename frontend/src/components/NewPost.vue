@@ -154,10 +154,10 @@ export default {
             Authorization : "Bearer " + sessionStorage.getItem("user-token")
           },
           method: "get",
-          url: "http://localhost:3000/post/"
+          url: "http://localhost:3000/post/",
         })
         .then(response => {
-          console.log(response)
+          //console.log(response)
           this.messageContent = response.data;
         })
         .catch(error => console.log(error));

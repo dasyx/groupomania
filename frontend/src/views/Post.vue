@@ -84,7 +84,7 @@ export default {
       }
     };
     axios
-      .get("http://localhost:3000/posts/" + this.$route.params.id, options)
+      .get("http://localhost:3000/post/" + this.$route.params.id, options)
       .then(response => {
         this.user = response.data;
         this.comments = response.data.Comments;
