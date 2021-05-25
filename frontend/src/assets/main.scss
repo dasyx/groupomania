@@ -175,3 +175,233 @@
 #delete_alert {
   color: white;
 }
+
+/*======================================================*/
+
+/* Feuille de style de NewPostItems.vue
+
+=========================================================*/
+
+.post {
+  color: $primary-color;
+  border: solid lighten($primary-color, 40%) 1px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 8px;
+  text-decoration: none;
+  background-color: white;
+
+  &_name{
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    line-height: 0;
+    .fa-user-circle{
+      font-size: 18px;
+      padding: 2px;
+    }
+  }
+
+  &_link {
+    &:hover {
+      border: solid lighten($primary-color, 20%) 1px;
+      .post_title {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &_title {
+    color: $main-color;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+  }
+  &_content {
+    font-size: 14px;
+    margin: 0;
+    padding-left: 8px;
+  }
+
+  &_image {
+    box-sizing: border-box;
+    max-width: 300px;
+    margin: auto;
+    display: block;
+    padding: 8px;
+  }
+
+  &_comments {
+    font-size: 12px;
+    li {
+      padding: 8px;
+      margin: 8px 0;
+      background-color: lighten($background-color, 7%);
+      border: solid 1px $background-color;
+      border-radius: 4px;
+    }
+    .fa-trash-alt {
+      float: right;
+      
+    }
+    ul {
+      margin: 0;
+      padding: 0 8px;
+    }
+    &-icon{
+      font-size: 12px;
+      letter-spacing: 0.4px;
+    }
+    &-icon:before {
+      font-family: "Font Awesome\ 5 Free";
+      content: "\f4ad";
+      font-size: 14px;
+      padding-right: 8px;
+    }
+
+  }
+}
+
+/*======================================================*/
+
+/* Feuille de style de NewPost.vue
+
+=========================================================*/
+
+.new-post_linkBox-image {
+  width: 100%;
+}
+
+.box {
+  background-color: $background-color;
+}
+
+.dashboard-Items {
+  box-sizing: border-box;
+  width: 60%;
+  overflow: auto;
+  margin: 32px auto;
+  @media screen and (max-width: 525px) {
+    width: 90%;
+  }
+}
+
+.post-width {
+  width: 80%;
+  margin: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+#profileBox {
+  background-color: $background-color;
+  width: 2o0px;
+  padding: 8px;
+  position: absolute;
+  right: 12px;
+  text-align: right;
+  box-shadow: 0px 0px 5px $background-color;
+
+  .profile-link {
+    text-decoration: none;
+    color: $primary-color;
+
+    &:hover {
+      text-decoration: underline;
+      color: $primary-color;
+    }
+  }
+}
+
+///item new
+.new-post {
+  padding: 8px;
+  background: white;
+  border: solid lighten($primary-color, 40%) 1px;
+  border-radius: 4px;
+  color: $primary-color;
+  box-sizing: border-box;
+  width: 60%;
+  height: auto;
+  margin: 16px auto;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  @media screen and (max-width: 525px) {
+    width: 90%;
+  }
+
+  &_linkBox {
+    display: flex;
+  }
+
+  &_Link {
+    border: solid lighten($primary-color, 40%) 1px;
+    border-radius: 4px;
+    color: $primary-color;
+    background-color: white;
+    padding: 8px;
+    margin: 0 8px;
+    text-decoration: none;
+    font-size: 12px;
+  }
+
+  &_logo {
+    width: 30px;
+    border-radius: 100%;
+  }
+
+  &_form {
+    display: flex;
+    flex-direction: column;
+
+    &-input {
+      font-size: 12px;
+      width: 100%;
+      border: none;
+      border-bottom: solid $main-color 1px;
+      line-height: 30px;
+    }
+
+    &-label {
+      padding-top: 8px;
+      color: $main-color;
+      font-weight: 500;
+    }
+
+    &-file {
+      font-size: 12px;
+      border: none;
+      padding: 16px 0;
+    }
+
+    &-button {
+      color: $main-color;
+      border-radius: 16px;
+      border: none;
+      padding: 8px;
+      background-color: white;
+      border: $main-color solid 1px;
+      width: 250px;
+      margin: auto;
+      &:hover {
+        background-color: lighten($main-color, 10%);
+        color: white;
+        border: $second-color solid 1px;
+      }
+    }
+  }
+  .new-post_close-button {
+    color: black;
+  }
+}
+
+.fade-enter-active {
+  transition: opacity 0.5s;
+}
+.fade-enter {
+  opacity: 0;
+}

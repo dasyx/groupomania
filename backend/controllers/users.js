@@ -128,6 +128,20 @@ exports.getOneUser = (req, res, next) => {
         .catch((error) => console.log(error));
 };
 
+/*****   RECUPERE TOUS LES UTILISATEURS   
+=========================================****/
+
+exports.getAllUsers = (req, res, next) => {
+  sequelize.User.findAll({
+      attributes: ["id", "username", "admin"]
+    })
+    .then(user => {
+      console.log(user);
+      res.status(200).json(user);
+    })
+    .catch(error => console.log(error));
+}
+
 /*****   SUPPRIMER UN UTILISATEUR    
 ===================================****/
 exports.deleteUser = (req, res, next) => {

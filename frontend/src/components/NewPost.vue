@@ -10,7 +10,7 @@
             Créer un nouveau post
         </button>
 
-        <!-- Form nouveau post -->
+        <!-- Formulaire pour créer un nouveau post -->
       <transition name="fade">
         <form v-if="!isHidden" class="new-post_form">
           <a href="#" class="new-post_close-button" v-on:click.prevent="isHidden = true">×</a>
@@ -30,63 +30,50 @@
             v-model.lazy="content"
             placeholder="Votre message ..."
           />
-          <!--<label for="image" class="new-post_form-label">Image</label>
+          <label for="image" class="new-post_form-label">Image</label>
           <input
             id="Image"
             class="new-post_form-file"
             type="file"
             @change="onFileSelected"
             placeholder="upload image"
-          />-->
-          <!-- form submit -->
+          />
+          <!-- Envoi de formulaire -->
           <button class="new-post_form-button" v-on:click="sendNewContent">Envoyer</button>
           <p id="alert">{{msgError}}</p>
         </form>
       </transition>
-      <NewPostItems
-          v-for="message in messageContent"
-          v-bind:key="message.id"
-          v-bind:username="message.User.username"
-          v-bind:title="message.title"
-          v-bind:content="message.content"
-          v-bind:postId="message.id"
-        />   
     </div>
 </template>
 
 <script>
 const axios = require("axios");
-import NewPostItems from "@/components/NewPostItems.vue";
 export default {
   name: "NewPost",
-  components: {
-        NewPostItems
-    },
   data() {
     return {
       isUserLogged: "",
       isHidden: true,
       username: "",
-      userInfos: {},
-      messageContent: [],
       title: "",
       content: "",
       msgError: "",
-      //imgFile: "",
-      //selectedFile: "",
+      imgFile: "",
+      selectedFile: "",
     };
   },
   methods: {
     // Empeche l'affichage du formulaire de nouveau post si utilisateur non connecté
-    /*userLogged() {
+    userLogged() {
       if (sessionStorage.getItem("user")) {
         this.isUserLogged = true;
       }
-    },*/
-    //Selection image
-    /*onFileSelected(event) {
+    },
+
+    //Choix de l'image
+    onFileSelected(event) {
       this.selectedFile = event.target.files[0];
-    },*/
+    },
     //Envoi du formulaire
     sendNewContent(e) {
       let textRegex = /^[^=*<>{}]+$/;
@@ -119,11 +106,15 @@ export default {
         //test si image upload, si image, l'ajoute à postData
        const postData = new FormData();
 
+       if (this.selectedFile !== undefined) {
+          postData.append("image", this.selectedFile);
+        }
+
         postData.append("title", this.title);
         postData.append("content", this.content);
         postData.append("UserId", sessionStorage.getItem("user"))
-        console.log(...postData)
-
+        //console.log(...postData)
+        
          //requete
         axios({
           headers: {
@@ -132,15 +123,16 @@ export default {
           },
           method: "post",
           url: "http://localhost:3000/post/newpost",
-            data: {
+          data: {
               UserId: sessionStorage.getItem("user"),
               title: this.title,
-              content: this.content
+              content: this.content,
+              imgFile: this.selectedFile
             }
           })
           .then(response => {
             console.log(response)
-            //this.dashboardLoading();
+            this.dashboardLoading();
             if (response.status === 201) {
               return response;
             } else {
@@ -148,30 +140,32 @@ export default {
             }
           })
           .catch(error => {
-            console.log(error)
-            //this.msgError = error.response.data.error;
+            //console.log(error)
+            this.msgError = error.response.data.error;
           });
       }
     },
-  },
-  //Récupération des posts
-   /*dashboardLoading() {
-      const options = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + sessionStorage.getItem("user-token")
-        }
-      };
-      axios
-        .get("http://localhost:3000/post/", options)
+    //Récupération des posts
+    dashboardLoading() {
+      
+        axios({
+          headers: {
+            "Content-Type": "application/json",
+            Authorization : "Bearer " + sessionStorage.getItem("user-token")
+          },
+          method: "get",
+          url: "http://localhost:3000/post/"
+        })
         .then(response => {
+          console.log(response)
           this.messageContent = response.data;
         })
         .catch(error => console.log(error));
-    },*/
+    }, 
+  },
   mounted() {
-    //this.dashboardLoading();
-    //this.userLogged();
+    this.dashboardLoading();
+    this.userLogged();
   }
 };
 </script>

@@ -13,20 +13,24 @@ let textRegex = /^[^=*<>{}]+$/;
 /*****  GET ALL POSTS    
 ===========================****/
 exports.getAllPosts = (req, res, next) => {
+  //console.log(req)
   //récupération de tous les posts présents dans la bdd
-  sequelize.Post.findAll({
+   sequelize.Post.findAll({
       include: [{
           model: sequelize.User,
           attributes: ["username", "admin"]
         },
+        {
+          model: sequelize.Comment
+        }
       ],
       order: [
         ['createdAt', 'DESC']
       ]
     })
-    .then(posts => {
-      console.log(posts);
-      res.status(200).json(posts);
+    .then(post => {
+      console.log(post);
+      res.status(200).json(post);
     })
     .catch(error => res.status(400).json({
       error
@@ -36,7 +40,7 @@ exports.getAllPosts = (req, res, next) => {
 /*****  CREATE NEW POST    
 ========================****/
 exports.newPost = (req, res, next) => {
-  console.log(req.body.UserId)
+  console.log(req.body.imgFile)
     //vérifications des données
     /*try {
       if (req.body.content === "" || req.body.content == null) throw "Veuillez renseigner un contenu";
@@ -52,24 +56,24 @@ exports.newPost = (req, res, next) => {
     }*/
 
     //test si image, si pas d'image, imageUrl null
-  /*let imgUrl = null;
+  let imgUrl = null;
   if (req.file) {
     imgUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-  }*/
+  }
       // creation d 'un nouveau post
     sequelize.Post.create({
         UserId: req.body.UserId,
         title: req.body.title,
         content: req.body.content,
-        //imgFile: imgUrl
+        imgFile: req.body.imgUrl
       })
     // creation d 'un nouveau post
-      .then(response => res.status(200).json({
+      .then(response => res.status(201).json({
         message: "Le Post a correctement été crée"
       }))
       .catch(error => res.status(400).json({
         error: "Une erreur est survenue lors de la création du Post"
-      }))
+      }));
   }
 
 /*****  GET ONE POST    

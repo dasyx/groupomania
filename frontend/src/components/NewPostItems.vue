@@ -13,15 +13,13 @@ export default {
       type: Number,
       required: true
     },
-    /*title: {
+    image: {
       type: String
     },
-    content: {
-      type: String
-    },
-    msgError: {
-      type: String
-    }*/
+    comments: {
+      type: Array,
+      required: true
+    }
   },
 };
 </script>
@@ -43,6 +41,7 @@ export default {
         <div class="post_main">
           <p class="post_title">"{{title}}"</p>
           <p class="post_content">{{content}}</p>
+          <img v-if="image" class="post_image" :src="image" alt="image-illustration"/>
         </div>
       </div>
     </router-link>
