@@ -43,6 +43,15 @@
           <p id="alert">{{msgError}}</p>
         </form>
       </transition>
+      <NewPostItems
+          v-for="message in messageContent"
+          v-bind:username="message.username"
+          v-bind:key="message.id"
+          v-bind:title="message.title"
+          v-bind:content="message.content"
+          v-bind:image="message.imgFile"
+          v-bind:postId="message.id"
+        />   
     </div>
 </template>
 
@@ -50,19 +59,25 @@
 const axios = require("axios");
 import { mapState } from 'vuex'
 import store from '../modules/store.json'
+import NewPostItems from "@/components/NewPostItems.vue";
 
 export default {
   name: "NewPost",
+  components: {
+        NewPostItems,   
+    },
   data() {
     return {
-      isUserLogged: "",
       isHidden: true,
       title: "",
       content: "",
       msgError: "",
       imgFile: "",
+      //username: "",
+      //image: "",
       userInfos: {},
       messageContent: [],
+      actualUser: "",
     };
   },
   computed: {
@@ -131,7 +146,7 @@ export default {
           })
           .then(response => {
             console.log(response)
-            //this.dashboardLoading();
+            this.dashboardLoading();
             if (response.status === 201) {
               return response;
             } else {
@@ -145,5 +160,9 @@ export default {
       }
     },
   },
+  mounted() {
+    this.dashboardLoading();
+    this.userLogged();
+  }
 };
 </script>

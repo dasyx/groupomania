@@ -11,15 +11,6 @@
         </div> 
         <NewPost />
         <!-- Affichage de tous les derniers posts -->
-        <NewPostItems
-          v-for="message in messageContent"
-          v-bind:key="message.id"
-          v-bind:username="message.User.username"
-          v-bind:title="message.title"
-          v-bind:content="message.content"
-          v-bind:image="message.imgFile"
-          v-bind:postId="message.id"
-        />   
       </div>
 </template>
 
@@ -28,25 +19,17 @@ const axios = require("axios");
 import store from '../modules/store.json'
 import Header from "@/components/Header.vue";
 import NewPost from "@/components/NewPost.vue";
-import NewPostItems from "@/components/NewPostItems.vue";
 
 export default {
     name: "Mainboard",
     title: "Groupomania - Espace Utilisateur",
     components: {
         Header,
-        NewPostItems,
         NewPost
     },
     data() {
       return {
         userLogged: "",
-        username: "",
-        title: "",
-        content: "",
-        image: "",
-        userInfos: {},
-        messageContent: [],
       };
     },
     mounted() {
@@ -64,6 +47,6 @@ export default {
             this.userLogged = response.data;
           })
           .catch(error => console.log(error));
-      }
+    }
 }
 </script>

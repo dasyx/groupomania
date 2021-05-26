@@ -83,7 +83,7 @@ export default {
             Authorization: "Bearer " + sessionStorage.getItem("user-token")
           },
           method: "DELETE",
-          url: "http://localhost:3000/posts/" + element
+          url: "http://localhost:3000/post/" + element
         })
           .then(response => {
             this.$router.push({ name: "mainboard" });

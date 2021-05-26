@@ -47,11 +47,11 @@ export default new Vuex.Store({
         Authorization : "Bearer " + sessionStorage.getItem("user-token")
       },
       method: "get",
-      url: "http://localhost:3000/api/post/"
+      url: "http://localhost:3000/api/post/",
     })
-    .then(() => {
+    .then(response => {
       console.log("test")
-      //this.messageContent = response.data;
+      this.messageContent = response.data;
     })
     .catch(error => console.log(error));
 }

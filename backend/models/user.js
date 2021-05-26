@@ -16,15 +16,15 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.STRING,
           allowNull: false
         },
-        admin: {
-          type: DataTypes.BOOLEAN,
-          allowNull: false,
-          defaultValue: false
-        },
         imgProfile: {
           type: DataTypes.STRING,
           allowNull: false,
           defaultValue: "http://127.0.0.1:3000/images/avatars/user_default.jpg"
+        },
+        admin: {
+          type: DataTypes.BOOLEAN,
+          allowNull: false,
+          defaultValue: false
         },
     });
     User.associate = function (models) {

@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "DashboardItems",
+  name: "NewpostItems",
   props: {
     username: {
       type: String,
@@ -33,7 +33,7 @@ export default {
         <!-- nom de l'utilisateur-->
         <div class="post_name">
           <i class="fas fa-user-circle"></i>
-          <p>{{username}}</p>
+          <p>{{ username }}</p>
         </div>
 
         <!-- Contenu du post, titre, nombre de commentaires -->

@@ -13,25 +13,18 @@ let textRegex = /^[^=*<>{}]+$/;
 /*****  GET ALL POSTS    
 ===========================****/
 exports.getAllPosts = (req, res, next) => {
-  //console.log(req)
   //récupération de tous les posts présents dans la bdd
-   sequelize.Post.findAll({
-      include: [{
-          model: sequelize.User,
-          attributes: [ 'id', 'username', 'admin' ]
-        },
-      ],
-      order: [
-        ['createdAt', 'DESC']
-      ]
-    })
-    .then(post => {
-      console.log(post);
-      res.status(200).json(post);
-    })
-    .catch(error => res.status(400).json({
-      error
-    }));
+  //console.log(post)
+  sequelize.Post.findAll({
+    attributes: ['id', 'content', 'title'],
+})
+  .then(posts => {
+    console.log(posts);
+    res.status(200).json(posts);
+  })
+  .catch(error => res.status(400).json({
+    error
+  }));
 }
 
 /*****  CREATE NEW POST    
