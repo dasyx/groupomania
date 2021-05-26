@@ -128,6 +128,7 @@ const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 import { mapState } from "vuex";
 import { required, minLength, sameAs } from "vuelidate/lib/validators";
 import Header from "@/components/Header.vue";
+import store from '../modules/store.json'
 
 export default {
     name: "UserProfile",
@@ -163,7 +164,7 @@ export default {
                 },
             };
             axios
-                .get("http://localhost:3000/user/" + userLoggedId, headers)
+                .get(store.api_host + '/user/' + userLoggedId, headers)
                 .then((response) => {
                     this.userLogged = response.data;
                 })

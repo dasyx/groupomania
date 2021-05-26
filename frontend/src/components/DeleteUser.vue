@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import store from '../modules/store.json'
 import Header from './Header.vue';
 const axios = require("axios");
 
@@ -91,7 +92,7 @@ export default {
             Authorization: "Bearer " + sessionStorage.getItem("user-token")
           },
           method: "delete",
-          url: "http://localhost:3000/user/delete/",
+          url: store.api_host + '/user/delete/',
           data: {
             email: this.email,
             password: this.password
