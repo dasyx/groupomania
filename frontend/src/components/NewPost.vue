@@ -48,20 +48,26 @@
 
 <script>
 const axios = require("axios");
+import { mapState } from 'vuex'
+import store from '../modules/store.json'
+
 export default {
   name: "NewPost",
   data() {
     return {
       isUserLogged: "",
       isHidden: true,
-      username: "",
       title: "",
       content: "",
       msgError: "",
       imgFile: "",
-      selectedFile: "",
+      userInfos: {},
+      messageContent: [],
     };
   },
+  computed: {
+        ...mapState(['dashboardLoading'])
+    },
   methods: {
     // Empeche l'affichage du formulaire de nouveau post si utilisateur non connecté
     userLogged() {
@@ -72,7 +78,7 @@ export default {
 
     //Choix de l'image
     onFileSelected(event) {
-      this.selectedFile = event.target.files[0];
+     this.selectedFile = event.target.files[0];
     },
     //Envoi du formulaire
     sendNewContent(e) {
@@ -104,35 +110,28 @@ export default {
         this.msgError = error;
       } else {
         //test si image upload, si image, l'ajoute à postData
-       const postData = new FormData();
-
+         const postData = new FormData();
        if (this.selectedFile !== undefined) {
           postData.append("image", this.selectedFile);
         }
-
         postData.append("title", this.title);
         postData.append("content", this.content);
-        postData.append("UserId", sessionStorage.getItem("user"))
-        //console.log(...postData)
-        
+        postData.append("UserId", sessionStorage.getItem("user")); 
+        console.log(...postData)
+
          //requete
         axios({
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization : "Bearer " + sessionStorage.getItem("user-token")
           },
           method: "post",
-          url: "http://localhost:3000/post/newpost",
-          data: {
-              UserId: sessionStorage.getItem("user"),
-              title: this.title,
-              content: this.content,
-              imgFile: this.selectedFile
-            }
+          url: store.api_host + '/post/newpost/',
+          data: postData
           })
           .then(response => {
             console.log(response)
-            this.dashboardLoading();
+            //this.dashboardLoading();
             if (response.status === 201) {
               return response;
             } else {
@@ -140,32 +139,11 @@ export default {
             }
           })
           .catch(error => {
-            //console.log(error)
+            console.log(error)
             this.msgError = error.response.data.error;
           });
       }
     },
-    //Récupération des posts
-    dashboardLoading() {
-      
-        axios({
-          headers: {
-            "Content-Type": "application/json",
-            Authorization : "Bearer " + sessionStorage.getItem("user-token")
-          },
-          method: "get",
-          url: "http://localhost:3000/post/",
-        })
-        .then(response => {
-          //console.log(response)
-          this.messageContent = response.data;
-        })
-        .catch(error => console.log(error));
-    }, 
   },
-  mounted() {
-    this.dashboardLoading();
-    this.userLogged();
-  }
 };
 </script>

@@ -18,11 +18,8 @@ exports.getAllPosts = (req, res, next) => {
    sequelize.Post.findAll({
       include: [{
           model: sequelize.User,
-          attributes: ["username", "admin"]
+          attributes: [ 'id', 'username', 'admin' ]
         },
-        {
-          model: sequelize.Comment
-        }
       ],
       order: [
         ['createdAt', 'DESC']
@@ -40,7 +37,7 @@ exports.getAllPosts = (req, res, next) => {
 /*****  CREATE NEW POST    
 ========================****/
 exports.newPost = (req, res, next) => {
-  console.log(req.body.imgFile)
+  //console.log(req.body.imgFile)
     //vérifications des données
     /*try {
       if (req.body.content === "" || req.body.content == null) throw "Veuillez renseigner un contenu";
@@ -65,7 +62,7 @@ exports.newPost = (req, res, next) => {
         UserId: req.body.UserId,
         title: req.body.title,
         content: req.body.content,
-        imgFile: req.body.imgUrl
+        imgFile: imgUrl
       })
     // creation d 'un nouveau post
       .then(response => res.status(201).json({
@@ -86,15 +83,8 @@ exports.newPost = (req, res, next) => {
         },
         include: [{
             model: sequelize.User,
-            attributes: ["username"]
+            attributes: ['id', 'username', 'admin']
           },
-          {
-            model: sequelize.Comment,
-            include: [{
-              model: sequelize.User,
-              attributes: ["username", "id"]
-            }]
-          }
         ],
       })
       .then(post => {
@@ -105,3 +95,39 @@ exports.newPost = (req, res, next) => {
         error
       }));
   }
+
+/*****  SUPPRIMER UN POST    
+============================****/
+exports.deleteOnePost = (req, res, next) => {
+  sequelize.Post.findOne({
+      where: {id: req.params.id}})
+    .then(post => {
+
+      
+      if(post.imgFile === null){
+        sequelize.Post.destroy({where: {id: req.params.id}})
+          .then(post => {res.status(200).json({
+              message: "Post bien supprimé"
+            });
+          })
+          .catch(error => res.status(400).json({
+            error
+          }));
+      }else {
+        const filename = post.imgFile.split('/images/')[1];
+        fs.unlink(`images/${filename}`, () => {
+          sequelize.Post.destroy({where: {id: req.params.id}})
+            .then(post => {res.status(200).json({
+                message: "post bien supprimé"
+              });
+            })
+            .catch(error => res.status(400).json({
+              error
+            }));
+          })
+      }
+    })
+    .catch(error => res.status(500).json({
+      error
+    }));
+}

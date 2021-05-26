@@ -38,6 +38,23 @@ export default new Vuex.Store({
             return false;
         }
     },
+          //Récupération des posts
+  dashboardLoading() {
+    const axios = require("axios");
+    axios({
+      headers: {
+        "Content-Type": "application/json",
+        Authorization : "Bearer " + sessionStorage.getItem("user-token")
+      },
+      method: "get",
+      url: "http://localhost:3000/api/post/"
+    })
+    .then(() => {
+      console.log("test")
+      //this.messageContent = response.data;
+    })
+    .catch(error => console.log(error));
+}
   },
   mutations: {
   },

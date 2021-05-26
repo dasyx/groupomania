@@ -8,7 +8,7 @@
         <div class="post-header">
           <div class="post_name">
             <i class="fas fa-user-circle"></i>
-            <p id="post_user_id">{{user.User.firstname}} {{user.User.lastname}}</p>
+            <p id="post_user_id">{{user.User.username}}</p>
           </div>
           <a
             v-if="user.UserId == userLoggedId"
@@ -22,27 +22,8 @@
         <div class="post_main">
           <p id="post_title" class="post_title">"{{user.title}}"</p>
           <p id="post_content" class="post_content">{{user.content}}</p>
-          <img v-if="user.url_image" class="post_image" :src="user.url_image" alt="image" />
+          <img v-if="user.url_image" class="post_image" :src="user.imgFile" alt="image" />
 
-          <!-- Commentaires -->
-          <div class="post_comments">
-            <ul v-if="comments.length">
-              <li v-for="comment in comments" v-bind:key="comment.UserId">
-                <span class="bold"> {{comment.User.firstname}} {{comment.User.lastname}}:</span>  {{comment.content}}
-                <!-- suppression commentaire -->
-                <a
-                  class="post_delete-link"
-                  id="commentIdClicked"
-                  href="#"
-                  @click="deleteComment(comment.id)"
-                >
-                  <i class="far fa-trash-alt" v-if="comment.UserId == userLoggedId"></i>
-                </a>
-              </li>
-            </ul>
-            <p v-else>Pas de commentaires</p>
-
-          </div>
         </div>
       </div>
     </div>
@@ -58,16 +39,17 @@
 
 <script>
 const axios = require("axios");
+import store from '../modules/store.json'
 
 export default {
   name: "Post",
   data() {
     return {
-      postId: "",
       user: {},
-      comments: {},
       comment: {},
-      userLoggedId: ""
+      userLoggedId: "",
+      //postId: "",
+      //comments: {},
     };
   },
   mounted() {
@@ -80,18 +62,36 @@ export default {
     const options = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + sessionStorage.getItem("key")
+        Authorization: "Bearer " + sessionStorage.getItem("user-token")
       }
     };
     axios
-      .get("http://localhost:3000/post/" + this.$route.params.id, options)
+      .get(store.api_host + '/post/Post/' + this.$route.params.id, options)
       .then(response => {
         this.user = response.data;
-        this.comments = response.data.Comments;
+        //this.comments = response.data.Comments;
         this.postId = response.data.id;
       })
       .catch(error => console.log(error));
     },
+     deletePost(element) {
+      if (confirm("Supprimer ce post?")) {
+        console.log(element);
+        axios({
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + sessionStorage.getItem("user-token")
+          },
+          method: "DELETE",
+          url: "http://localhost:3000/posts/" + element
+        })
+          .then(response => {
+            this.$router.push({ name: "mainboard" });
+            console.log(response.data);
+          })
+          .catch(error => console.log(error));
+      }
+    }
   }
 };
 </script>

@@ -69,7 +69,7 @@ const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 
 import { mapState } from 'vuex'
 import { required, minLength} from 'vuelidate/lib/validators';
-
+import store from '../modules/store.json'
 
 
 export default {
@@ -127,7 +127,7 @@ export default {
                 else {
                     //console.log("formulaire valide");
                     axios
-                        .post("http://localhost:3000/user/login/", {
+                        .post(store.api_host + '/user/login/', {
                             email: this.userForm.email,
                             password: this.userForm.password,
                             //chkvalid: this.userForm.accept,

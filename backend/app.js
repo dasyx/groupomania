@@ -18,12 +18,12 @@ app.use((req, res, next) => {
 });
 
 // Utilisation du package Express qui permet de gérer des données
-//app.use(express.urlencoded({extended:true}));
-//app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
 
 // Afin de prévenir les attaques DDOS,
 // On limitera le payload qu'un utilisateur pourra soumettre à l'API
-app.use(express.json({ limit: '5kb' }));
+//app.use(express.json({ limit: '5kb' }));
 
 const db = require("./models");
 
@@ -34,12 +34,12 @@ db.sequelize.sync();
 //});
 
 // Ce middleware répondra aux requêtes envoyées à /images
-//app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(helmet());
 
 //enregistre routers
-app.use('/user', require('./routes/user'));
-app.use('/post', require('./routes/post'));
+app.use('/api/user', require('./routes/user'));
+app.use('/api/post', require('./routes/post'));
 
 module.exports = app;

@@ -25,6 +25,7 @@
 
 <script>
 const axios = require("axios");
+import store from '../modules/store.json'
 import Header from "@/components/Header.vue";
 import NewPost from "@/components/NewPost.vue";
 import NewPostItems from "@/components/NewPostItems.vue";
@@ -40,6 +41,10 @@ export default {
     data() {
       return {
         userLogged: "",
+        username: "",
+        title: "",
+        content: "",
+        image: "",
         userInfos: {},
         messageContent: [],
       };
@@ -54,7 +59,7 @@ export default {
           }
         };
         axios
-          .get("http://localhost:3000/user/" + userLoggedId, headers)
+          .get(store.api_host + '/user/' + userLoggedId, headers)
           .then(response => {
             this.userLogged = response.data;
           })

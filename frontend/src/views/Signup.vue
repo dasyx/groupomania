@@ -142,6 +142,7 @@ const nameRegex = /^[^=*'<>{}0-9]{3,}$/;
 const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 import { mapState } from 'vuex'
 import { required, minLength, sameAs } from 'vuelidate/lib/validators';
+import store from '../modules/store.json'
     export default {
         data() {
             return {
@@ -209,7 +210,7 @@ import { required, minLength, sameAs } from 'vuelidate/lib/validators';
                 else {
                     //console.log("formulaire valide");
                     axios
-                        .post("http://localhost:3000/user/signup/", {
+                        .post(store.api_host + '/user/signup/', {
                             username: this.userForm.username,
                             email: this.userForm.email,
                             password: this.userForm.password,

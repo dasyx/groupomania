@@ -6,6 +6,9 @@ export default {
       type: String,
       required: true
     },
+    title: {
+      type: String
+    },
     content: {
       type: String
     },
@@ -16,10 +19,6 @@ export default {
     image: {
       type: String
     },
-    comments: {
-      type: Array,
-      required: true
-    }
   },
 };
 </script>
