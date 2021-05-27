@@ -27,26 +27,15 @@ try {
   console.error('Unable to connect to the database:', error);
 }
   
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
-
   db.Sequelize = Sequelize;
   db.sequelize = sequelize;
   
+  // Modèles et tables
   db.User = require("./user.js")(sequelize, Sequelize);
   db.Post = require("./post.js")(sequelize, Sequelize);
+
+  // Relations entre les différentes tables
+  db.Post.belongsTo(db.User);
+  db.User.hasMany(db.Post);
   
   module.exports = db;

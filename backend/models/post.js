@@ -10,11 +10,5 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
         },
     })
-    Post.associate = function (models) {
-        models.Post.belongsTo(models.User,{
-            onDelete: 'CASCADE',
-             hooks: true
-        });
-    };
     return Post;
 };

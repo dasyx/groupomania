@@ -1,9 +1,5 @@
 <template>
     <div class="container">
-        <img 
-            src="../assets/icon.svg" 
-            alt="groupomania-logo-small" 
-            class="new-post_logo" />
         <button 
             v-on:click="isHidden = false" 
             class="button is-info">
@@ -45,13 +41,13 @@
       </transition>
       <NewPostItems
           v-for="message in messageContent"
-          v-bind:username="message.username"
+          v-bind:username="message.User.username"
           v-bind:key="message.id"
           v-bind:title="message.title"
           v-bind:content="message.content"
           v-bind:image="message.imgFile"
           v-bind:postId="message.id"
-        />   
+      />  
     </div>
 </template>
 
@@ -59,30 +55,34 @@
 const axios = require("axios");
 import { mapState } from 'vuex'
 import store from '../modules/store.json'
-import NewPostItems from "@/components/NewPostItems.vue";
+import NewPostItems from '@/components/NewPostItems'
 
 export default {
   name: "NewPost",
-  components: {
-        NewPostItems,   
+  components: {  
+      NewPostItems
     },
   data() {
     return {
       isHidden: true,
-      title: "",
-      content: "",
-      msgError: "",
-      imgFile: "",
-      //username: "",
-      //image: "",
       userInfos: {},
       messageContent: [],
       actualUser: "",
+      title: "",
+      content: "",
+      msgError: "",
+      selectedFile: ""
     };
   },
   computed: {
         ...mapState(['dashboardLoading'])
+  },
+  props: {
+    imgFile: {
+      type: String
     },
+    
+  },
   methods: {
     // Empeche l'affichage du formulaire de nouveau post si utilisateur non connecté
     userLogged() {

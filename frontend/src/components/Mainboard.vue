@@ -20,12 +20,13 @@ import store from '../modules/store.json'
 import Header from "@/components/Header.vue";
 import NewPost from "@/components/NewPost.vue";
 
+
 export default {
     name: "Mainboard",
     title: "Groupomania - Espace Utilisateur",
     components: {
         Header,
-        NewPost
+        NewPost,
     },
     data() {
       return {
