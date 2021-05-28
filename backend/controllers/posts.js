@@ -5,32 +5,10 @@ const db = require("../models");
 const Post = require('../models/Post');
 const User = require('../models/User');
 
-//const fs = require('fs');
+const fs = require('fs');
 
 let textRegex = /^[^=*<>{}]+$/;
 
-
-/*****  GET ALL POSTS    
-===========================****/
-exports.getAllPosts = (req, res, next) => {
-  //récupération de tous les posts présents dans la bdd
-  sequelize.Post.findAll({
-    //attributes: ['id', 'content', 'title'],
-    include: [
-      {
-        model: sequelize.User,
-        attributes: [ "username" , "admin" ]
-      }
-    ]
-  })
-  .then(Post => {
-    console.log(Post);
-    res.status(200).json(Post);
-  })
-  .catch(error => res.status(400).json({
-    error
-  }));
-}
 
 /*****  CREATE NEW POST    
 ========================****/
@@ -69,34 +47,59 @@ exports.newPost = (req, res, next) => {
       .catch(error => res.status(400).json({
         error: "Une erreur est survenue lors de la création du Post"
       }));
-  }
+}
+
+/*****  GET ALL POSTS    
+===========================****/
+exports.getAllPosts = (req, res, next) => {
+  //récupération de tous les posts présents dans la bdd
+  sequelize.Post.findAll({
+    //attributes: ['id', 'content', 'title'],
+    include: [
+      {
+        model: sequelize.User,
+        attributes: ["username", "admin"]
+      }
+    ]
+  })
+  .then(Post => {
+    console.log(Post);
+    res.status(200).json(Post);
+  })
+  .catch(error => res.status(400).json({
+    error
+  }));
+}
 
 /*****  GET ONE POST    
 ============================****/
-  exports.getOnePost = (req, res, next) => {
-    //récupération d'un post avec ses commentaires
-    sequelize.Post.findOne({
+  exports.getPost = (req, res, next) => {
+    //Récupération de l'affichage d'un post
+    //console.log(User)
+     sequelize.Post.findOne({
         where: {
+          //Cible l'id de l'objet à afficher
           id: req.params.id
         },
-        include: [{
+        include: [
+          {
             model: sequelize.User,
-            attributes: ['id', 'username', 'admin']
-          },
-        ],
+            attributes: ["username", "admin"]
+          }
+        ]
       })
-      .then(post => {
-        console.log(post);
-        res.status(200).json(post);
+      .then(Post => {
+        console.log(Post);
+        res.status(200).json(Post);
       })
       .catch(error => res.status(400).json({
         error
       }));
-  }
+}
 
 /*****  SUPPRIMER UN POST    
 ============================****/
-exports.deleteOnePost = (req, res, next) => {
+exports.deletePost = (req, res, next) => {
   sequelize.Post.findOne({
       where: {id: req.params.id}})
     .then(post => {
@@ -105,7 +108,7 @@ exports.deleteOnePost = (req, res, next) => {
       if(post.imgFile === null){
         sequelize.Post.destroy({where: {id: req.params.id}})
           .then(post => {res.status(200).json({
-              message: "Post bien supprimé"
+              message: "Post correctement supprimé"
             });
           })
           .catch(error => res.status(400).json({
@@ -116,7 +119,7 @@ exports.deleteOnePost = (req, res, next) => {
         fs.unlink(`images/${filename}`, () => {
           sequelize.Post.destroy({where: {id: req.params.id}})
             .then(post => {res.status(200).json({
-                message: "post bien supprimé"
+                message: "Post correctement supprimé"
               });
             })
             .catch(error => res.status(400).json({

@@ -2,7 +2,7 @@
 export default {
   name: "NewpostItems",
   props: {
-    username: {
+     username: {
       type: String,
       required: true
     },

@@ -15,7 +15,7 @@
             id="title"
             class="new-post_form-input"
             type="text"
-            v-model.lazy="title"
+            v-model="title"
             placeholder="Votre titre ..."
           />
           <label for="message" class="new-post_form-label">Message</label>
@@ -23,7 +23,7 @@
             id="message"
             class="new-post_form-input"
             type="text"
-            v-model.lazy="content"
+            v-model="content"
             placeholder="Votre message ..."
           />
           <label for="image" class="new-post_form-label">Image</label>
@@ -67,7 +67,7 @@ export default {
       isHidden: true,
       userInfos: {},
       messageContent: [],
-      actualUser: "",
+      //actualUser: "",
       title: "",
       content: "",
       msgError: "",
