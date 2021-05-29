@@ -1,96 +1,95 @@
 <template>
-  <div class="post_container">
-    <div class="dashboard-Items">
-
-      <!-- Post -->
-      <div id="post" class="post">
-        <!-- Auteur du post -->
-        <div class="post-header">
-          <div class="post_name">
-            <i class="fas fa-user-circle"></i>
-            <p id="post_user_id">{{user.username}}</p>
-          </div>
-          <a
-            v-if="user.UserId == userLoggedId"
-            href="#"
-            @click="deletePost(postId)"
-            class="post_delete-link"
-          >Supprimer ce post</a>
+    <div class="post_container">
+        <div class="dashboard-Items">
+            <!-- Post -->
+            <div id="post" class="post">
+                <!-- Auteur du post -->
+                <div class="post_name">
+                        <i class="fas fa-user-circle"></i>
+                        <p id="post_user_id">{{ user.username }}</p>
+                    </div>
+                <!-- Contenu du post -->
+                <div class="post_main">
+                    <p id="post_title" class="post_title">"{{ user.title }}"</p>
+                    <p id="post_content" class="post_content">{{ user.content }}</p>
+                    <img v-if="user.imgFile" class="post_image" :src="user.imgFile" alt="image" />
+                </div>
+                <!-- Bouton de suppression du post -->
+                <div class="post-header">
+                    <button v-if="user.UserId == userLoggedId" href="#" @click="postDelete(postId)" class="delete-btn">Supprimer ce post</button>
+                    <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
+                </div>
+            </div>
         </div>
-
-        <!-- Contenu du post -->
-        <div class="post_main">
-          <p id="post_title" class="post_title">"{{user.title}}"</p>
-          <p id="post_content" class="post_content">{{user.content}}</p>
-          <img v-if="user.imgFile" class="post_image" :src="user.imgFile" alt="image" />
-
+        <!-- Retour vers dashboard  -->
+        <div>
+            <a href="http://localhost:8080/?#/mainboard" class="backlink">
+                <i class="far fa-arrow-alt-circle-left backlink_icon"></i>
+            </a>
         </div>
-      </div>
     </div>
-    <!-- Retour vers dashboard  -->
-    <div>
-      <a href="http://localhost:8080/?#/mainboard" class="backlink">
-      
-        <i class="far fa-arrow-alt-circle-left backlink_icon"></i>
-      </a>
-    </div>
-  </div>
 </template>
 
 <script>
 const axios = require("axios");
-import store from '../modules/store.json'
+import store from "../modules/store.json";
+import ConfirmDialogue from "../components/ConfirmDialogue.vue";
 
 export default {
-  name: "Post",
-  data() {
-    return {
-      User: "",
-      username: "",
-      user: {},
-      userLoggedId: "",
-      postId: "",
-    };
-  },
-  mounted() {
-    this.getPostElements();
-    
-  },
-  methods: {
-    getPostElements(){
-      this.userLoggedId = sessionStorage.getItem("user");
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + sessionStorage.getItem("user-token")
-      }
-    };
-    axios
-      .get(store.api_host + '/post/' + this.$route.params.id, options)
-      .then(response => {
-        console.log(response)
-        this.user = response.data;
-        this.postId = response.data.id;
-      })
-      .catch(error => console.log(error));
+    name: "Post",
+    data() {
+        return {
+            User: "",
+            username: "",
+            user: {},
+            userLoggedId: "",
+            postId: "",
+        };
     },
-     deletePost() {
-      if (confirm("Supprimer cette publication ?")) {
-        axios({
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + sessionStorage.getItem("user-token")
-          },
-          method: "delete",
-          url: store.api_host + '/post/' + this.$route.params.id
-        })
-          .then(response => {
-            this.$router.push('/mainboard');
-            console.log(response.data);
-          })
-          .catch(error => console.log(error));
-      }
-    }
-  }
+    components: { ConfirmDialogue },
+    mounted() {
+        this.getPostElements();
+    },
+    methods: {
+        getPostElements() {
+            this.userLoggedId = sessionStorage.getItem("user");
+            const options = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + sessionStorage.getItem("user-token"),
+                },
+            };
+            axios
+                .get(store.api_host + "/post/" + this.$route.params.id, options)
+                .then((response) => {
+                    console.log(response);
+                    this.user = response.data;
+                    this.postId = response.data.id;
+                })
+                .catch((error) => console.log(error));
+        },
+        async postDelete() {
+            const ok = await this.$refs.confirmDialogue.show({
+                title: "Suppression du post",
+                message: "Voulez-vous vraiment supprimer cette publication ?  Vous ne pourrez pas revenir en arrière !",
+                okButton: "Supprimer définitivement",
+            });
+            if (ok) {
+                axios({
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + sessionStorage.getItem("user-token"),
+                    },
+                    method: "delete",
+                    url: store.api_host + "/post/" + this.$route.params.id,
+                })
+                    .then((response) => {
+                        this.$router.push("/mainboard");
+                        console.log(response.data);
+                    })
+                    .catch((error) => console.log(error));
+            }
+        },
+    },
 };
 </script>

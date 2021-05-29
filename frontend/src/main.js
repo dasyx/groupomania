@@ -7,7 +7,7 @@ import axios from 'axios'
 
 import 'bulma/css/bulma.css';
 
-require('./assets/main.scss');
+require('./styles/main.scss');
 
 Vue.use(Vuelidate);
 Vue.prototype.$http = axios

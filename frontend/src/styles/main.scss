@@ -405,3 +405,24 @@
 .fade-enter {
   opacity: 0;
 }
+
+/*======================================================*/
+
+/* Feuille de style de Post.vue
+
+=========================================================*/
+
+.delete-btn {
+  margin-top: 10px;
+  padding: 0.5em 1em;
+  background-color: background-color;
+  color: $second-color;
+  border: 1px solid $second-color;
+  border-radius: 5px;
+  box-shadow: 2px 1px;
+  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
