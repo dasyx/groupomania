@@ -5,14 +5,27 @@
             <div id="post" class="post">
                 <!-- Auteur du post -->
                 <div class="post_name">
-                        <i class="fas fa-user-circle"></i>
-                        <p id="post_user_id">{{ user.username }}</p>
-                    </div>
+                    <i class="fas fa-user-circle"></i>
+                    <p id="post_user_id">{{ user.username }}</p>
+                </div>
                 <!-- Contenu du post -->
                 <div class="post_main">
                     <p id="post_title" class="post_title">"{{ user.title }}"</p>
                     <p id="post_content" class="post_content">{{ user.content }}</p>
                     <img v-if="user.imgFile" class="post_image" :src="user.imgFile" alt="image" />
+                </div>
+
+                <!-- Commentaires -->
+                <div class="post_comments">
+                    <ul v-if="comments.length">
+                        <li v-for="comment in comments" v-bind:key="comment.UserId">
+                            <span class="bold"> {{ comment.User.username }}:</span> {{ comment.content }}
+                        </li>
+                    </ul>
+                    <p v-else>Pas de commentaires</p>
+
+                    <!-- Formulaire nouveau commentaire  -->
+                    <NewCommentItem :postId="user.id" />
                 </div>
                 <!-- Bouton de suppression du post -->
                 <div class="post-header">
@@ -33,24 +46,30 @@
 <script>
 const axios = require("axios");
 import store from "../modules/store.json";
+import NewCommentItem from "../components/NewCommentItem.vue";
 import ConfirmDialogue from "../components/ConfirmDialogue.vue";
 
 export default {
     name: "Post",
     data() {
         return {
-            User: "",
-            username: "",
+            //User: "",
+            //username: "",
             user: {},
             userLoggedId: "",
             postId: "",
+            comment: {},
+            comments: {},
         };
     },
-    components: { ConfirmDialogue },
+    components: { 
+        NewCommentItem, ConfirmDialogue 
+    },
     mounted() {
         this.getPostElements();
     },
     methods: {
+        //Fonction pour afficher un post
         getPostElements() {
             this.userLoggedId = sessionStorage.getItem("user");
             const options = {
@@ -64,10 +83,12 @@ export default {
                 .then((response) => {
                     console.log(response);
                     this.user = response.data;
+                    this.comments = response.data.Comments;
                     this.postId = response.data.id;
                 })
                 .catch((error) => console.log(error));
         },
+        //Fonction pour supprimer un post
         async postDelete() {
             const ok = await this.$refs.confirmDialogue.show({
                 title: "Suppression du post",

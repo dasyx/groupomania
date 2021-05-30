@@ -426,3 +426,54 @@
   cursor: pointer;
 }
 
+/*======================================================*/
+
+/* Feuille de style de Post.vue
+
+=========================================================*/
+
+.newComment {
+  padding: 8px;
+  // width: 80%;
+  box-sizing: border-box;
+  // display: flex;
+  // justify-content: space-between;
+  // align-items: center;
+
+  &_part{
+    padding: 8px;
+    display: flex;
+  }
+  &_input {
+    flex: 1;
+    // width: 100%;
+    padding: 8px;
+    background: white;
+    border: solid lighten($primary-color, 40%) 1px;
+    border-radius: 4px;
+    color: $primary-color;
+    // margin: 0 8px;
+  }
+  // label{
+  //   position: relative;
+  //   left: 20px;
+  // }
+  .far {
+    font-size: 16px;
+    padding-left: 2px;
+    padding-right: 8px;
+  }
+
+  &_button {
+    background-color: white;
+    border-radius: 8px;
+    color: $primary-color;
+    border: solid lighten($primary-color, 40%) 1px;
+    padding: 8px;
+    margin: 8px;
+    &:hover {
+      background-color: $main-color;
+      color: white;
+    }
+  }
+}

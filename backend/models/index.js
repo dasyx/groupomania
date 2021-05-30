@@ -1,8 +1,5 @@
-const fs = require('fs');
-const path = require('path');
 const dbConfig = require("../config/database.js");
 const Sequelize = require("sequelize");
-const basename = path.basename(__filename);
 
 const db = {};
 
@@ -33,9 +30,15 @@ try {
   // Modèles et tables
   db.User = require("./user.js")(sequelize, Sequelize);
   db.Post = require("./post.js")(sequelize, Sequelize);
+  db.Comment = require("./comment.js")(sequelize, Sequelize);
+
 
   // Relations entre les différentes tables
   db.Post.belongsTo(db.User);
+  db.Post.hasMany(db.Comment);
   db.User.hasMany(db.Post);
+  db.User.hasMany(db.Comment);
+  db.Comment.belongsTo(db.Post);
+  db.Comment.belongsTo(db.User);
   
   module.exports = db;

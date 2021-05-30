@@ -41,12 +41,13 @@
       </transition>
       <NewPostItems
           v-for="message in messageContent"
-          v-bind:username="message.User.username"
           v-bind:key="message.id"
+          v-bind:username="message.User.username"
           v-bind:title="message.title"
           v-bind:content="message.content"
           v-bind:image="message.imgFile"
           v-bind:postId="message.id"
+          v-bind:comments="message.Comments"
       />  
     </div>
 </template>
@@ -67,11 +68,11 @@ export default {
       isHidden: true,
       userInfos: {},
       messageContent: [],
-      //actualUser: "",
+      comments: [],
       title: "",
       content: "",
       msgError: "",
-      selectedFile: ""
+      selectedFile: "",
     };
   },
   computed: {

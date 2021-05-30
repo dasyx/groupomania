@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "NewpostItems",
+  name: "NewPostItems",
   props: {
      username: {
       type: String,
@@ -19,7 +19,17 @@ export default {
     image: {
       type: String
     },
+    comments: {
+      type: Array,
+      required: true
+    }
   },
+     computed: {
+    //Récupération du nombre de commentaires
+    commentLength: function() {
+      return this.comments.length;
+    }
+  } 
 };
 </script>
 
@@ -41,6 +51,7 @@ export default {
           <p class="post_title">"{{title}}"</p>
           <p class="post_content">{{content}}</p>
           <img v-if="image" class="post_image" :src="image" alt="image-illustration"/>
+          <p class="post_comments-icon bold">{{commentLength}} commentaires</p>
         </div>
       </div>
     </router-link>
