@@ -147,6 +147,7 @@
 .welcome_msg {
   width: 10em;
   margin-top: 20px;
+  margin-bottom: 50px;
 }
 /*======================================================*/
 
@@ -184,7 +185,7 @@
 
 .post {
   color: $primary-color;
-  border: solid lighten($primary-color, 40%) 1px;
+  border: solid lighten($main-color, 40%) 1px;
   border-radius: 4px;
   box-sizing: border-box;
   padding: 8px;
@@ -206,7 +207,7 @@
     &:hover {
       border: solid lighten($primary-color, 20%) 1px;
       .post_title {
-        text-decoration: underline;
+        text-decoration: none;
       }
     }
   }
@@ -278,6 +279,8 @@
 
 .dashboard-Items {
   box-sizing: border-box;
+  box-shadow: 2px 2px 5px;
+  border-radius: 5px;
   width: 60%;
   overflow: auto;
   margin: 32px auto;
@@ -428,7 +431,7 @@
 
 /*======================================================*/
 
-/* Feuille de style de Post.vue
+/* Feuille de style de NewCommentItem.vue
 
 =========================================================*/
 

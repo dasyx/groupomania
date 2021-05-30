@@ -4,18 +4,13 @@
     <div class="navbar-brand">
       <router-link to="/mainboard">
         <img src="../../public/logos/icon-left-font-monochrome-white.svg" alt="groupomania-logo"/>
-        <p>Accueil utilisateur</p>
+        <p>Forum - page principale</p>
       </router-link>
     </div>
 
     <!-- liens -->
     <nav class="navbar-menu">
         <div class="navbar-end">
-            <div class="navbar-item">
-                <router-link to="/my_posts" 
-                v-if="userLogged">Mes messages
-                </router-link>
-            </div>
             <div class="navbar-item">
                 <a
                  href="#/userprofile/"

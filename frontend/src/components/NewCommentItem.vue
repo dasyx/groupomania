@@ -28,12 +28,12 @@ export default {
       //postId: "",
     }
   },
-  props: {
+  /* props: {
     postId: {
       type: Number,
       required: true
     }
-  },
+  }, */
   methods: {
     //Envoi nouveau commantaire
     sendNewComment: function(e) {
