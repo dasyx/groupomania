@@ -3,7 +3,7 @@
     <!-- form nouveau commentaire-->
     <form class="newComment">
       <div class="newComment_part">
-        <i class="far fa-edit"></i>
+        <i class="far fa-comment-alt"></i>
         <label for="newcomment">Ecrire un commentaire</label>
       </div>
       <div class="newComment_part">
