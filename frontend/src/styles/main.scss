@@ -240,6 +240,7 @@
     li {
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
       padding: 8px;
       margin: 8px 0;
       background-color: lighten($primary-color, 40%);
@@ -252,9 +253,11 @@
     }
     .fa-trash-alt {
       float: right;
-      
     }
     ul {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       margin: 0;
       padding: 0 8px;
     }
