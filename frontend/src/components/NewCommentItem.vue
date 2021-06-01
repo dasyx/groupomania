@@ -30,7 +30,7 @@ export default {
   props: {
     postId: {
       type: Number,
-      required: true
+      required: true,
     }
   }, 
   methods: {
@@ -44,7 +44,7 @@ export default {
 
       //test input comment
       if (this.comment === "" || this.comment == null) {
-        error = "Commentaire requis";
+        error = "Vous devez écrire quelque chose !";
       } else if (!textRegex.test(this.comment)) {
         error = "Les caractères suivants sont interdits: = * < > { }";
       }

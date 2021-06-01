@@ -32,7 +32,7 @@ exports.signup = (req, res, next) => {
                     let username = req.body.username;
                     let email = req.body.email;
                     let mdpHash = hash;
-                    //let admin = 0;
+                    let admin = 0;
 
                     //création de l'utilisateur
                     if (req.body.username !== "" || req.body.email !== "") {
@@ -41,7 +41,7 @@ exports.signup = (req, res, next) => {
                             username: username,
                             email: email,
                             password: mdpHash,
-                            //admin: admin
+                            admin: admin
                         }).then(() =>
                             res.status(201).json({
                                 message: "Utilisateur bien crée",
@@ -77,7 +77,7 @@ exports.login = (req, res, next) => {
                     error: "Utilisateur Introuvable",
                 });
             }
-            //utilisateur trouvé, comparaison des mdp
+            //Si l'utilisateur est trouvé, comparaison des passwords
             bcrypt
                 .compare(req.body.password, user.password)
                 .then((valid) => {
@@ -86,7 +86,7 @@ exports.login = (req, res, next) => {
                             error: "Mot de passe non valide",
                         });
                     }
-                    //mdp valide, envoi d'un token d'authentification
+                    //Password ok, envoi du token d'authentification
                     res.status(200).json({
                         userId: user.id,
                         userAdmin: user.admin,

@@ -14,7 +14,7 @@ export default {
     },
     postId: {
       type: Number,
-      required: true
+      required: true,
     },
     image: {
       type: String

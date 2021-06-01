@@ -8,13 +8,39 @@
       </router-link>
     </div>
 
-    <!-- liens -->
-    <nav class="navbar-menu">
+    <!-- Affichage des liens du Header si utilisateur admin-->
+    <nav class="navbar-menu" v-if="userAdmin == 1">
         <div class="navbar-end">
             <div class="navbar-item">
                 <a
                  href="#/userprofile/"
-                v-if="userAdmin == 0"
+                >Mon profil
+                </a>
+            </div>
+            <div class="navbar-item">
+                <router-link to="/admin"
+                >Espace administrateur
+                </router-link>
+            </div>
+            <div class="navbar-item">
+                <router-link to="/delete_user" 
+                v-if="userLogged">Supprimer le compte
+                </router-link>
+            </div>
+            <div class="navbar-item">
+                <a
+                href="#" @click="logOut()"
+                v-if="userLogged">Déconnexion
+                </a>
+            </div>
+        </div>
+    </nav>
+     <!-- Affichage des liens du Header si utilisateur non admin-->
+    <nav class="navbar-menu" v-if="userAdmin == 0">
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <a
+                 href="#/userprofile/"
                 >Mon profil
                 </a>
             </div>
@@ -40,7 +66,7 @@ export default {
   props: {
     userInfos: {
       type: String
-    }
+    },
   },
   data() {
     return {
@@ -49,12 +75,12 @@ export default {
     };
   },
   mounted() {
-    //récupère informations pour personnalisation header
+    //Récupération des informations pour l'affichage des données du Header
     if (sessionStorage.user) {
       this.userLogged = sessionStorage.user;
     }
-    if(localStorage.role) {
-      this.userAdmin = localStorage.role;
+     if(localStorage.admin) {
+      this.userAdmin = localStorage.admin;
     }
   },
   methods: {

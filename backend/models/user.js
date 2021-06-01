@@ -22,8 +22,7 @@ module.exports = (sequelize, DataTypes) => {
           defaultValue: "http://127.0.0.1:3000/images/avatars/user_default.jpg"
         },
         admin: {
-          type: DataTypes.BOOLEAN,
-          allowNull: false,
+          type: DataTypes.INTEGER,
           defaultValue: false
         },
     });

@@ -4,7 +4,7 @@ let textRegex = /^[^=*<>{}]+$/;
 /*****   CREATE NEW COMMENT   
 ===============================****/
 exports.newComment = (req, res, next) => {
-    //vérification des données
+    //Vérification des données
      try {
       if (req.body.content === "") throw "Vous devez écrire quelque chose";
       /* if (req.body.content.length < 1) throw "Votre commentaire doit contenir au moins 1 caractère !"; */
@@ -14,7 +14,7 @@ exports.newComment = (req, res, next) => {
         error: error
       });
     }
-    //creation autorisée du commentaire
+    //Creation du commentaire
     sequelize.Comment.create({
         UserId: req.body.UserId,
         PostId: req.body.PostId,

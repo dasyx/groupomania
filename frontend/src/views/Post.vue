@@ -29,7 +29,7 @@
                 </div>
                 <!-- Bouton de suppression du post -->
                 <div class="post-header">
-                    <button v-if="user.UserId == userLoggedId" href="#" @click="postDelete(postId)" class="delete-btn">Supprimer ce post</button>
+                    <button v-if="user.UserId == userLoggedId || userAdmin == 1" href="#" @click="postDelete(postId)" class="delete-btn">Supprimer ce post</button>
                     <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
                 </div>
             </div>
@@ -53,14 +53,13 @@ export default {
     name: "Post",
     data() {
         return {
-            //User: "",
-            //username: "",
             user: {},
             userLoggedId: "",
+            userAdmin: "",
             postId: "",
             comment: {},
             comments: {},
-        };
+        }
     },
     components: { 
         NewCommentItem, ConfirmDialogue 
@@ -84,7 +83,7 @@ export default {
                     console.log(response);
                     this.user = response.data;
                     this.comments = response.data.Comments;
-                    this.postId = response.data.id;
+                    //this.postId = response.data.id;
                 })
                 .catch((error) => console.log(error));
         },
