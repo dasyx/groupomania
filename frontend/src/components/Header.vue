@@ -30,7 +30,7 @@
             <div class="navbar-item">
                 <a
                 href="#" @click="logOut()"
-                v-if="userLogged">Déconnexion
+                v-if="userLogged"><i class="fas fa-sign-out-alt"></i>Déconnexion
                 </a>
             </div>
         </div>
@@ -52,7 +52,7 @@
             <div class="navbar-item">
                 <a
                 href="#" @click="logOut()"
-                v-if="userLogged">Déconnexion
+                v-if="userLogged"><i class="fas fa-sign-out-alt"></i>Déconnexion
                 </a>
             </div>
         </div>

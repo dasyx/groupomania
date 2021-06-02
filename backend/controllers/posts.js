@@ -156,3 +156,25 @@ exports.deletePost = (req, res, next) => {
             })
         );
 };
+
+/*****  DISPLAY USER LAST POSTS   
+==================================****/
+exports.getUserPosts = (req, res, next) => {
+    //récupération de tous les posts présents dans la bdd
+    sequelize.Post.findAll({
+        where: {
+          UserId: req.params.id
+        },
+        order: [
+          ['createdAt', 'DESC']
+        ],
+        limit: 10
+      })
+      .then(posts => {
+        console.log(posts);
+        res.status(200).json(posts);
+      })
+      .catch(error => res.status(400).json({
+        error
+      }));
+  }

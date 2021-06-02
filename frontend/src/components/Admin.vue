@@ -2,27 +2,47 @@
     <div>
         <Header />
         <!-- Message d'acces non authorisé -->
-        <div v-if="usersList.length < 1" class="unauthorizedMessage">
+        <div v-if="allUsers.length < 1" class="unauthorizedMessage">
             <p>Acces non authorisé</p>
         </div>
 
-        <!-- page admin -->
-        <div class="adminPage" v-if="usersList.length > 1">
+        <!-- Page administrateur -->
+        <div class="adminPage" v-if="allUsers.length > 1">
             <section class="users-list">
                 <!-- Utilisateurs -->
                 <h1 class="users-list_heading">Liste des utilisateurs</h1>
                 <ul>
                     <!-- liste des utilisateurs-->
-                    <li v-for="users in usersList" :key="users.id" class="users-list_items">
+                    <li v-for="users in allUsers" :key="users.id" class="users-list_items">
                         <p class="users-list_name">{{ users.username }}</p>
-                        <!-- Lien derniers posts utilisateurs-->
-                        <a href="#/admin" @click="getUserPosts(users.id)"> <i class="fas fa-sticky-note"></i>Posts </a>
+                        <!-- Lien récentes publications utilisateurs-->
+                        <a href="#/admin" @click="displayUserPosts(users.id)"> <i class="fas fa-sticky-note"></i>Posts </a>
                         <!-- Lien suppression utilisateur-->
-                        <button href="#/admin" @click="userDelete(users.id)" class="users-list_delete-link">Supprimer l'utilisateur
-                        </button>
+                        <button href="#/admin" @click="userDelete(users.id)" class="users-list_delete-link">Supprimer l'utilisateur</button>
                     </li>
                     <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
                 </ul>
+            </section>
+
+            <!-- Contenu des utilisateur -->
+            <section class="users-content">
+                <!-- Liste des posts -->
+                <div class="users-posts" v-if="posts">
+                    <h2 class="users-posts_title">Dernières publications</h2>
+                    <p v-if="posts.length < 1">Aucune publication</p>
+                    <ul>
+                        <li v-for="post in posts" :key="post.id" class="users-posts_items">
+                            <p class="users-posts_id">posté le {{ post.updatedAt.slice(0, 10) }}</p>
+                            <p>Titre : {{ post.title }}</p>
+                            <p>Contenu : {{ post.content }}</p>
+                            <p class="users-posts_image">
+                                <img v-if="post.imgFile" :src="post.imgFile" alt="image-illustration" />
+                            </p>
+                            <button href="#/admin" @click="postDelete(post.id, post.UserId)" class="users-posts_delete-link">Supprimer</button>
+                        </li>
+                        <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
+                    </ul>
+                </div>
             </section>
         </div>
     </div>
@@ -42,13 +62,14 @@ export default {
     },
     data() {
         return {
-            usersList: [],
+            allUsers: [],
             userContent: [],
+            posts: "",
         };
     },
     methods: {
-        //récupere la liste des utilisateurs
-        getUsersList() {
+        //Récupere la liste de tous les utilisateurs
+        displayAllUsers() {
             const options = {
                 headers: {
                     "Content-Type": "application/json",
@@ -58,12 +79,29 @@ export default {
             axios
                 .get(store.api_host + "/user/", options)
                 .then((response) => {
-                    this.usersList = response.data;
+                    this.allUsers = response.data;
                 })
                 .catch((error) => console.log(error));
         },
+        //Récupère toutes les publications d'un utilisateur.
+        displayUserPosts(id) {
+            axios({
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + sessionStorage.getItem("user-token"),
+                },
+                method: "GET",
+                url: store.api_host + "/post/user/" + id,
+            })
+                .then((response) => {
+                    this.posts = response.data;
+                    //this.comments = "";
+                })
+                .catch((error) => console.log(error));
+        },
+
         //Fonction pour supprimer un post
-        async userDelete(element) {
+        async userDelete(id) {
             const ok = await this.$refs.confirmDialogue.show({
                 title: "Suppression d'un utilisateur",
                 message: "Voulez-vous vraiment supprimer cet utilisateur ?  Vous ne pourrez pas revenir en arrière !",
@@ -76,7 +114,29 @@ export default {
                         Authorization: "Bearer " + sessionStorage.getItem("user-token"),
                     },
                     method: "delete",
-                    url: store.api_host + "/user/delete/" + element
+                    url: store.api_host + "/user/delete/" + id,
+                })
+                    .then(() => {
+                        this.$router.go();
+                    })
+                    .catch((error) => console.log(error));
+            }
+        },
+        //Fonction pour supprimer un post
+        async postDelete(id) {
+            const ok = await this.$refs.confirmDialogue.show({
+                title: "Suppression d'une publication",
+                message: "Voulez-vous vraiment supprimer cette publication ?  Vous ne pourrez pas revenir en arrière !",
+                okButton: "Supprimer définitivement",
+            });
+            if (ok) {
+                axios({
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + sessionStorage.getItem("user-token"),
+                    },
+                    method: "delete",
+                    url: store.api_host + "/post/admin/" + id,
                 })
                     .then(() => {
                         this.$router.go();
@@ -86,7 +146,8 @@ export default {
         },
     },
     mounted() {
-        this.getUsersList();
+        this.displayAllUsers();
+        this.displayUserPosts();
     },
 };
 </script>

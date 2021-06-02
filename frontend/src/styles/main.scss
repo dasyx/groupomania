@@ -1,6 +1,7 @@
 @import '../styles/mixins.scss';
 @import '../styles/variables.scss';
 
+
 /* Feuille de style de Home.vue
 
 ========================================*/
@@ -117,7 +118,7 @@
 }
 /*======================================================*/
 
-/* Feuille de style de Mainboard.vue
+/* Feuille de style de Mainboard.vue / Header.vue
 
 =========================================================*/
 
@@ -143,6 +144,9 @@
 }
 .navbar-item a {
   color: #ffffff;
+}
+.navbar-item i {
+  padding-right: 5px;
 }
 .welcome_msg {
   width: 10em;
@@ -593,7 +597,14 @@
 
 
 .users-content {
+  display: contents;
   border-left: solid lighten($primary-color, 40%) 1px;
+  @media screen and (min-width: 769px) and (max-width: 1366px) {
+    margin-left: 150px;
+  }
+  @media screen and (min-width: 525px) and (max-width: 768px) {
+    margin-left: 50px;
+  }
   @media screen and (max-width: 525px) {
     border-top: solid $main-color 2px;
     border-left: none;
