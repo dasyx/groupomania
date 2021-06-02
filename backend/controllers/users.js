@@ -41,7 +41,7 @@ exports.signup = (req, res, next) => {
                             username: username,
                             email: email,
                             password: mdpHash,
-                            admin: admin
+                            admin: admin,
                         }).then(() =>
                             res.status(201).json({
                                 message: "Utilisateur bien crée",
@@ -132,70 +132,112 @@ exports.getOneUser = (req, res, next) => {
 =========================================****/
 
 exports.getAllUsers = (req, res, next) => {
-  sequelize.User.findAll({
-      attributes: ["id", "username", "admin"]
+    sequelize.User.findAll({
+        attributes: ["id", "username", "admin"],
     })
-    .then(user => {
-      console.log(user);
-      res.status(200).json(user);
-    })
-    .catch(error => console.log(error));
-}
+        .then((user) => {
+            console.log(user);
+            res.status(200).json(user);
+        })
+        .catch((error) => console.log(error));
+};
 
 /*****   SUPPRIMER UN UTILISATEUR    
 ===================================****/
 exports.deleteUser = (req, res, next) => {
-  //vérification des inputs
-  try {
-    if (req.body.email === "") throw "Veuillez renseigner un mail";
-    if (req.body.password === "") throw "Veuillez renseigner un mot de passe";
-    if (!passwordRegex.test(req.body.password)) {
-      throw "Mot de passe incorrect"
-    }
-    if (!emailRegex.test(req.body.email)) {
-      throw "Veuillez vérifier votre adresse mail";
-    }
-  } catch (error) {
-    return res.status(400).json({
-      error: error
-    });
-  }  
-    //recherche de l'utilisateur
-  sequelize.User.findOne({
-    where: {
-      email: req.body.email
-    }
-  })
-  .then(user => {
-    if (!user) {
-      return res.status(401).json({
-        error: "Utilisateur non trouvé"
-      })
-    }
-    //utlisateur est trouvé, comparaison des mots de passe
-    bcrypt.compare(req.body.password, user.password)
-      .then(valid => {
-        if (!valid) {
-          return res.status(401).json({
-            error: "Le mot de passe ne correspond pas"
-          })
+    //vérification des inputs
+    try {
+        if (req.body.email === "") throw "Veuillez renseigner un mail";
+        if (req.body.password === "") throw "Veuillez renseigner un mot de passe";
+        if (!passwordRegex.test(req.body.password)) {
+            throw "Mot de passe incorrect";
         }
-        //suppression de l'utilisateur
-        sequelize.User.destroy({
-            where: {
-              email: req.body.email
+        if (!emailRegex.test(req.body.email)) {
+            throw "Veuillez vérifier votre adresse mail";
+        }
+    } catch (error) {
+        return res.status(400).json({
+            error: error,
+        });
+    }
+    //recherche de l'utilisateur
+    sequelize.User.findOne({
+        where: {
+            email: req.body.email,
+        },
+    })
+        .then((user) => {
+            if (!user) {
+                return res.status(401).json({
+                    error: "Utilisateur non trouvé",
+                });
             }
-          })
-          .then(() => res.status(201).json({
-            message: "Utilisateur bien supprimé"
-          }))
-          .catch(error => res.status(400).json({
-            error: "l'utilisateur n'a pas pu être supprimé"
-          }));
-      })
-      .catch(error => res.status(500).json({
-        error: "erreur bcrypt"
-      }));
-  })
-  .catch(error => console.log(error));
-}
+            //utlisateur est trouvé, comparaison des mots de passe
+            bcrypt
+                .compare(req.body.password, user.password)
+                .then((valid) => {
+                    if (!valid) {
+                        return res.status(401).json({
+                            error: "Le mot de passe ne correspond pas",
+                        });
+                    }
+                    //suppression de l'utilisateur
+                    sequelize.User.destroy({
+                        where: {
+                            email: req.body.email,
+                        },
+                    })
+                        .then(() =>
+                            res.status(201).json({
+                                message: "Utilisateur bien supprimé",
+                            })
+                        )
+                        .catch((error) =>
+                            res.status(400).json({
+                                error: "l'utilisateur n'a pas pu être supprimé",
+                            })
+                        );
+                })
+                .catch((error) =>
+                    res.status(500).json({
+                        error: "erreur bcrypt",
+                    })
+                );
+        })
+        .catch((error) => console.log(error));
+};
+
+/*****   SUPPRIMER UN UTILISATEUR (ADMIN AUTH)    
+================================================****/
+exports.deleteAccountAdmin = (req, res, next) => {
+    //recherche de l'utilisateur
+    sequelize.User.findOne({
+        where: {
+            id: req.params.id,
+        },
+    })
+        .then((user) => {
+            if (!user) {
+                return res.status(401).json({
+                    error: "Utilisateur non trouvé",
+                });
+            }
+            //utlisateur est trouvé, suppression de l'utilisateur
+            sequelize.User.destroy({
+                where: {
+                    id: user.id,
+                },
+            })
+                .then(() =>
+                    res.status(201).json({
+                        message: "L'utilisateur a été correctement supprimé",
+                    })
+                )
+                .catch((error) =>
+                    res.status(400).json({
+                        error: "L'utilisateur n'a pas pu être supprimé",
+                    })
+                );
+        })
+        .catch((error) => console.log(error));
+};

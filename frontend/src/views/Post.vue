@@ -29,7 +29,7 @@
                 </div>
                 <!-- Bouton de suppression du post -->
                 <div class="post-header">
-                    <button v-if="user.UserId == userLoggedId || userAdmin == 1" href="#" @click="postDelete(postId)" class="delete-btn">Supprimer ce post</button>
+                    <button v-if="user.UserId == userLoggedId" href="#" @click="postDelete(postId)" class="delete-btn">Supprimer ce post</button>
                     <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
                 </div>
             </div>
@@ -101,7 +101,7 @@ export default {
                         Authorization: "Bearer " + sessionStorage.getItem("user-token"),
                     },
                     method: "delete",
-                    url: store.api_host + "/post/" + this.$route.params.id,
+                    url: `${store.api_host}/post/${this.$route.params.id}`,
                 })
                     .then((response) => {
                         this.$router.push("/mainboard");
