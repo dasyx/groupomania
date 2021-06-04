@@ -28,10 +28,11 @@ app.use(express.json());
 const db = require("./models");
 
 db.sequelize.sync();
-// // drop the table if it already exists
- //db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync db.");
-//});
+ // drop the table if it already exists
+/*  db.sequelize.sync({ force: true }).then(() => {
+   console.log("Drop and re-sync db.");
+});
+ */
 
 // Ce middleware répondra aux requêtes envoyées à /images
 app.use('/images', express.static(path.join(__dirname, 'images')));

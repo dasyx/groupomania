@@ -1,7 +1,7 @@
 <template>
     <div>
         <Header />
-        <!-- Message d'acces non authorisé -->
+        <!-- Message d'accès non authorisé -->
         <div v-if="allUsers.length < 1" class="unauthorizedMessage">
             <p>Acces non authorisé</p>
         </div>
@@ -17,14 +17,16 @@
                         <p class="users-list_name">{{ users.username }}</p>
                         <!-- Lien récentes publications utilisateurs-->
                         <a href="#/admin" @click="displayUserPosts(users.id)"> <i class="fas fa-sticky-note"></i>Posts </a>
-                        <!-- Lien suppression utilisateur-->
+                        <!-- Lien pour afficher les commentaires utilisateurs-->
+                        <a href="#/admin" @click="displayUserComments(users.id)"> <i class="fas fa-comments"></i>Commentaires </a>
+                        <!-- Lien pour supprimer un utilisateur-->
                         <button href="#/admin" @click="userDelete(users.id)" class="users-list_delete-link">Supprimer l'utilisateur</button>
                     </li>
                     <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
                 </ul>
             </section>
 
-            <!-- Contenu des utilisateur -->
+            <!-- Publications des utilisateurs -->
             <section class="users-content">
                 <!-- Liste des posts -->
                 <div class="users-posts" v-if="posts">
@@ -39,6 +41,22 @@
                                 <img v-if="post.imgFile" :src="post.imgFile" alt="image-illustration" />
                             </p>
                             <button href="#/admin" @click="postDelete(post.id, post.UserId)" class="users-posts_delete-link">Supprimer</button>
+                        </li>
+                        <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
+                    </ul>
+                </div>
+
+                <!-- Partie commentaires -->
+                <div class="users-comments" v-if="comments">
+                    <h2 class="users-comments_title">Derniers commentaires</h2>
+                    <p v-if="comments.length < 1">Aucun commentaire</p>
+                    <ul v-else>
+                        <li v-for="comment in comments" :key="comment.id" class="users-comments_items">
+                            <p class="users-comments_id">Posté le {{ comment.updatedAt.slice(0, 10) }}</p>
+                            <p>Contenu : {{ comment.content }}</p>
+                            <p>
+                                <button href="#/admin" class="users-comments_delete-link" @click="commentDelete(comment.id, comment.UserId)">supprimer</button>
+                            </p>
                         </li>
                         <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
                     </ul>
@@ -65,6 +83,7 @@ export default {
             allUsers: [],
             userContent: [],
             posts: "",
+            comments: "",
         };
     },
     methods: {
@@ -96,6 +115,22 @@ export default {
                 .then((response) => {
                     this.posts = response.data;
                     //this.comments = "";
+                })
+                .catch((error) => console.log(error));
+        },
+        //récupère tous les commentaires d'un utilisateur.
+        displayUserComments(id) {
+            axios({
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + sessionStorage.getItem("user-token"),
+                },
+                method: "GET",
+                url: store.api_host + "/comment/user/" + id,
+            })
+                .then((response) => {
+                    this.comments = response.data;
+                    this.posts = "";
                 })
                 .catch((error) => console.log(error));
         },
@@ -144,10 +179,33 @@ export default {
                     .catch((error) => console.log(error));
             }
         },
+        //Fonction pour supprimer un commentaire
+        async commentDelete(id) {
+            const ok = await this.$refs.confirmDialogue.show({
+                title: "Suppression d'un commentaire",
+                message: "Voulez-vous vraiment supprimer ce commentaire ?  Vous ne pourrez pas revenir en arrière !",
+                okButton: "Supprimer définitivement",
+            });
+            if (ok) {
+                axios({
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + sessionStorage.getItem("user-token"),
+                    },
+                    method: "delete",
+                    url: store.api_host + "/user/admin/" + id,
+                })
+                    .then(() => {
+                        this.$router.go();
+                    })
+                    .catch((error) => console.log(error));
+            }
+        },
     },
     mounted() {
         this.displayAllUsers();
         this.displayUserPosts();
+        this.displayUserComments();
     },
 };
 </script>

@@ -49,3 +49,22 @@ exports.getUserComments = (req, res, next) => {
       error
     }));
 }
+
+/*****  DELETE COMMENTS   
+===============================****/
+exports.deleteComment = (req, res, next) => {
+  sequelize.Comment.destroy({
+      where: {
+        id: req.params.id
+      }
+    })
+    .then(comment => {
+      console.log(comment);
+      res.status(200).json({
+        message: "Commentaire correctement supprimé"
+      });
+    })
+    .catch(error => res.status(400).json({
+      error
+    }));
+}
