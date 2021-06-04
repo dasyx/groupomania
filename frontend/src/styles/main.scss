@@ -121,14 +121,13 @@
 /* Feuille de style de Mainboard.vue / Header.vue
 
 =========================================================*/
-
 .navbar {
   width: 100%;
   display: flex;
   background: $background;
   height: 100px;
-  align-content: space-between;
-  flex-direction: column;
+  align-content: space-around;
+  //flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
   align-items: baseline;
@@ -136,7 +135,13 @@
 .navbar img {
   width: 50%;
 }
-.navbar-brand { 
+.navbar-tabs {
+  flex-direction: column;
+}
+.navbar-end {
+  flex-direction: column;
+}
+.navbar-brand {
   align-items: center;
 }
 .navbar-brand p {

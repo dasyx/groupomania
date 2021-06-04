@@ -1,68 +1,77 @@
 <template>
   <header class="navbar" role="navigation" aria-label="main navigation">
     <!-- affichage du logo -->
-    <div class="navbar-brand">
+    <nav class="navbar-brand">
       <router-link to="/mainboard">
         <img src="../../public/logos/icon-left-font-monochrome-white.svg" alt="groupomania-logo"/>
         <p>Forum - page principale</p>
       </router-link>
-    </div>
+    </nav>
 
     <!-- Affichage des liens du Header si utilisateur admin-->
-    <nav class="navbar-menu" v-if="userAdmin == 1">
-        <div class="navbar-end">
-            <div class="navbar-item">
+    <Sidebar class="navbar-menu" v-if="userAdmin == 1">
+        <ul class="navbar-end">
+            <li class="navbar-item">
                 <a
                  href="#/userprofile/"
                 >Mon profil
                 </a>
-            </div>
-            <div class="navbar-item">
+            </li>
+            <li class="navbar-item">
                 <router-link to="/admin"
                 >Espace administrateur
                 </router-link>
-            </div>
-            <div class="navbar-item">
+            </li>
+            <li class="navbar-item">
                 <router-link to="/delete_user" 
                 v-if="userLogged">Supprimer le compte
                 </router-link>
-            </div>
-            <div class="navbar-item">
+            </li>
+            <li class="navbar-item">
                 <a
                 href="#" @click="logOut()"
                 v-if="userLogged"><i class="fas fa-sign-out-alt"></i>Déconnexion
                 </a>
-            </div>
-        </div>
-    </nav>
+            </li>
+        </ul>
+    </Sidebar>
+    
      <!-- Affichage des liens du Header si utilisateur non admin-->
-    <nav class="navbar-menu" v-if="userAdmin == 0">
-        <div class="navbar-end">
-            <div class="navbar-item">
+    <Sidebar class="navbar-menu" v-if="userAdmin == 0">
+        <ul class="navbar-end">
+            <li class="navbar-item">
                 <a
                  href="#/userprofile/"
                 >Mon profil
                 </a>
-            </div>
-            <div class="navbar-item">
+            </li>
+            <li class="navbar-item">
                 <router-link to="/delete_user" 
                 v-if="userLogged">Supprimer le compte
                 </router-link>
-            </div>
-            <div class="navbar-item">
+            </li>
+            <li class="navbar-item">
                 <a
                 href="#" @click="logOut()"
                 v-if="userLogged"><i class="fas fa-sign-out-alt"></i>Déconnexion
                 </a>
-            </div>
-        </div>
-    </nav>
+            </li>
+        </ul>
+    </Sidebar>
+    <Burger></Burger>
   </header>
 </template>
 
 <script>
+import Burger from "../components/Menu/Burger.vue";
+import Sidebar from "../components/Menu/Sidebar.vue";
+
 export default {
   name: "Header",
+  components : {
+    Burger,
+    Sidebar
+  },
   props: {
     userInfos: {
       type: String

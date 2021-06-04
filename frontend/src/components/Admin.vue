@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header />
+        <Header/>
         <!-- Message d'accès non authorisé -->
         <div v-if="allUsers.length < 1" class="unauthorizedMessage">
             <p>Acces non authorisé</p>
