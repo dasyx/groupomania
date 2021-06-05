@@ -123,14 +123,17 @@
 =========================================================*/
 .navbar {
   width: 100%;
-  display: flex;
   background: $background;
-  height: 100px;
-  align-content: space-around;
-  //flex-direction: column;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  align-items: baseline;
+  height: 120px;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.navbar-menu {
+  @media screen and (max-width: 1023px) {
+    display: flex;
+    padding: 0;
+  }
 }
 .navbar img {
   width: 50%;
@@ -628,4 +631,50 @@
   background-image: url("../assets/icon.svg");
   background-repeat: no-repeat;
   background-position: center;
+}
+
+/*======================================================*/
+
+/* Feuille de style de Sidebar.vue
+
+=========================================================*/
+
+.slide-enter-active,
+.slide-leave-active
+{
+    transition: transform 0.2s ease;
+}
+
+.slide-enter,
+.slide-leave-to {
+    transform: translateX(-100%);
+    transition: all 150ms ease-in 0s
+}
+
+.sidebar-backdrop {
+    background-color: rgba(19, 15, 64, .4);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.sidebar-panel {
+  @media screen and (min-width: 1440px){
+    height: 100vh;
+  }
+    overflow-y: auto;
+    background-color:  #13244b;
+    position: fixed;
+    right: 0;
+    //height: 100vh;
+    z-index: 999;
+    padding: 3rem 20px 2rem 20px;
+    width: 300px;
+}
+.display_lowres {
+  display: flex;
+  justify-content: flex-end;
 }

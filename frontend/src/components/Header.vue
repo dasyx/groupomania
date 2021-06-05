@@ -58,7 +58,7 @@
             </li>
         </ul>
     </Sidebar>
-    <Burger></Burger>
+    <Burger class="display_lowres"></Burger>
   </header>
 </template>
 
