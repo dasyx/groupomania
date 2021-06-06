@@ -6,7 +6,7 @@
                 <!-- Auteur du post -->
                 <div class="post_name">
                     <i class="fas fa-user-circle"></i>
-                    <p id="post_user_id">{{ user.username }}</p>
+                    <p id="post_user_id">{{ user.User.username }}</p>
                 </div>
                 <!-- Contenu du post -->
                 <div class="post_main">
@@ -20,6 +20,12 @@
                     <ul v-if="comments.length">
                         <li v-for="comment in comments" v-bind:key="comment.UserId">
                             <span class="bold"> {{ comment.User.username }}:</span> {{ comment.content }}
+                            <!-- suppression commentaire -->
+                            <button>
+                                <a class="post_delete-link" id="commentIdClicked" href="#" @click="commentDelete(comment.id)">
+                                    <i class="far fa-trash-alt" v-if="comment.UserId == userLoggedId"></i>
+                                </a>
+                            </button>
                         </li>
                     </ul>
                     <p v-else>Pas de commentaires</p>
@@ -37,7 +43,7 @@
         <!-- Retour vers dashboard  -->
         <div>
             <a href="http://localhost:8080/?#/mainboard" class="backlink">
-                <i class="far fa-arrow-alt-circle-left backlink_icon"></i>
+                <i class="far fa-arrow-alt-circle-left backlink_icon">Page précédente</i>
             </a>
         </div>
     </div>
@@ -50,19 +56,18 @@ import NewCommentItem from "../components/NewCommentItem.vue";
 import ConfirmDialogue from "../components/ConfirmDialogue.vue";
 
 export default {
-    name: "Post",
+    name: "OnePost",
+    components: {
+        NewCommentItem,
+        ConfirmDialogue,
+    },
     data() {
         return {
-            user: {},
-            userLoggedId: "",
-            userAdmin: "",
             postId: "",
-            comment: {},
+            user: {},
             comments: {},
-        }
-    },
-    components: { 
-        NewCommentItem, ConfirmDialogue 
+            comment: {},
+        };
     },
     mounted() {
         this.getPostElements();
@@ -83,9 +88,25 @@ export default {
                     console.log(response);
                     this.user = response.data;
                     this.comments = response.data.Comments;
-                    //this.postId = response.data.id;
+                    this.postId = response.data.id;
                 })
                 .catch((error) => console.log(error));
+        },
+        //Fonction pour supprimer le commentaire
+        commentDelete(id) {
+            axios({
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + sessionStorage.getItem("user-token"),
+                },
+                method: "DELETE",
+                url: store.api_host + "/comment/" + id,
+            })
+                .then((response) => {
+                    console.log(response.data);
+                })
+                .catch((error) => console.log(error));
+            this.$router.go();
         },
         //Fonction pour supprimer un post
         async postDelete() {

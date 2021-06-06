@@ -14,7 +14,7 @@ export default {
     },
     postId: {
       type: Number,
-      required: true,
+      required: true
     },
     image: {
       type: String
@@ -38,7 +38,7 @@ export default {
   <!-- Post -->
   <div class="dashboard-Items">
     <!-- Lien vers post selectionné -->
-    <router-link :to="{ name: 'post', params: { id: postId }} " class="underline-disable">
+    <router-link :to="{ name: 'one_post', params: { id: postId }} " class="underline-disable">
       <div class="post post_link">
         <!-- nom de l'utilisateur-->
         <div class="post_name">

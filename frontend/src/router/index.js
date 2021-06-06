@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
-import Post from '../views/Post.vue'
+import OnePost from '../views/OnePost.vue'
 import Mainboard from '../components/Mainboard.vue'
 import UserProfile from '../components/UserProfile.vue'
 import Admin from '../components/Admin.vue'
@@ -49,8 +49,8 @@ const routes = [
   },
   {
     path: '/post/:id',
-    name: 'post',
-    component: Post
+    name: 'one_post',
+    component: OnePost
   },
 ]
 

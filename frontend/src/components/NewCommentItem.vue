@@ -31,7 +31,7 @@ export default {
     postId: {
       type: Number,
       required: true,
-    }
+    },
   }, 
   methods: {
     //Envoi nouveau commantaire
