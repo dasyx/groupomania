@@ -6,7 +6,7 @@
                 <!-- Auteur du post -->
                 <div class="post_name">
                     <i class="fas fa-user-circle"></i>
-                    <p id="post_user_id">{{ user.User.username }}</p>
+                    <p id="post_user_id">{{ user.User }}</p>
                 </div>
                 <!-- Contenu du post -->
                 <div class="post_main">
@@ -63,10 +63,10 @@ export default {
     },
     data() {
         return {
-            postId: "",
             user: {},
             comments: {},
             comment: {},
+            userLoggedId: ""
         };
     },
     mounted() {

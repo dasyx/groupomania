@@ -27,10 +27,9 @@ export default {
       comment: "",
     }
   },
-  props: {
+   props: {
     postId: {
       type: Number,
-      required: true,
     },
   }, 
   methods: {
