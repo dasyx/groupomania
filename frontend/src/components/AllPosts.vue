@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "NewPostItems",
+  name: "AllPosts",
   props: {
      username: {
       type: String,

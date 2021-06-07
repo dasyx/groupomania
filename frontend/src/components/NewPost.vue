@@ -3,7 +3,7 @@
         <button 
             v-on:click="isHidden = false" 
             class="button is-info">
-            Créer un nouveau post
+            Créer une nouvelle publication
         </button>
 
         <!-- Formulaire pour créer un nouveau post -->
@@ -39,44 +39,24 @@
           <p id="alert">{{msgError}}</p>
         </form>
       </transition>
-      <NewPostItems
-          v-for="message in messageContent"
-          v-bind:key="message.id"
-          v-bind:username="message.User.username"
-          v-bind:title="message.title"
-          v-bind:content="message.content"
-          v-bind:image="message.imgFile"
-          v-bind:postId="message.id"
-          v-bind:comments="message.Comments"
-      />  
     </div>
 </template>
 
 <script>
 const axios = require("axios");
-import { mapState } from 'vuex'
 import store from '../modules/store.json'
-import NewPostItems from '@/components/NewPostItems'
 
 export default {
   name: "NewPost",
-  components: {  
-      NewPostItems
-    },
   data() {
     return {
       isHidden: true,
-      userInfos: {},
-      messageContent: [],
-      comments: [],
+      //userInfos: {},
       title: "",
       content: "",
       msgError: "",
       selectedFile: "",
     };
-  },
-  computed: {
-        ...mapState(['dashboardLoading'])
   },
   props: {
     imgFile: {
@@ -162,7 +142,6 @@ export default {
     },
   },
   mounted() {
-    this.dashboardLoading();
     this.userLogged();
   }
 };

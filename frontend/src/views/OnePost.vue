@@ -6,7 +6,7 @@
                 <!-- Auteur du post -->
                 <div class="post_name">
                     <i class="fas fa-user-circle"></i>
-                    <p id="post_user_id">{{ user.User }}</p>
+                    <p id="post_user_id">{{ user.User.username }}</p>
                 </div>
                 <!-- Contenu du post -->
                 <div class="post_main">
@@ -61,8 +61,14 @@ export default {
         NewCommentItem,
         ConfirmDialogue,
     },
+    props: {
+        username: {
+            type: String,
+        }
+    },
     data() {
         return {
+            //username: "",
             user: {},
             comments: {},
             comment: {},
