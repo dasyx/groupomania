@@ -49,28 +49,33 @@ export default {
             userLogged: "",
             messageContent: [],
             comments: [],
-            imgFile: ""
+            imgFile: "",
         };
+    },
+    methods: {
+        //Récupere les données de l'utilisateur connecté
+        async displayUserLogged() {
+            let userLoggedId = sessionStorage.getItem("user");
+            const headers = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + sessionStorage.getItem("user-token"),
+                },
+            };
+            axios
+                .get(store.api_host + "/user/" + userLoggedId, headers)
+                .then((response) => {
+                    this.userLogged = response.data;
+                })
+                .catch((error) => console.log(error));
+        },
     },
     computed: {
         ...mapState(["dashboardLoading"]),
     },
     mounted() {
         this.dashboardLoading();
-        //Récupere les données de l'utilisateur connecté
-        let userLoggedId = sessionStorage.getItem("user");
-        const headers = {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + sessionStorage.getItem("user-token"),
-            },
-        };
-        axios
-            .get(store.api_host + "/user/" + userLoggedId, headers)
-            .then((response) => {
-                this.userLogged = response.data;
-            })
-            .catch((error) => console.log(error));
+        this.displayUserLogged();
     },
 };
 </script>

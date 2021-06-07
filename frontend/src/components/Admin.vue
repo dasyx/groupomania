@@ -193,7 +193,7 @@ export default {
                         Authorization: "Bearer " + sessionStorage.getItem("user-token"),
                     },
                     method: "delete",
-                    url: store.api_host + "/user/admin/" + id,
+                    url: store.api_host + "/comment/admin/" + id,
                 })
                     .then(() => {
                         this.$router.go();

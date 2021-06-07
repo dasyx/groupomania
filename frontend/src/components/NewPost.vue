@@ -51,7 +51,6 @@ export default {
   data() {
     return {
       isHidden: true,
-      //userInfos: {},
       title: "",
       content: "",
       msgError: "",
@@ -127,8 +126,9 @@ export default {
           })
           .then(response => {
             console.log(response)
-            this.dashboardLoading();
+            //this.dashboardLoading();
             if (response.status === 201) {
+              document.location.reload();
               return response;
             } else {
               throw (error = response);

@@ -6,7 +6,7 @@
                 <!-- Auteur du post -->
                 <div class="post_name">
                     <i class="fas fa-user-circle"></i>
-                    <p id="post_user_id">{{ user.User.username }}</p>
+                    <p id="post_user_id">{{ username }}</p>
                 </div>
                 <!-- Contenu du post -->
                 <div class="post_main">
@@ -61,26 +61,23 @@ export default {
         NewCommentItem,
         ConfirmDialogue,
     },
-    props: {
+    /* props: {
         username: {
             type: String,
         }
-    },
+    }, */
     data() {
         return {
-            //username: "",
+            username: "",
             user: {},
             comments: {},
             comment: {},
-            userLoggedId: ""
+            userLoggedId: "",
         };
-    },
-    mounted() {
-        this.getPostElements();
     },
     methods: {
         //Fonction pour afficher un post
-        getPostElements() {
+        async getPostElements() {
             this.userLoggedId = sessionStorage.getItem("user");
             const options = {
                 headers: {
@@ -137,6 +134,9 @@ export default {
                     .catch((error) => console.log(error));
             }
         },
+    },
+    mounted() {
+        this.getPostElements();
     },
 };
 </script>
