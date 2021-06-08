@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="handleSubmit" class="form">
-        <h2 class="title is-2">Inscription</h2>
+        <h1 class="title is-2">Inscription</h1>
         <div class="field">
             <label for="name" class="label">Nom</label>
             <div class="control has-icons-left has-icons-right">
@@ -9,7 +9,7 @@
                 type="text"
                 v-model="userForm.username"
                 v-on:input="usernameValidInput"
-                id="name_signup"
+                id="name"
                 name="name"
                 :class="{ 'is-invalid': submitted && $v.userForm.username.$error }"
                 placeholder="Veuillez saisir votre nom d'utilisateur" 
@@ -35,7 +35,7 @@
                 class="input" 
                 type="password" 
                 v-model="userForm.password"
-                id="password_signup"
+                aria-label="password"
                 name="password"
                 :class="{ 'is-invalid': submitted && $v.userForm.password.$error }"
                 placeholder="Veuillez créer votre mot de passe" 
@@ -59,8 +59,8 @@
                 class="input" 
                 type="password" 
                 v-model="userForm.confirmPassword"
-                id="confirmPassword_signup"
-                name="confirmPassword"
+                aria-label="password"
+                name="password"
                 :class="{ 'is-invalid': submitted && $v.userForm.confirmPassword.$error }"
                 placeholder="Veuillez confirmer votre mot de passe" 
                 value="" 
@@ -214,7 +214,6 @@ import store from '../modules/store.json'
                             username: this.userForm.username,
                             email: this.userForm.email,
                             password: this.userForm.password,
-                            //chkvalid: this.userForm.accept,
                         })
                         .then(response => {
                             if (response.status === 201) {

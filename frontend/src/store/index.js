@@ -24,7 +24,7 @@ export default new Vuex.Store({
         },
         usernameValidInput() {
             const nameRegex = /^[^=*'<>{}0-9]{3,}$/;
-            var name = document.getElementById("name_signup").value;
+            var name = document.getElementById("name").value;
             var nameResult = nameRegex.test(name);
             if (nameResult == true) {
                 document.getElementById("validName").style.visibility = "visible";

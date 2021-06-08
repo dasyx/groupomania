@@ -19,11 +19,12 @@ exports.signup = (req, res, next) => {
                     email: req.body.email,
                 },
             })
-                .then((user) => {
+                .then(user => {
                     if (user) {
-                        return res.status(401).json({
-                            error: "Utilisateur déjà créé ou adresse email déjà utilisée !",
-                        });
+                        res.writeHead(401,'"Nom déjà connu ou adresse email déjà utilisée"', {
+                            'content-type': 'application/json'
+                          });
+                          res.end('Erreur');
                     }
                     //hashage du mot de passe
                     let hash = bcrypt.hashSync(req.body.password, 10);
