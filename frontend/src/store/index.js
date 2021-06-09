@@ -8,7 +8,7 @@ export default new Vuex.Store({
         societyName: "Groupomania",
         emailValidInput() {
             const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
-            var email = document.getElementById("email").value;
+            var email = document.getElementById('email').value;
             var emailResult = mailRegex.test(email);
             if (emailResult == true) {
                 document.getElementById("validMail").style.visibility = "visible";

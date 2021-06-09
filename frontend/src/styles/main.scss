@@ -70,7 +70,7 @@
 }
 .form {
   margin: 0 auto;
-  background: $background;
+  background: $background_low_contrast;
   border-radius: 20px;
   box-shadow: 5px 6px 5px;
   padding: 2rem;
@@ -89,10 +89,10 @@
   }
 }
 .title, .label, .checkbox, .radio {
-  color: #ffffff;
+  color: #fff;
 }
 .placeholder {
-  color:#000000;
+  color:#000;
 }
 .label {
   margin-top: 50px;

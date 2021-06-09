@@ -184,7 +184,13 @@ export default {
             const ok = await this.$refs.confirmDialogue.show({
                 title: "Suppression d'un commentaire",
                 message: "Voulez-vous vraiment supprimer ce commentaire ?  Vous ne pourrez pas revenir en arrière !",
-                okButton: "Supprimer définitivement",
+                _okButton: "Supprimer définitivement",
+                get okButton() {
+                  return this._okButton;
+                },
+                set okButton(value) {
+                  this._okButton=value;
+                },
             });
             if (ok) {
                 axios({

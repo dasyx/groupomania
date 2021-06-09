@@ -16,17 +16,21 @@ exports.signup = (req, res, next) => {
         .then(() => {
             sequelize.User.findOne({
                 where: {
+                    username: req.body.username,
                     email: req.body.email,
                 },
             })
                 .then(user => {
                     if (user) {
-                        res.writeHead(401,'"Nom déjà connu ou adresse email déjà utilisée"', {
-                            'content-type': 'application/json'
-                          });
-                          res.end('Erreur');
+                        // Message d'erreur affiché dans la console
+                        res.writeHead(401, '"Nom déjà connu ou adresse email déjà utilisée"', 
+                        {
+                            "content-type": "application/json",
+                        })
+                        return res.end();
                     }
-                    //hashage du mot de passe
+                    // Si l'adresse email n'est pas déjà utilisée,
+                    // L'algorythme de bcrypt va hasher  le mot de passe
                     let hash = bcrypt.hashSync(req.body.password, 10);
 
                     //déclaration des données
@@ -45,7 +49,7 @@ exports.signup = (req, res, next) => {
                             admin: admin,
                         }).then(() =>
                             res.status(201).json({
-                                message: "Utilisateur bien crée",
+                                message: "Utilisateur correctement crée",
                             })
                         );
                         //.catch(error => console.log("erreur"));
@@ -81,11 +85,13 @@ exports.login = (req, res, next) => {
             //Si l'utilisateur est trouvé, comparaison des passwords
             bcrypt
                 .compare(req.body.password, user.password)
-                .then((valid) => {
-                    if (!valid) {
-                        return res.status(401).json({
-                            error: "Mot de passe non valide",
-                        });
+                .then(ok => {
+                    if (!ok) {
+                        res.writeHead(401, '"Désolé, mot de passe invalide !"', 
+                        {
+                            "content-type": "application/json",
+                        })
+                        return res.end();
                     }
                     //Password ok, envoi du token d'authentification
                     res.status(200).json({

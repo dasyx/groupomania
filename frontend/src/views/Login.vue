@@ -1,17 +1,16 @@
 <template>
     <form @submit.prevent="logValid" class="form">
-        <h2 class="title is-2">Connexion</h2>
-        <div class="field_login">
+        <h1 class="title is-2">Connexion</h1>
+        <div class="field">
             <label for="email" class="label">Adresse électronique</label>
             <div class="control has-icons-left has-icons-right">
                 <input 
-                class="input" 
+                class="input"
                 type="email" 
                 v-model="userForm.email"
                 v-on:input="emailValidInput"
                 id="email"                
                 name="email"
-                :class="{ 'is-invalid': submitted && $v.userForm.email.$error }"
                 placeholder="Veuillez saisir votre adresse email" 
                 value="" 
                 />
@@ -23,9 +22,9 @@
                     <i class="fas fa-times" id="wrongMail"></i>
                 </span>
             </div>
-            <div v-if="submitted && $v.userForm.email.$error" class="mail_Warning">
-                <span v-if="!$v.userForm.email.required"><i class="fas fa-exclamation-triangle">Le champ email est requis</i></span>
-                <span v-if="!$v.userForm.email.email"><i class="fas fa-exclamation-triangle">Veuillez renseigner une adresse email valide !</i></span>
+            <div v-if="submitted && $v.userForm.email.$error">
+                <span v-if="!$v.userForm.email.required"><i class="fas fa-exclamation-triangle bg">Le champ email est requis</i></span>
+                <span v-if="!$v.userForm.email.email"><i class="fas fa-exclamation-triangle bg">Veuillez renseigner une adresse email valide !</i></span>
             </div>
         </div>
         <div class="field">
@@ -35,10 +34,9 @@
                 class="input" 
                 type="password"
                 v-model="userForm.password"
-                id="password_signup" 
+                id="password"
                 name="password"
-                :class="{ 'is-invalid': submitted && $v.userForm.password.$error }"
-                placeholder="Veuillez créer votre mot de passe" 
+                placeholder="Veuillez saisir votre mot de passe" 
                 value="" 
                 />
                 <span class="icon is-small is-left">
@@ -48,8 +46,8 @@
                 </span>
             </div>
             <div v-if="submitted && $v.userForm.password.$error" class="create_Password">
-                <span v-if="!$v.userForm.password.required"><i class="fas fa-exclamation-triangle">La saisie du mot de passe est obligatoire</i></span>
-                <span v-if="!$v.userForm.confirmPassword.password"><i class="fas fa-exclamation-triangle">Mot de passe invalide !</i></span>
+                <span v-if="!$v.userForm.password.required"><i class="fas fa-exclamation-triangle bg">La saisie du mot de passe est obligatoire</i></span>
+                <span v-if="!$v.userForm.password.password"><i class="fas fa-exclamation-triangle bg">Mot de passe invalide !</i></span>
             </div>
         </div>
         <div class="field flex is-centered">
@@ -107,11 +105,6 @@ export default {
                 return /^[^=*<>{}]{8,}$/.test(value)
                 }
             },
-            /*accept: {
-                required (val) {
-                return val
-                }
-            }*/
         }
     },
     computed: {
@@ -120,9 +113,9 @@ export default {
     methods: {
         logValid() {
                 this.submitted = true;
-
+                this.$v.$touch();
                 if (this.$v.$invalid) {
-                   console.log("Une erreur est survenue, veuillez recommencer la saisie du formulaire")
+                   console.log("Adresse email non reconnue ou mot de passe non valide, veuillez recommencer la saisie !")
                 }
                 else {
                     //console.log("formulaire valide");
@@ -130,7 +123,6 @@ export default {
                         .post(store.api_host + '/user/login/', {
                             email: this.userForm.email,
                             password: this.userForm.password,
-                            //chkvalid: this.userForm.accept,
                         })
                         .then(response => {
                             if (response.status === 200) {
