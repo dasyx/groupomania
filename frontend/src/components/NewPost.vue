@@ -2,7 +2,7 @@
     <div class="container">
         <button 
             v-on:click="isHidden = false" 
-            class="button is-info">
+            class="button is-link">
             Créer une nouvelle publication
         </button>
 
