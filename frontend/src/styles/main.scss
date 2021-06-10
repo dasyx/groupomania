@@ -147,7 +147,7 @@
 .navbar-brand {
   align-items: center;
 }
-.navbar-brand p {
+.navbar-brand h1 {
   color: #ffffff;
 }
 .navbar-item a {
@@ -439,10 +439,11 @@
 =========================================================*/
 
 .delete-btn {
-  margin-top: 10px;
+  margin-top: 20px;
+  margin-bottom: 10px;
   padding: 0.5em 1em;
-  background-color: background-color;
-  color: $second-color;
+  background-color: $main-color;
+  color: $background-color;
   border: 1px solid $second-color;
   border-radius: 5px;
   box-shadow: 2px 1px;
@@ -450,6 +451,9 @@
   font-size: 16px;
   text-transform: uppercase;
   cursor: pointer;
+}
+#delete_alert {
+  color: #ff0000;
 }
 
 /*======================================================*/

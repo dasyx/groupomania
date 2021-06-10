@@ -4,7 +4,7 @@
     <nav class="navbar-brand">
       <router-link to="/mainboard">
         <img src="../../public/logos/icon-left-font-monochrome-white.svg" alt="groupomania-logo"/>
-        <p>Forum - page principale</p>
+        <h1>Forum - page principale</h1>
       </router-link>
     </nav>
 
