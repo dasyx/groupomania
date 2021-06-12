@@ -19,14 +19,12 @@
                 <div class="post_comments">
                     <ul v-if="comments.length">
                         <li v-for="comment in comments" v-bind:key="comment.UserId">
-                            <span class="bold"> {{ comment.User.username }}:</span> {{ comment.content }}
                             <!-- suppression commentaire -->
-                            <button>
-                                <a class="post_delete-link" id="commentIdClicked" href="#" @click="commentDelete(comment.id)">
-                                    <i class="far fa-trash-alt" v-if="comment.UserId == userLoggedId"></i>
-                                </a>
-                            </button>
+                            <span class="bold"> {{ comment.User.username }}:</span> {{ comment.content }}
+                            <a v-if="comment.UserId == userLoggedId" class="post_delete-link user_post" href="#" @click="commentDelete(comment.id)"></a>
                         </li>
+                        <p id="error_msg"></p>
+                        <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
                     </ul>
                     <p v-else>Pas de commentaires</p>
 
@@ -42,7 +40,7 @@
         </div>
         <!-- Retour vers dashboard  -->
         <div>
-            <a href="http://localhost:8080/?#/mainboard" class="backlink">
+            <a href="http://localhost:8080/groupomania/#/mainboard" class="backlink">
                 <i class="far fa-arrow-alt-circle-left backlink_icon">Page précédente</i>
             </a>
         </div>
@@ -96,20 +94,33 @@ export default {
                 .catch((error) => console.log(error));
         },
         //Fonction pour supprimer le commentaire
-        commentDelete(id) {
-            axios({
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + sessionStorage.getItem("user-token"),
-                },
-                method: "DELETE",
-                url: store.api_host + "/comment/" + id,
-            })
-                .then((response) => {
-                    console.log(response.data);
+        async commentDelete(id) {
+            /* if (this.comment.UserId !== this.userLoggedId) {
+                document.getElementById("error_msg").innerHTML =
+                    "La suppression de ce commentaire n'est permise qu'à son auteur ! Veuillez contacter un administrateur pour signaler un contenu inapproprié";
+                console.log("accès refusé");
+                //this.$router.push("/mainboard");
+            } */
+            const ok = await this.$refs.confirmDialogue.show({
+                title: "Suppression du post",
+                message: "Voulez-vous vraiment supprimer cette publication ?  Vous ne pourrez pas revenir en arrière !",
+                okButton: "Supprimer définitivement",
+            });
+            if (ok) {
+                axios({
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + sessionStorage.getItem("user-token"),
+                    },
+                    method: "delete",
+                    url: store.api_host + "/comment/" + id,
                 })
-                .catch((error) => console.log(error));
-            this.$router.go();
+                    .then((response) => {
+                        this.$router.push("/mainboard");
+                        console.log(response.data);
+                    })
+                    .catch((error) => console.log(error));
+            }
         },
         //Fonction pour supprimer un post
         async postDelete() {

@@ -452,8 +452,12 @@
   text-transform: uppercase;
   cursor: pointer;
 }
-#delete_alert {
+#delete_alert, #error_msg {
   color: #ff0000;
+}
+.user_post {
+  padding-left: 5px;
+  color: #000;
 }
 
 /*======================================================*/

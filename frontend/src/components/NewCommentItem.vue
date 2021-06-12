@@ -7,7 +7,7 @@
         <label for="newcomment">Ecrire un commentaire</label>
       </div>
       <div class="newComment_part">
-        <input type="text" id="newcomment" v-model="comment" class="newComment_input" />
+        <input type="text" id="newcomment" v-model="comment" class="newComment_input" placeholder="Cliquez sur votre commentaire pour le supprimer" />
         <button v-on:click="sendNewComment" class="newComment_button">Envoyer</button>
       </div>
     </form>

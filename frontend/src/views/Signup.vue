@@ -36,6 +36,7 @@
                 v-model="userForm.password"
                 aria-label="password"
                 name="password"
+                :class="{ 'is-invalid': submitted && $v.userForm.username.$error }"
                 placeholder="Veuillez créer votre mot de passe" 
                 value="" 
                 />
@@ -59,6 +60,7 @@
                 v-model="userForm.confirmPassword"
                 aria-label="password"
                 name="password"
+                :class="{ 'is-invalid': submitted && $v.userForm.password.$error }"
                 placeholder="Veuillez confirmer votre mot de passe" 
                 value="" 
                 />
@@ -83,6 +85,7 @@
                 v-on:input="emailValidInput"
                 id="email"
                 name="email"
+                :class="{ 'is-invalid': submitted && $v.userForm.confirmPassword.$error }"
                 placeholder="Veuillez saisir votre adresse email" 
                 value="" 
                 />
@@ -200,7 +203,7 @@ import store from '../modules/store.json'
             handleSubmit() {
                 this.submitted = true;
                 this.$v.$touch();
-                if (this.$v) {
+                if (this.$v.$invalid) {
                    console.log("Une erreur est survenue, veuillez recommencer la saisie du formulaire")
                 }
                 else {
