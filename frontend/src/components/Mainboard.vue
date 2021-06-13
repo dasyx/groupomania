@@ -35,7 +35,6 @@ import { mapState } from "vuex";
 import Header from "@/components/Header.vue";
 import NewPost from "@/components/NewPost.vue";
 import AllPosts from "@/components/AllPosts";
-
 export default {
     name: "Mainboard",
     title: "Groupomania - Espace Utilisateur",

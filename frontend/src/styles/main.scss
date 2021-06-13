@@ -341,6 +341,10 @@
   }
 }
 
+.backlink_icon:before {
+  padding-right: 10px; 
+}
+
 ///item new
 .new-post {
   padding: 8px;
@@ -455,9 +459,18 @@
 #delete_alert, #error_msg {
   color: #ff0000;
 }
-.user_post {
-  padding-left: 5px;
+.post_comments-display {
+  padding-right: 5px;
+}
+.post_delete-btn {
+  padding-left: 10px;
   color: #000;
+}
+.active a > i {
+  visibility: visible;
+}
+.display_hover {
+  visibility: hidden;
 }
 
 /*======================================================*/

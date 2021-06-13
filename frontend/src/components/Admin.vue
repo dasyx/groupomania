@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header/>
+        <Header />
         <!-- Message d'accès non authorisé -->
         <div v-if="allUsers.length < 1" class="unauthorizedMessage">
             <p>Acces non authorisé</p>
@@ -135,14 +135,9 @@ export default {
                 .catch((error) => console.log(error));
         },
 
-        //Fonction pour supprimer un post
-        async userDelete(id) {
-            const ok = await this.$refs.confirmDialogue.show({
-                title: "Suppression d'un utilisateur",
-                message: "Voulez-vous vraiment supprimer cet utilisateur ?  Vous ne pourrez pas revenir en arrière !",
-                okButton: "Supprimer définitivement",
-            });
-            if (ok) {
+        //Fonction pour supprimer un utilisateur
+        userDelete(id) {
+            if (confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
                 axios({
                     headers: {
                         "Content-Type": "application/json",
@@ -186,10 +181,10 @@ export default {
                 message: "Voulez-vous vraiment supprimer ce commentaire ?  Vous ne pourrez pas revenir en arrière !",
                 _okButton: "Supprimer définitivement",
                 get okButton() {
-                  return this._okButton;
+                    return this._okButton;
                 },
                 set okButton(value) {
-                  this._okButton=value;
+                    this._okButton = value;
                 },
             });
             if (ok) {

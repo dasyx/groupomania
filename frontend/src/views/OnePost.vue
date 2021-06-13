@@ -18,10 +18,18 @@
                 <!-- Commentaires -->
                 <div class="post_comments">
                     <ul v-if="comments.length">
-                        <li v-for="comment in comments" v-bind:key="comment.UserId">
+                        <!-- La fonction mouseover fera apparaître/disparaître la suppression du commentaire au survol -->
+                        <li
+                        @mouseover="hover = true"
+                        @mouseleave="hover = false"
+                        :class="{ active: hover }"
+                        v-for="comment in comments" v-bind:key="comment.UserId">
                             <!-- suppression commentaire -->
-                            <span class="bold"> {{ comment.User.username }}:</span> {{ comment.content }}
-                            <a v-if="comment.UserId == userLoggedId" class="post_delete-link user_post" href="#" @click="commentDelete(comment.id)"></a>
+                            <span 
+                            class="post_comments-display"> {{ comment.User.username }}:</span> {{ comment.content }}
+                            <a v-if="comment.UserId == userLoggedId" class="post_delete-btn" href="#" @click="commentDelete(comment.id)">
+                                <i class="far fa-minus-square display_hover"></i>
+                            </a>
                         </li>
                         <p id="error_msg"></p>
                         <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
@@ -71,6 +79,7 @@ export default {
             comments: {},
             comment: {},
             userLoggedId: "",
+            hover: false,
         };
     },
     methods: {
