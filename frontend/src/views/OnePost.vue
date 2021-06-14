@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <!-- Retour vers dashboard  -->
+        <!-- Retour vers mainboard  -->
         <div>
             <a href="http://localhost:8080/groupomania/#/mainboard" class="backlink">
                 <i class="far fa-arrow-alt-circle-left backlink_icon">Page précédente</i>

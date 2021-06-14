@@ -10,15 +10,15 @@
         <div class="adminPage" v-if="allUsers.length > 1">
             <section class="users-list">
                 <!-- Utilisateurs -->
-                <h1 class="users-list_heading">Liste des utilisateurs</h1>
+                <h2 class="users-list_heading">Liste des utilisateurs</h2>
                 <ul>
                     <!-- liste des utilisateurs-->
                     <li v-for="users in allUsers" :key="users.id" class="users-list_items">
                         <p class="users-list_name">{{ users.username }}</p>
                         <!-- Lien récentes publications utilisateurs-->
-                        <a href="#/admin" @click="displayUserPosts(users.id)"> <i class="fas fa-sticky-note"></i>Publications </a>
+                        <a href="#/admin" @click="displayUserPosts(users.id)"> <i class="fas fa-file-alt"></i>Publications </a>
                         <!-- Lien pour afficher les commentaires utilisateurs-->
-                        <a href="#/admin" @click="displayUserComments(users.id)"> <i class="fas fa-comments"></i>Commentaires </a>
+                        <a href="#/admin" @click="displayUserComments(users.id)"> <i class="fas fa-comment-alt"></i>Commentaires </a>
                         <!-- Lien pour supprimer un utilisateur-->
                         <button href="#/admin" @click="userDelete(users.id)" class="users-list_delete-link">Supprimer l'utilisateur</button>
                     </li>
@@ -62,6 +62,12 @@
                     </ul>
                 </div>
             </section>
+        </div>
+        <!-- Retour vers dashboard  -->
+        <div>
+            <a href="http://localhost:8080/groupomania/#/mainboard" class="backlink">
+                <i class="far fa-arrow-alt-circle-left backlink_icon">Page précédente</i>
+            </a>
         </div>
     </div>
 </template>

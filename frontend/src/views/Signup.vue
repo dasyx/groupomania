@@ -123,7 +123,9 @@
                 <button class="button is-link">Soumettre</button>
             </div>
             <div class="control">
-                <button class="button is-link is-light">Annuler</button>
+                <button class="button is-link is-light">
+                    <a href="http://localhost:8080/groupomania/" class="backlink"> Annuler</a>
+                </button>
             </div>
         </div>
         <div class="already-signed">

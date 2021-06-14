@@ -33,12 +33,13 @@
     font-size: 30px;
   }
   .button-block {
+    display: flex;
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    position: absolute;
-    bottom: -150px;
+    //margin-left: auto;
+    //margin-right: auto;
+    //width: 100%;
+    //position: absolute;
+    //bottom: -150px;
     .button {
       padding-left: 50px;
       padding-right: 50px;
@@ -581,7 +582,8 @@
   &_items {
     display: flex;
     flex-direction: column;
-    border-bottom: solid lighten($primary-color, 40%) 1px;
+    border: solid lighten($primary-color, 40%) 1px;
+    margin-bottom: 20px;
     a,
     p,
     i {
@@ -602,7 +604,6 @@
   }
 
   &_delete-link {
-    margin-bottom: 30px;
     &:hover {
       color: $important-color;
     }
