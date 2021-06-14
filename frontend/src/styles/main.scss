@@ -340,7 +340,13 @@
     }
   }
 }
-
+// Page précédente
+.backlink_icon {
+  padding: 10px;
+  border-radius: 5px;
+  color: $background-color;
+  background-color: $second-color;
+}
 .backlink_icon:before {
   padding-right: 10px; 
 }
@@ -462,15 +468,19 @@
 .post_comments-display {
   padding-right: 5px;
 }
+.post_comments li {
+  align-items: center;
+}
 .post_delete-btn {
   padding-left: 10px;
   color: #000;
 }
+// Gestion bouton de suppression de post 
 .active a > i {
-  visibility: visible;
+  display: flex;
 }
 .display_hover {
-  visibility: hidden;
+  display: none;
 }
 
 /*======================================================*/
@@ -550,25 +560,32 @@
   &_heading {
     color: $main-color;
     font-size: 16px;
-    border-bottom: solid lighten($primary-color, 40%) 1px;
+    border-bottom: solid darken($primary-color, 20%) 1px;
+    margin-bottom: 30px;
     @media screen and (max-width: 525px) {
       text-align: center;
       border-bottom: none;
     }
   }
   &_name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    background-color: lighten($primary-color, 20%);
+    border-radius: 5px;
     border-bottom: solid lighten($primary-color, 40%) 1px;
-    padding-top: 16px;
     font-weight: 500;
   }
 
   &_items {
     display: flex;
     flex-direction: column;
+    border-bottom: solid lighten($primary-color, 40%) 1px;
     a,
     p,
     i {
-      color: $main-color;
+      color: darken($main-color, 20%);
       font-size: 14px;
       padding-right: 16px;
       text-decoration: none;
@@ -585,6 +602,7 @@
   }
 
   &_delete-link {
+    margin-bottom: 30px;
     &:hover {
       color: $important-color;
     }

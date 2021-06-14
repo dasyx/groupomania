@@ -16,7 +16,7 @@
                     <li v-for="users in allUsers" :key="users.id" class="users-list_items">
                         <p class="users-list_name">{{ users.username }}</p>
                         <!-- Lien récentes publications utilisateurs-->
-                        <a href="#/admin" @click="displayUserPosts(users.id)"> <i class="fas fa-sticky-note"></i>Posts </a>
+                        <a href="#/admin" @click="displayUserPosts(users.id)"> <i class="fas fa-sticky-note"></i>Publications </a>
                         <!-- Lien pour afficher les commentaires utilisateurs-->
                         <a href="#/admin" @click="displayUserComments(users.id)"> <i class="fas fa-comments"></i>Commentaires </a>
                         <!-- Lien pour supprimer un utilisateur-->
@@ -81,7 +81,7 @@ export default {
     data() {
         return {
             allUsers: [],
-            userContent: [],
+            userComment: [],
             posts: "",
             comments: "",
         };

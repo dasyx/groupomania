@@ -26,7 +26,7 @@
                         v-for="comment in comments" v-bind:key="comment.UserId">
                             <!-- suppression commentaire -->
                             <span 
-                            class="post_comments-display"> {{ comment.User.username }}:</span> {{ comment.content }}
+                            class="post_comments-display"> {{ comment.User.username }}&ensp;:</span> {{ comment.content }}
                             <a v-if="comment.UserId == userLoggedId" class="post_delete-btn" href="#" @click="commentDelete(comment.id)">
                                 <i class="far fa-minus-square display_hover"></i>
                             </a>
