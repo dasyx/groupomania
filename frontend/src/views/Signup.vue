@@ -123,8 +123,8 @@
                 <button class="button is-link">Soumettre</button>
             </div>
             <div class="control">
-                <button class="button is-link is-light">
-                    <a href="http://localhost:8080/groupomania/" class="backlink"> Annuler</a>
+                <button class="button high_contrast">
+                    <a href="http://localhost:8080/groupomania/"> Annuler</a>
                 </button>
             </div>
         </div>

@@ -2,25 +2,10 @@ const sequelize = require("../models/index.js");
 
 const fs = require("fs");
 
-let textRegex = /^[^=*<>{}]+$/;
 
 /*****  CREATE NEW POST    
 ========================****/
 exports.newPost = (req, res, next) => {
-    //console.log(req.body.imgFile)
-    //vérifications des données
-    /*try {
-      if (req.body.content === "" || req.body.content == null) throw "Veuillez renseigner un contenu";
-      if (req.body.title === "" || req.body.content == null) throw "Veuillez renseigner un titre";
-      if (req.body.title.length < 3) throw "Titre de 3 caractères minimum";
-      if (req.body.content.length < 3) throw "Contenu de 3 caractères minimum";
-      if (!textRegex.test(req.body.content)) throw "Caractères spéciaux utilisés interdits  * < > { }";
-      if (!textRegex.test(req.body.title)) throw "Caractères spéciaux utilisés interdits  * < > { }"
-    } catch (error) {
-      return res.status(400).json({
-        error: error
-      });
-    }*/
 
     //test si image, si pas d'image, imageUrl null
     let imgUrl = null;

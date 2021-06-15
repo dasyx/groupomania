@@ -1,9 +1,8 @@
 $background: linear-gradient(#111112, #13161f, #151b2c, #13244b, #081635, #263f76, #28437d);
-$background_low_contrast: linear-gradient(to bottom, #7b7fb0, #8f91bc, #9697c0, #acadc3, #b0b2c3);
-
+$background_low_contrast: linear-gradient(to bottom, rgb(63, 116, 196), rgb(71, 119, 195), rgb(79, 123, 193), rgb(86, 126, 192), rgb(94, 130, 190), rgb(102, 133, 189), rgb(110, 139, 189), rgb(118, 144, 190), rgb(126, 150, 190), rgb(133, 155, 190), rgb(141, 161, 191), rgb(149, 166, 191));
 $primary-color: #747474;
 $main-color: #264672;
 $background-color: #ebebeb;
 $important-color: #ff4a4a;
 $second-color: #407ac9;
-$font-family: "Jost", sans-serif;
+$font-family: "Jost", sans-serif; 
