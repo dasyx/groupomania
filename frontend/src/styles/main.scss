@@ -31,15 +31,20 @@
   .subtitle {
     text-shadow: 4px 4px 4px #000000b3;
     font-size: 30px;
+    margin-bottom: 20px;
+  }
+  .home_display {
+    @media screen and (min-width: 320px) and (max-width: 768px){
+      flex-direction: column;
+      align-items: center;
+      :last-child {
+        margin-bottom: 5px;
+      }
+    }
   }
   .button-block {
     display: flex;
     text-align: center;
-    //margin-left: auto;
-    //margin-right: auto;
-    //width: 100%;
-    //position: absolute;
-    //bottom: -150px;
     .button {
       padding-left: 50px;
       padding-right: 50px;

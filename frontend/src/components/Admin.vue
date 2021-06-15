@@ -75,7 +75,7 @@
 <script>
 const axios = require("axios");
 import store from "../modules/store.json";
-import ConfirmDialogue from "../components/ConfirmDialogue.vue";
+import ConfirmDialogue from "./Modal_Button/ConfirmDialogue.vue";
 import Header from "../components/Header.vue";
 
 export default {

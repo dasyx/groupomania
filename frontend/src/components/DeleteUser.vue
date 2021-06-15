@@ -23,7 +23,7 @@
 
 <script>
 import store from "../modules/store.json";
-import ConfirmDialogue from "../components/ConfirmDialogue.vue";
+import ConfirmDialogue from "./Modal_Button/ConfirmDialogue.vue";
 import Header from "./Header.vue";
 const axios = require("axios");
 

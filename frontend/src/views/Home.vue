@@ -10,7 +10,7 @@
                     <h2 class="subtitle">
                         Entre nous, c'est entre vous...
                     </h2>
-                    <div class="flex is-centered">
+                    <div class="flex is-centered home_display">
                         <div class="button-block">
                             <button v-on:click="goToSignup()" class="button is-xl is-dark" >
                                 Inscrivez-vous

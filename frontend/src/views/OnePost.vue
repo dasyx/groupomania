@@ -59,7 +59,7 @@
 const axios = require("axios");
 import store from "../modules/store.json";
 import NewCommentItem from "../components/NewCommentItem.vue";
-import ConfirmDialogue from "../components/ConfirmDialogue.vue";
+import ConfirmDialogue from "../components/Modal_Button/ConfirmDialogue.vue";
 
 export default {
     name: "OnePost",

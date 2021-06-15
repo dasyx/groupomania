@@ -34,11 +34,27 @@ try {
 
 
   // Relations entre les différentes tables
-  db.Post.belongsTo(db.User);
-  db.Post.hasMany(db.Comment);
-  db.User.hasMany(db.Post);
-  db.User.hasMany(db.Comment);
-  db.Comment.belongsTo(db.Post);
-  db.Comment.belongsTo(db.User);
+  db.Post.belongsTo(db.User, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  });
+  db.Post.hasMany(db.Comment, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  });
+  db.User.hasMany(db.Post, {
+    onDelete: 'CASCADE',
+  });
+  db.User.hasMany(db.Comment, {
+    onDelete: 'CASCADE',
+  });
+  db.Comment.belongsTo(db.Post, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  });
+  db.Comment.belongsTo(db.User,{
+    onDelete: 'CASCADE',
+    hooks: true,
+  });
   
   module.exports = db;
