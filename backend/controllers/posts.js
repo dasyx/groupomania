@@ -2,24 +2,21 @@ const sequelize = require("../models/index.js");
 
 const fs = require("fs");
 
-
 /*****  CREATE NEW POST    
 ========================****/
 exports.newPost = (req, res, next) => {
-
-    //test si image, si pas d'image, imageUrl null
+    // Vérification si il y a une image , sinon -> null
     let imgUrl = null;
     if (req.file) {
         imgUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
     }
-    // creation d 'un nouveau post
+    // Création d'une nouvelle publication
     sequelize.Post.create({
         UserId: req.body.UserId,
         title: req.body.title,
         content: req.body.content,
         imgFile: imgUrl,
     })
-        // creation d 'un nouveau post
         .then((response) =>
             res.status(201).json({
                 message: "Le Post a correctement été crée",
@@ -35,23 +32,20 @@ exports.newPost = (req, res, next) => {
 /*****  GET ALL POSTS    
 ===========================****/
 exports.getAllPosts = (req, res, next) => {
-    //récupération de tous les posts présents dans la bdd
+    // Récupération de toutes les publication dans la database
     sequelize.Post.findAll({
-        //attributes: ['id', 'content', 'title'],
         include: [
             {
                 model: sequelize.User,
-                attributes: ["username", "admin"]
+                attributes: ["username", "admin"],
             },
             {
                 model: sequelize.Comment,
             },
         ],
-        order: [
-            ['createdAt', 'DESC']
-        ]
+        order: [["createdAt", "DESC"]],
     })
-        .then(posts => {
+        .then((posts) => {
             console.log(posts);
             res.status(200).json(posts);
         })
@@ -82,9 +76,9 @@ exports.getPost = (req, res, next) => {
                 include: [
                     {
                         model: sequelize.User,
-                        attributes: ["username", "id"]
+                        attributes: ["username", "id"],
                     },
-                ]
+                ],
             },
         ],
     })
@@ -148,18 +142,18 @@ exports.getUserPosts = (req, res, next) => {
     //récupération de tous les posts présents dans la bdd
     sequelize.Post.findAll({
         where: {
-          UserId: req.params.id
+            UserId: req.params.id,
         },
-        order: [
-          ['createdAt', 'DESC']
-        ],
-        limit: 10
-      })
-      .then(posts => {
-        console.log(posts);
-        res.status(200).json(posts);
-      })
-      .catch(error => res.status(400).json({
-        error
-      }));
-  }
+        order: [["createdAt", "DESC"]],
+        limit: 10,
+    })
+        .then((posts) => {
+            console.log(posts);
+            res.status(200).json(posts);
+        })
+        .catch((error) =>
+            res.status(400).json({
+                error,
+            })
+        );
+};

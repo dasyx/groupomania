@@ -33,13 +33,13 @@ exports.signup = (req, res, next) => {
                     // L'algorythme de bcrypt va hasher  le mot de passe
                     let hash = bcrypt.hashSync(req.body.password, 10);
 
-                    //déclaration des données
+                    // Décalaration des données attendues
                     let username = req.body.username;
                     let email = req.body.email;
                     let mdpHash = hash;
                     let admin = 0;
 
-                    //création de l'utilisateur
+                    // Création de l'utilisateur
                     if (req.body.username !== "" || req.body.email !== "") {
                         console.log("Base de données connectée !");
                         sequelize.User.create({
