@@ -199,6 +199,9 @@
 #delete_alert {
   color: white;
 }
+.backlink_display {
+  margin-top: 100px;
+}
 
 /*======================================================*/
 
@@ -216,6 +219,7 @@
   background-color: white;
 
   &_name{
+    margin-bottom: 20px;
     font-size: 12px;
     display: flex;
     align-items: center;
@@ -254,7 +258,7 @@
     display: block;
     padding: 8px;
     @media screen and (max-width: 768px) {
-      max-width: 280px;
+      max-width: 260px;
     }
   }
 

@@ -18,6 +18,11 @@
             <p id="delete_alert">{{ msgError }}</p>
             <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
         </form>
+        <div>
+            <a href="http://localhost:8080/groupomania/#/mainboard" class="backlink">
+                <i class="far fa-arrow-alt-circle-left backlink_icon backlink_display">Page précédente</i>
+            </a>
+        </div>
     </div>
 </template>
 

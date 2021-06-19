@@ -6,7 +6,6 @@
                 <!-- Auteur du post -->
                 <div class="post_name">
                     <i class="fas fa-user-circle"></i>
-                    <p id="post_user_id">{{ username }}</p>
                 </div>
                 <!-- Contenu du post -->
                 <div class="post_main">
@@ -26,7 +25,7 @@
                         v-for="comment in comments" v-bind:key="comment.UserId">
                             <!-- suppression commentaire -->
                             <span 
-                            class="post_comments-display"> {{ comment.User.username }}&ensp;:</span> {{ comment.content }}
+                            class="post_comments-display"> {{ comment.User.username }}&ensp;</span> :&ensp;{{ comment.content }}
                             <a v-if="comment.UserId == userLoggedId" class="post_delete-btn" href="#" @click="commentDelete(comment.id)">
                                 <i class="far fa-minus-square display_hover"></i>
                             </a>
@@ -67,14 +66,15 @@ export default {
         NewCommentItem,
         ConfirmDialogue,
     },
-    /* props: {
+     props: {
         username: {
             type: String,
         }
-    }, */
+    },
     data() {
         return {
-            username: "",
+           // username: "",
+            Useer:"",
             user: {},
             comments: {},
             comment: {},
