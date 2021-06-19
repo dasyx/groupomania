@@ -42,7 +42,6 @@
                             </p>
                             <button href="#/admin" @click="postDelete(post.id, post.UserId)" class="users-posts_delete-link">Supprimer</button>
                         </li>
-                        <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
                     </ul>
                 </div>
 
@@ -64,11 +63,11 @@
             </section>
         </div>
         <!-- Retour vers dashboard  -->
-        <div>
+        <button class="button is-link">
             <a href="http://localhost:8080/groupomania/#/mainboard" class="backlink">
                 <i class="far fa-arrow-alt-circle-left backlink_icon">Page précédente</i>
             </a>
-        </div>
+        </button>
     </div>
 </template>
 
@@ -120,7 +119,6 @@ export default {
             })
                 .then((response) => {
                     this.posts = response.data;
-                    //this.comments = "";
                 })
                 .catch((error) => console.log(error));
         },

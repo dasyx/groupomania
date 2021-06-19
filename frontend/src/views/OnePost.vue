@@ -26,7 +26,7 @@
                             <!-- suppression commentaire -->
                             <span 
                             class="post_comments-display"> {{ comment.User.username }}&ensp;</span> :&ensp;{{ comment.content }}
-                            <a v-if="comment.UserId == userLoggedId" class="post_delete-btn" href="#" @click="commentDelete(comment.id)">
+                            <a v-if="comment.UserId == userLoggedId" class="post_delete-btn" @click="commentDelete(comment.id)">
                                 <i class="far fa-minus-square display_hover"></i>
                             </a>
                         </li>
@@ -46,11 +46,11 @@
             </div>
         </div>
         <!-- Retour vers mainboard  -->
-        <div>
-            <a href="http://localhost:8080/groupomania/#/mainboard" class="backlink">
+        <button class="button is-link">
+            <a href="http://localhost:8080/groupomania/#/mainboard">
                 <i class="far fa-arrow-alt-circle-left backlink_icon">Page précédente</i>
             </a>
-        </div>
+        </button>
     </div>
 </template>
 

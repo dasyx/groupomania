@@ -72,7 +72,9 @@
 .flex {
   display: flex;
   justify-content: space-evenly;
-  margin-top: 50px;
+  @media screen and (min-width: 768px){
+    margin-top: 50px;
+  }
 }
 .form {
   margin: 0 auto;
@@ -359,8 +361,7 @@
 .backlink_icon {
   padding: 10px;
   border-radius: 5px;
-  color: $background-color;
-  background-color: $second-color;
+  color: #ffffff;
 }
 .backlink_icon:before {
   padding-right: 10px; 
