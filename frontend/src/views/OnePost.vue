@@ -74,7 +74,7 @@ export default {
     data() {
         return {
            // username: "",
-            Useer:"",
+            User:"",
             user: {},
             comments: {},
             comment: {},

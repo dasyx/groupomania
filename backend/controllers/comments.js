@@ -21,7 +21,7 @@ exports.newComment = (req, res, next) => {
         content: req.body.content
       })
       .then(response => res.status(200).json({
-        message: "Commentaire bien crée"
+        message: "Commentaire crée correctement"
       }))
       .catch(error => res.status(400).json({
         error: "Le commentaire n'a pas pu être crée"

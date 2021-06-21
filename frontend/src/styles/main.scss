@@ -182,6 +182,7 @@
 
 .form_display {
   margin-top: 100px;
+  margin-bottom: 100px;
   @media screen and (max-width: 450px) {
     width: auto;
     margin-left: 10px;
@@ -200,9 +201,6 @@
 =========================================================*/
 #delete_alert {
   color: white;
-}
-.backlink_display {
-  margin-top: 100px;
 }
 
 /*======================================================*/
