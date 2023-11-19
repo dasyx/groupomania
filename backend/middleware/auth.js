@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     // En utilisant la méthode verify on va donc vérifier le token décodé 
     // Et on le compare avec la clé secrète initiée par le token crée au départ, voir dans Controllers user
-    const decodedToken = jwt.verify(token, process.env.SECRET);
+    const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN);
     const userId = decodedToken.userId;
     // On n'authentifiera pas la requête si l'userId dans le corps de la requête
     // Est différent de l'userId du token décodé

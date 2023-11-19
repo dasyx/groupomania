@@ -3,12 +3,14 @@ const multer = require('multer');
 const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpg',
-  'image/png': 'png'
+  'image/png': 'png',
+  'image/gif': 'gif',
+  'image/webp': 'webp'
 };
 // Création d'un objet de configuration pour multer
 // Qui aura deux arguments : destination et filename
 const storage = multer.diskStorage({
-// Fonction qui va expliquer à multer dans quel dossier enregistrer un fichier
+// Fonction qui va indiquer à multer dans quel dossier enregistrer un fichier
   destination: (req, file, callback) => {
     callback(null, 'images');
   },

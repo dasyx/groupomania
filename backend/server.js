@@ -20,7 +20,7 @@ const normalizePort = val => {
 };
 
 //variable port déclarer via la fonction normalizePort 
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT ||'3000');
 app.set('port', port);
 
 //fonction pour gérer les erreurs :
