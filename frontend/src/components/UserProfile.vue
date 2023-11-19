@@ -173,7 +173,7 @@ const axios = require("axios");
 const nameRegex = /^[^=*'<>{}0-9]{3,}$/;
 const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 import { mapState } from "vuex";
-import { required, minLength, sameAs } from "vuelidate/lib/validators";
+import { required, minLength, sameAs } from "@vuelidate/validators";
 import MainHeader from "@/components/MainHeader.vue";
 import store from "../modules/store.json";
 

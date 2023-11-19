@@ -172,102 +172,88 @@
 </template>
 
 <script>
-const axios = require("axios");
-const nameRegex = /^[^=*'<>{}0-9]{3,}$/;
-const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
-import { mapState } from "vuex";
-import { required, minLength, sameAs } from "vuelidate/lib/validators";
+import { reactive, toRefs } from "vue";
+import { useVuelidate } from "@vuelidate/core";
+import {
+  required,
+  minLength,
+  email,
+  helpers,
+  sameAs,
+} from "@vuelidate/validators";
+import axios from "axios";
 import store from "../modules/store.json";
+
 export default {
-  data() {
-    return {
+  setup() {
+    // Utilisation de reactive pour créer un état réactif
+    const state = reactive({
       userForm: {
         username: "",
         email: "",
         password: "",
         confirmPassword: "",
-        //accept:"",
       },
       submitted: false,
-    };
-  },
-  validations: {
-    userForm: {
+    });
+
+    // Définition des règles de validation
+    const rules = {
       username: {
         required,
-        regexNameRule: function (value) {
-          return nameRegex.test(value);
-        },
+        minLength: minLength(3),
+        regexNameRule: helpers.regex(/^[^=*'<>{}0-9]{3,}$/),
       },
       email: {
         required,
-        regexNameRule: function (value) {
-          return mailRegex.test(value);
-        },
+        email,
+        regexMailRule: helpers.regex(
+          /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/
+        ),
       },
       password: {
         required,
         minLength: minLength(8),
-        containsUppercase: function (value) {
-          return /[A-Z]/.test(value);
-        },
-        containsLowercase: function (value) {
-          return /[a-z]/.test(value);
-        },
-        containsNumber: function (value) {
-          return /[0-9]/.test(value);
-        },
-        containsSpecial: function (value) {
-          return /^[^=*<>{}]{8,}$/.test(value);
-        },
+        containsUppercase: helpers.regex(/[A-Z]/),
+        containsLowercase: helpers.regex(/[a-z]/),
+        containsNumber: helpers.regex(/[0-9]/),
+        containsSpecial: helpers.regex(/[^=*<>{}0-9]{8,}/),
       },
       confirmPassword: {
         required,
-        sameAsPassword: sameAs("password"),
+        sameAsPassword: sameAs(() => state.userForm.password),
       },
-      accept: {
-        required(val) {
-          return val;
-        },
-      },
-    },
-  },
-  computed: {
-    ...mapState(["emailValidInput", "usernameValidInput"]),
-  },
-  methods: {
-    handleSubmit() {
-      this.submitted = true;
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        console.log(
-          "Une erreur est survenue, veuillez recommencer la saisie du formulaire"
-        );
-      } else {
-        //console.log("formulaire valide");
+    };
+
+    // Initialisation de Vuelidate
+    const v$ = useVuelidate(rules, state.userForm);
+
+    // Méthode de soumission du formulaire
+    const handleSubmit = () => {
+      state.submitted = true;
+      v$.value.$touch();
+
+      if (!v$.value.$invalid) {
         axios
-          .post(store.api_host + "/user/signup/", {
-            username: this.userForm.username,
-            email: this.userForm.email,
-            password: this.userForm.password,
-          })
+          .post(store.api_host + "/user/signup/", state.userForm)
           .then((response) => {
             if (response.status === 201) {
-              return response;
-            } else {
-              console.log("Erreur d'envoi de formulaire");
+              console.log("Inscription réussie", response);
+              // Redirection après inscription réussie
+              // À adapter selon votre routeur
+              this.$router.push("/login");
             }
           })
-          .then((response) => {
-            console.log(response);
-            //window.location.href = "#/login"
-            this.$router.push("/login");
-          })
-          .catch(function (error) {
-            console.log(error);
+          .catch((error) => {
+            console.log("Erreur lors de l'inscription", error);
           });
+      } else {
+        console.log("Des erreurs sont présentes dans le formulaire");
       }
-    },
+    };
+
+    // Exposition des propriétés et méthodes au template
+    return { ...toRefs(state), v$, handleSubmit };
   },
 };
 </script>

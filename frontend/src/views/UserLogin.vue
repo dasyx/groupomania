@@ -84,7 +84,7 @@ const axios = require("axios");
 const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 
 import { mapState } from "vuex";
-import { required, minLength } from "vuelidate/lib/validators";
+import { required, minLength } from "@vuelidate/validators";
 import store from "../modules/store.json";
 
 export default {
