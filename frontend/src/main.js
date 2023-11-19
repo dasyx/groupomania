@@ -1,21 +1,18 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import Vuelidate from 'vuelidate'
-import axios from 'axios'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import axios from "axios";
+import "bulma/css/bulma.css";
+import "./styles/main.scss";
 
-import 'bulma/css/bulma.css';
+const app = createApp(App);
 
-require('./assets/main.scss');
+app.use(router);
+app.use(store);
 
-Vue.use(Vuelidate);
-Vue.prototype.$http = axios
+app.config.globalProperties.$http = axios;
 
-Vue.config.productionTip = false
+// Ajoutez ici les autres plugins et configurations globales nécessaires
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+app.mount("#app");
