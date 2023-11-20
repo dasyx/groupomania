@@ -15,15 +15,15 @@ export default createStore({
   },
   actions: {
     // Actions pour la validation d'email
-    /* emailValidInput(context, email) {
+    emailValidInput(context, email) {
       const mailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
       return mailRegex.test(email);
-    }, */
+    },
     // Actions pour la validation de nom d'utilisateur
-    /* usernameValidInput(context, name) {
+    usernameValidInput(context, name) {
       const nameRegex = /^[^=*'<>{}0-9]{3,}$/;
       return nameRegex.test(name);
-    }, */
+    },
     // Action pour charger le tableau de bord
     async dashboardLoading({ commit }) {
       try {

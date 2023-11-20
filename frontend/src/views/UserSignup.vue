@@ -17,6 +17,24 @@
         <span class="icon is-small is-left">
           <i class="fas fa-user"></i>
         </span>
+        <span class="icon is-small is-right">
+          <i class="fas fa-check" id="validName"></i>
+          <i class="fas fa-times" id="wrongName"></i>
+        </span>
+      </div>
+      <div class="error_msg" v-if="submitted && v$.username.$error">
+        <span v-if="!v$.username.required">
+          <i class="fas fa-exclamation-triangle"
+            ><em>Le champ nom est requis</em></i
+          >
+        </span>
+        <span v-if="v$.username.minLength">
+          <i class="fas fa-exclamation-triangle"
+            ><em
+              >Le nom d'utilisateur doit contenir au moins 3 caractères</em
+            ></i
+          >
+        </span>
       </div>
     </div>
 
@@ -30,11 +48,25 @@
           v-model="userForm.password"
           id="password"
           name="password"
+          :class="{ 'is-invalid': submitted && userForm.password.$error }"
           placeholder="Veuillez créer votre mot de passe"
         />
         <span class="icon is-small is-left">
           <i class="fas fa-key"></i>
         </span>
+        <span class="icon is-small is-right"> </span>
+      </div>
+      <div v-if="submitted && userForm.password.$error" class="create_Password">
+        <span v-if="!userForm.password.required"
+          ><i class="fas fa-exclamation-triangle"
+            >La saisie du mot de passe est obligatoire</i
+          ></span
+        >
+        <span v-if="!userForm.confirmPassword.email"
+          ><i class="fas fa-exclamation-triangle"
+            >Mot de passe invalide !</i
+          ></span
+        >
       </div>
     </div>
 
@@ -46,6 +78,7 @@
           class="input"
           type="email"
           v-model="userForm.email"
+          v-on:input="emailValidInput"
           id="email"
           name="email"
           placeholder="Veuillez saisir votre adresse email"
@@ -53,6 +86,22 @@
         <span class="icon is-small is-left">
           <i class="fas fa-envelope"></i>
         </span>
+        <span class="icon is-small is-right">
+          <i class="fas fa-check" id="validMail"></i>
+          <i class="fas fa-times" id="wrongMail"></i>
+        </span>
+      </div>
+      <div v-if="submitted && userForm.email.$error" class="mail_Warning">
+        <span v-if="!userForm.email.required"
+          ><i class="fas fa-exclamation-triangle"
+            >Le champ email est requis</i
+          ></span
+        >
+        <span v-if="!userForm.email.email"
+          ><i class="fas fa-exclamation-triangle"
+            >Veuillez renseigner une adresse email valide !</i
+          ></span
+        >
       </div>
     </div>
 
@@ -83,46 +132,62 @@ import { ref } from "vue";
 import axios from "axios";
 import store from "../modules/store.json";
 
+import { useVuelidate } from "@vuelidate/core";
+import { required, minLength, email } from "@vuelidate/validators";
+
 export default {
   setup() {
     const userForm = ref({
       username: "",
       email: "",
       password: "",
-      confirmPassword: "",
+      //confirmPassword: "",
     });
     const submitted = ref(false);
 
+    const rules = {
+      username: { required, minLength: minLength(3) },
+      email: { required, email },
+      password: {
+        required,
+        minLength: minLength(8),
+        //containsUppercase: helpers.regex("containsUppercase", /[A-Z]/),
+        //containsLowercase: helpers.regex("containsLowercase", /[a-z]/),
+        //containsNumber: helpers.regex("containsNumber", /[0-9]/),
+        //containsSpecial: helpers.regex("containsSpecial", /[^.=*<>{}]/),
+      },
+    };
+
+    const v$ = useVuelidate(rules, userForm);
+
     const handleSubmit = async () => {
       submitted.value = true;
+      v$.value.$touch();
 
-      // Validation basique
-      if (
-        !userForm.value.username ||
-        !userForm.value.email ||
-        !userForm.value.password
-      ) {
-        console.log(
-          "Une erreur est survenue, veuillez recommencer la saisie du formulaire"
-        );
-        return;
-      }
+      // Afficher l'état de validation de chaque champ
+      console.log("Validation State:", {
+        usernameValid: !v$.value.username.$invalid,
+        emailValid: !v$.value.email.$invalid,
+        passwordValid: !v$.value.password.$invalid,
+      });
 
-      try {
-        const response = await axios.post(store.api_host + "/user/signup/", {
-          username: userForm.value.username,
-          email: userForm.value.email,
-          password: userForm.value.password,
-        });
-
-        if (response.status === 201) {
-          console.log(response);
-          this.$router.push("/login");
-        } else {
-          console.log("Erreur d'envoi de formulaire");
+      if (!v$.value.$invalid) {
+        try {
+          const response = await axios.post(
+            store.api_host + "/user/signup/",
+            userForm.value
+          );
+          if (response.status === 201) {
+            console.log(response);
+            //this.$router.push("/login");
+          } else {
+            console.log("Erreur d'envoi de formulaire");
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
+      } else {
+        console.log("Validation failed");
       }
     };
 
@@ -130,6 +195,7 @@ export default {
       userForm,
       submitted,
       handleSubmit,
+      v$,
     };
   },
 };
@@ -137,4 +203,8 @@ export default {
 
 <style>
 /* Votre CSS ici */
+.error_msg {
+  color: red;
+  margin-top: 5px;
+}
 </style>
