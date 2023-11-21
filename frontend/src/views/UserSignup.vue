@@ -5,7 +5,7 @@
     <!-- Champ Nom d'utilisateur -->
     <div class="field">
       <label for="name" class="label">Nom</label>
-      <div class="control has-icons-left has-icons-right">
+      <div class="control has-icons-left">
         <input
           class="input"
           type="text"
@@ -13,17 +13,19 @@
           id="name"
           name="name"
           placeholder="Veuillez saisir votre nom d'utilisateur"
+          @input="() => checkInput('username')"
         />
         <span class="icon is-small is-left">
           <i class="fas fa-user"></i>
         </span>
         <span class="icon is-small is-right">
-          <i class="fas fa-check" id="validName"></i>
-          <i class="fas fa-times" id="wrongName"></i>
+          <i class="valid_input fas fa-check" v-if="usernameInputValid"></i>
+          <i class="wrong_input fas fa-times" v-else></i>
         </span>
       </div>
+      <!-- gestion de l'affichage d'un message d'erreur lors de la soumussions du formulaire -->
       <div class="error_msg" v-if="submitted && v$.username.$error">
-        <span v-if="!v$.username.required">
+        <span v-if="!userForm.username.required">
           <i class="fas fa-exclamation-triangle"
             ><em>Le champ nom est requis</em></i
           >
@@ -48,25 +50,29 @@
           v-model="userForm.password"
           id="password"
           name="password"
-          :class="{ 'is-invalid': submitted && userForm.password.$error }"
           placeholder="Veuillez créer votre mot de passe"
+          @input="() => checkInput('password')"
         />
         <span class="icon is-small is-left">
           <i class="fas fa-key"></i>
         </span>
-        <span class="icon is-small is-right"> </span>
+        <span class="icon is-small is-right">
+          <i class="valid_input fas fa-check" v-if="passwordInputValid"></i>
+          <i class="wrong_input fas fa-times" v-else></i>
+        </span>
       </div>
-      <div v-if="submitted && userForm.password.$error" class="create_Password">
+      <!-- gestion de l'affichage d'un message d'erreur lors de la soumussions du formulaire -->
+      <div class="error_msg" v-if="submitted && v$.password.$error">
         <span v-if="!userForm.password.required"
           ><i class="fas fa-exclamation-triangle"
             >La saisie du mot de passe est obligatoire</i
           ></span
         >
-        <span v-if="!userForm.confirmPassword.email"
-          ><i class="fas fa-exclamation-triangle"
-            >Mot de passe invalide !</i
-          ></span
-        >
+        <span v-if="v$.password.minLength">
+          <i class="fas fa-exclamation-triangle"
+            ><em>Le mot de passe doit contenir au moins 8 caractères</em></i
+          >
+        </span>
       </div>
     </div>
 
@@ -91,6 +97,7 @@
           <i class="fas fa-times" id="wrongMail"></i>
         </span>
       </div>
+      <!-- gestion de l'affichage d'un message d'erreur lors de la soumussions du formulaire -->
       <div v-if="submitted && userForm.email.$error" class="mail_Warning">
         <span v-if="!userForm.email.required"
           ><i class="fas fa-exclamation-triangle"
@@ -143,8 +150,30 @@ export default {
       password: "",
       //confirmPassword: "",
     });
-    const submitted = ref(false);
 
+    const submitted = ref(false);
+    const usernameInputValid = ref(false);
+    const passwordInputValid = ref(false);
+
+    // Vérification de la saisie du nom d'utilisateur
+    const checkUsernameInput = () => {
+      usernameInputValid.value = userForm.value.username.length >= 3;
+    };
+
+    // Vérification de la saisie du mot de passe
+    const checkPasswordInput = () => {
+      passwordInputValid.value = userForm.value.password.length >= 8;
+    };
+
+    const checkInput = (field) => {
+      if (field === "username") {
+        checkUsernameInput();
+      } else if (field === "password") {
+        checkPasswordInput();
+      }
+    };
+
+    // Vérification de la saisie de l'adresse email
     const rules = {
       username: { required, minLength: minLength(3) },
       email: { required, email },
@@ -196,6 +225,9 @@ export default {
       submitted,
       handleSubmit,
       v$,
+      checkInput,
+      usernameInputValid,
+      passwordInputValid,
     };
   },
 };
@@ -206,5 +238,11 @@ export default {
 .error_msg {
   color: red;
   margin-top: 5px;
+}
+.valid_input {
+  color: green;
+}
+.wrong_input {
+  color: red;
 }
 </style>
