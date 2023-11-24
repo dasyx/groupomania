@@ -156,22 +156,9 @@ export default {
       //confirmPassword: "",
     });
 
-    // Fonction pour générer un token aléatoire
-    const generateRandomToken = () => {
-      return Math.random().toString(36).substr(2) + Date.now().toString(36);
-    };
-
-    // Fonction pour générer un ID utilisateur aléatoire
-    const generateRandomUserId = () => {
-      return Math.random().toString(36).substr(2) + Date.now().toString(36);
-    };
-
-    const getUserToken = generateRandomToken();
-    const getUserId = generateRandomUserId();
-
     // Utilisation de useStorage pour stocker les informations de l'utilisateur
-    const userToken = useStorage("user-token", getUserToken, sessionStorage);
-    const userId = useStorage("user-id", getUserId, sessionStorage);
+    const userToken = useStorage("user-token", null, sessionStorage);
+    const userId = useStorage("user-id", null, sessionStorage);
 
     const submitted = ref(false);
     const usernameInputValid = ref(false);
@@ -230,10 +217,18 @@ export default {
             if (response.status === 200 || response.status === 201) {
               console.log("Formulaire envoyé avec succès");
 
+              // Stockage du token et de l'ID utilisateur dans sessionStorage
+              sessionStorage.setItem("user-token", response.data.token);
+              sessionStorage.setItem("user-id", response.data.userId);
+
               console.log(
                 "Informations de l'utilisateur enregistrées dans le stockage de session:"
               );
-              console.log("UserInfo:", userToken.value, userId.value);
+              console.log(
+                "user-token:",
+                userToken.value + "/n" + "user-id :",
+                userId.value
+              );
               //router.push("/mainboard");
             } else {
               console.error("Erreur d'envoi de formulaire");

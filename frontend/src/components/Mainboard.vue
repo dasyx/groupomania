@@ -34,10 +34,12 @@ import MainHeader from "@/components/MainHeader.vue";
 import NewPost from "@/components/NewPost.vue";
 import AllPosts from "@/components/AllPosts.vue";
 
-const userToken = useStorage("userToken", null);
-const userId = useStorage("userId", null);
 const userLogged = ref(null);
 const messageContent = ref([]);
+
+// Utilisation de useStorage pour stocker les informations de l'utilisateur
+const userToken = useStorage("user-token", "", sessionStorage);
+const userId = useStorage("user-id", "", sessionStorage);
 
 const displayUserLogged = async () => {
   if (!userId.value) {
@@ -47,7 +49,7 @@ const displayUserLogged = async () => {
   const headers = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + userToken.value,
+      Authorization: userToken.value,
     },
   };
 
