@@ -138,18 +138,40 @@
 import { ref } from "vue";
 import axios from "axios";
 import store from "../modules/store.json";
+import { useStorage } from "@vueuse/core";
+
+//import { useRouter } from "vue-router";
 
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength, email } from "@vuelidate/validators";
 
 export default {
   setup() {
+    //const router = useRouter();
+
     const userForm = ref({
       username: "",
       email: "",
       password: "",
       //confirmPassword: "",
     });
+
+    // Fonction pour générer un token aléatoire
+    const generateRandomToken = () => {
+      return Math.random().toString(36).substr(2) + Date.now().toString(36);
+    };
+
+    // Fonction pour générer un ID utilisateur aléatoire
+    const generateRandomUserId = () => {
+      return Math.random().toString(36).substr(2) + Date.now().toString(36);
+    };
+
+    const getUserToken = generateRandomToken();
+    const getUserId = generateRandomUserId();
+
+    // Utilisation de useStorage pour stocker les informations de l'utilisateur
+    const userToken = useStorage("user-token", getUserToken, sessionStorage);
+    const userId = useStorage("user-id", getUserId, sessionStorage);
 
     const submitted = ref(false);
     const usernameInputValid = ref(false);
@@ -193,30 +215,35 @@ export default {
       submitted.value = true;
       v$.value.$touch();
 
-      // Afficher l'état de validation de chaque champ
-      console.log("Validation State:", {
-        usernameValid: !v$.value.username.$invalid,
-        emailValid: !v$.value.email.$invalid,
-        passwordValid: !v$.value.password.$invalid,
-      });
-
       if (!v$.value.$invalid) {
-        try {
-          const response = await axios.post(
-            store.api_host + "/user/signup/",
-            userForm.value
-          );
-          if (response.status === 201) {
-            console.log(response);
-            //this.$router.push("/login");
-          } else {
-            console.log("Erreur d'envoi de formulaire");
-          }
-        } catch (error) {
-          console.log(error);
-        }
+        console.log("formulaire valide");
+        console.log("Données saisies:", userForm.value);
+        axios
+          .post(store.api_host + "/user/signup/", {
+            username: userForm.value.username,
+            email: userForm.value.email,
+            password: userForm.value.password,
+          })
+          .then((response) => {
+            console.log("Réponse du serveur:", response);
+
+            if (response.status === 200 || response.status === 201) {
+              console.log("Formulaire envoyé avec succès");
+
+              console.log(
+                "Informations de l'utilisateur enregistrées dans le stockage de session:"
+              );
+              console.log("UserInfo:", userToken.value, userId.value);
+              //router.push("/mainboard");
+            } else {
+              console.error("Erreur d'envoi de formulaire");
+            }
+          })
+          .catch((error) => {
+            console.error("Erreur lors de la soumission du formulaire:", error);
+          });
       } else {
-        console.log("Validation failed");
+        console.log("Échec de la validation");
       }
     };
 
