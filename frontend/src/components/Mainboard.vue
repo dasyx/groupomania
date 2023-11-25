@@ -1,7 +1,7 @@
 <template>
   <div>
     <MainHeader />
-    <div class="welcome_msg">
+    <!-- <div class="welcome_msg">
       <div v-if="!userLogged">
         <p>Utilisateur non autorisé</p>
       </div>
@@ -21,7 +21,10 @@
       :image="message.imgFile"
       :postId="message.id"
       :comments="message.Comments"
-    />
+    /> -->
+    <div v-if="registeredUsername">
+      Nom d'utilisateur enregistré : {{ registeredUsername }}
+    </div>
   </div>
 </template>
 
@@ -31,34 +34,33 @@ import axios from "axios";
 import store from "../modules/store.json";
 import { useStorage } from "@vueuse/core";
 import MainHeader from "@/components/MainHeader.vue";
-import NewPost from "@/components/NewPost.vue";
-import AllPosts from "@/components/AllPosts.vue";
 
-const userLogged = ref(null);
-const messageContent = ref([]);
-
-// Utilisation de useStorage pour stocker les informations de l'utilisateur
-const userToken = useStorage("user-token", "", sessionStorage);
-const userId = useStorage("user-id", "", sessionStorage);
+const registeredUsername = ref("");
+const userToken = useStorage("user-token", null, sessionStorage);
+const userId = useStorage("user-id", null, sessionStorage);
 
 const displayUserLogged = async () => {
+  console.log("user-id:", userId.value);
   if (!userId.value) {
     console.error("ID utilisateur non disponible");
     return;
   }
-  const headers = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: userToken.value,
-    },
-  };
 
   try {
-    const response = await axios.get(
-      `${store.api_host}/user/${userId.value}`,
-      headers
-    );
-    userLogged.value = response.data;
+    const response = await axios.get(`${store.api_host}/user/${userId.value}`, {
+      headers: {
+        Authorization: `Bearer ${userToken.value}`,
+      },
+    });
+
+    if (response.status === 200) {
+      registeredUsername.value = response.data.username;
+      console.log("Nom d'utilisateur enregistré:", registeredUsername.value);
+    } else {
+      console.error(
+        "Erreur lors de la récupération des informations de l'utilisateur"
+      );
+    }
   } catch (error) {
     console.error(
       "Erreur lors de la récupération des informations de l'utilisateur:",
@@ -67,10 +69,7 @@ const displayUserLogged = async () => {
   }
 };
 
-// Vous pouvez ajouter d'autres méthodes ici si nécessaire
-
 onMounted(() => {
   displayUserLogged();
-  // Autres appels de fonctions au montage...
 });
 </script>

@@ -140,14 +140,14 @@ import axios from "axios";
 import store from "../modules/store.json";
 import { useStorage } from "@vueuse/core";
 
-//import { useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength, email } from "@vuelidate/validators";
 
 export default {
   setup() {
-    //const router = useRouter();
+    const router = useRouter();
 
     const userForm = ref({
       username: "",
@@ -229,7 +229,7 @@ export default {
                 userToken.value + "/n" + "user-id :",
                 userId.value
               );
-              //router.push("/mainboard");
+              router.push("/mainboard");
             } else {
               console.error("Erreur d'envoi de formulaire");
             }
