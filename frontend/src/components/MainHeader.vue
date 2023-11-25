@@ -12,7 +12,7 @@
     </nav>
 
     <!-- Affichage des liens du Header si utilisateur admin-->
-    <Sidebar class="navbar-menu" v-if="userAdmin == 1">
+    <Sidebar class="navbar-menu" v-if="state.userAdmin === 1">
       <ul class="navbar-end">
         <li class="navbar-item">
           <a href="#/userprofile/">Mon profil </a>
@@ -21,12 +21,12 @@
           <router-link to="/admin">Espace administrateur </router-link>
         </li>
         <li class="navbar-item">
-          <router-link to="/delete_user" v-if="userLogged"
+          <router-link to="/delete_user" v-if="state.userLogged"
             >Supprimer le compte
           </router-link>
         </li>
         <li class="navbar-item">
-          <a href="#" @click="logOut()" v-if="userLogged"
+          <a href="#" @click="logOut()" v-if="state.userLogged"
             ><i class="fas fa-sign-out-alt"></i>Déconnexion
           </a>
         </li>
@@ -34,18 +34,18 @@
     </Sidebar>
 
     <!-- Affichage des liens du Header si utilisateur non admin-->
-    <Sidebar class="navbar-menu" v-if="userAdmin == 0">
+    <Sidebar class="navbar-menu" v-if="state.userAdmin === 0">
       <ul class="navbar-end">
         <li class="navbar-item">
           <a href="#/userprofile/">Mon profil </a>
         </li>
         <li class="navbar-item">
-          <router-link to="/delete_user" v-if="userLogged"
+          <router-link to="/delete_user" v-if="state.userLogged"
             >Supprimer le compte
           </router-link>
         </li>
         <li class="navbar-item">
-          <a href="#" @click="logOut()" v-if="userLogged"
+          <a href="#" @click="logOut()" v-if="state.userLogged"
             ><i class="fas fa-sign-out-alt"></i>Déconnexion
           </a>
         </li>
@@ -78,8 +78,8 @@ export default {
     });
 
     onMounted(() => {
-      state.userLogged = sessionStorage.getItem("user");
-      state.userAdmin = localStorage.getItem("admin");
+      state.userLogged = sessionStorage.getItem("user-id");
+      state.userAdmin = sessionStorage.getItem("user-admin") === "1" ? 1 : 0;
     });
 
     const logOut = () => {

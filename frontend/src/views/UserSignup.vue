@@ -159,6 +159,7 @@ export default {
     // Utilisation de useStorage pour stocker les informations de l'utilisateur
     const userToken = useStorage("user-token", null, sessionStorage);
     const userId = useStorage("user-id", null, sessionStorage);
+    const userAdmin = useStorage("user-admin", null, sessionStorage);
 
     const submitted = ref(false);
     const usernameInputValid = ref(false);
@@ -220,6 +221,10 @@ export default {
               // Stockage du token et de l'ID utilisateur dans sessionStorage
               sessionStorage.setItem("user-token", response.data.token);
               sessionStorage.setItem("user-id", response.data.userId);
+              sessionStorage.setItem(
+                "user-admin",
+                response.data.isAdmin ? "1" : "0"
+              );
 
               console.log(
                 "Informations de l'utilisateur enregistrées dans le stockage de session:"
@@ -227,7 +232,9 @@ export default {
               console.log(
                 "user-token:",
                 userToken.value + "/n" + "user-id :",
-                userId.value
+                userId.value,
+                "/n" + "user-admin:",
+                userAdmin.value
               );
               router.push("/mainboard");
             } else {
