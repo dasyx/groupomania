@@ -91,8 +91,8 @@ export default {
             userForm.value
           );
           if (response.status === 200) {
-            sessionStorage.getItem("user-token", response.data.token);
-            sessionStorage.getItem("user-id", response.data.userId);
+            sessionStorage.setItem("user-token", response.data.token);
+            sessionStorage.setItem("user-id", response.data.userId);
             router.push("/mainboard");
           }
         } catch (error) {
