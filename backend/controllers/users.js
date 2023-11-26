@@ -11,64 +11,59 @@ let passwordRegex = /^[^=*<>{}]{8,}$/;
 ========================****/
 
 exports.signup = (req, res, next) => {
-  db.sequelize
-    .sync()
-    .then(() => {
-      sequelize.User.findOne({
-        where: {
-          username: req.body.username,
-          email: req.body.email,
-        },
-      })
-        .then((user) => {
-          if (user) {
-            // Message d'erreur affiché dans la console
-            res.writeHead(
-              401,
-              '"Nom déjà connu ou adresse email déjà utilisée"',
-              {
-                "content-type": "application/json",
-              }
-            );
-            return res.end();
-          }
-          // Si l'adresse email n'est pas déjà utilisée,
-          // L'algorythme de bcrypt va hasher  le mot de passe
-          let hash = bcrypt.hashSync(req.body.password, 10);
+  sequelize.User.findOne({
+    where: {
+      username: req.body.username,
+      email: req.body.email,
+    },
+  })
+    .then((user) => {
+      if (user) {
+        return res.status(401).json({
+          error: "Nom d'utilisateur ou adresse email déjà utilisée",
+        });
+      }
 
-          // Décalaration des données attendues
-          let username = req.body.username;
-          let email = req.body.email;
-          let mdpHash = hash;
-          let admin = 0;
-
-          // Création de l'utilisateur
-          if (req.body.username !== "" || req.body.email !== "") {
-            console.log("Base de données connectée !");
-            sequelize.User.create({
-              username: username,
-              email: email,
-              password: mdpHash,
-              admin: admin,
-            }).then(() =>
-              res.status(201).json({
-                message: "Utilisateur correctement crée",
-              })
-            );
-            //.catch(error => console.log("erreur"));
-          } else {
-            return res.status(400).json({
-              message: "erreur de saisie",
-            });
-          }
-        })
-        .catch((error) =>
-          res.status(500).json({
-            error,
+      // Hashage du mot de passe
+      bcrypt
+        .hash(req.body.password, 10)
+        .then((hash) => {
+          sequelize.User.create({
+            username: req.body.username,
+            email: req.body.email,
+            password: hash,
+            admin: 0, // ou req.body.admin si vous souhaitez le définir lors de l'inscription
           })
-        );
+            .then((newUser) => {
+              const token = jwt.sign(
+                { userId: newUser.id, userAdmin: newUser.admin },
+                process.env.SECRET_TOKEN,
+                { expiresIn: "24h" }
+              );
+              res.status(201).json({
+                message: "Utilisateur créé avec succès",
+                userId: newUser.id,
+                token: token,
+                isAdmin: newUser.admin,
+              });
+            })
+            .catch((error) => {
+              res.status(500).json({
+                error: "Erreur lors de la création de l'utilisateur",
+              });
+            });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            error: "Erreur lors du hashage du mot de passe",
+          });
+        });
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      res.status(500).json({
+        error: "Erreur lors de la recherche de l'utilisateur",
+      });
+    });
 };
 
 /*****   USER LOGIN    
