@@ -2,7 +2,7 @@
   <header class="navbar" role="navigation" aria-label="main navigation">
     <!-- affichage du logo -->
     <nav class="navbar-brand">
-      <router-link to="/mainboard">
+      <router-link to="/">
         <img
           src="../../public/logos/icon-left-font-monochrome-white.svg"
           alt="groupomania-logo"
