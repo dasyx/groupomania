@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <button v-on:click="isHidden = false" class="button is-link">
       Créer une nouvelle publication
     </button>

@@ -1,6 +1,7 @@
 <template>
   <div>
     <MainHeader />
+    <!-- Message de bienvenue -->
     <div class="welcome_msg">
       <div v-if="!userLogged">
         <p>Utilisateur non autorisé</p>
@@ -9,14 +10,22 @@
         <span
           >Bonjour <b>{{ registeredUsername }}</b> !</span
         >
+        <hr class="welcome_msg-separate" />
+        <NewPost />
       </div>
     </div>
-    <NewPost />
 
     <!-- Affichage des posts -->
     <template v-if="messageContent || messageContent.value">
-      <h2 class="dashboard-title">Derniers posts</h2>
-      <PostDisplay />
+      <h2 class="dashboard-title">
+        <Icon
+          icon="fluent:news-20-regular"
+          color="white"
+          width="30"
+          height="30"
+        />Consultez les publications récentes
+      </h2>
+      <AllPosts />
     </template>
 
     <!-- Message d'erreur si aucun post à afficher -->
@@ -33,7 +42,8 @@ import store from "../modules/store.json";
 import { useStorage } from "@vueuse/core";
 import MainHeader from "@/components/MainHeader.vue";
 import NewPost from "@/components/NewPost.vue";
-import PostDisplay from "@/components/PostDisplay.vue";
+import AllPosts from "@/components/AllPosts.vue";
+import { Icon } from "@iconify/vue";
 
 const registeredUsername = ref("");
 const messageContent = ref([]);
@@ -92,3 +102,45 @@ const fetchPosts = async () => {
   }
 };
 </script>
+
+<style scoped>
+.welcome_msg {
+  margin: 0 auto;
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border: 1px solid #e5e5e5;
+  margin-bottom: 100px;
+}
+hr.welcome_msg-separate {
+  margin: 10px 0;
+  border: none;
+  border-top: 1px solid #e5e5e5;
+}
+.dashboard-title {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  margin-bottom: 20px;
+  background: linear-gradient(
+    #111112,
+    #13161f,
+    #151b2c,
+    #13244b,
+    #081635,
+    #263f76,
+    #28437d
+  );
+  padding: 10px 20px;
+  color: white;
+  font-size: 24px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.dashboard-title .iconify {
+  margin-right: 10px;
+}
+</style>

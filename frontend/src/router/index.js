@@ -7,7 +7,8 @@ import MainBoard from "../views/MainBoard.vue";
 import UserProfile from "../components/UserProfile.vue";
 import AdminComponent from "../components/AdminComponent.vue";
 import DeleteUser from "../components/DeleteUser.vue";
-import PostDisplay from "../components/PostDisplay.vue";
+import AllPosts from "../components/AllPosts.vue";
+import OnePost from "../components/OnePost.vue";
 
 // Configuration des routes
 const routes = [
@@ -47,9 +48,14 @@ const routes = [
     component: DeleteUser,
   },
   {
-    path: "/postdisplay",
-    name: "postdisplay",
-    component: PostDisplay,
+    path: "/allposts",
+    name: "allposts",
+    component: AllPosts,
+  },
+  {
+    path: "/onepost/:id",
+    name: "onepost",
+    component: OnePost,
   },
 ];
 

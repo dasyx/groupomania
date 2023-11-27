@@ -1,0 +1,151 @@
+<template>
+  <div class="post_container" v-if="selectedPost">
+    <MainHeader />
+    <div class="dashboard-Items">
+      <div id="post" class="post">
+        <div class="post_name">
+          <i class="fas fa-user-circle"></i>
+          <p>{{ selectedPost.User.username }}</p>
+        </div>
+        <div class="post_main">
+          <p id="post_title" class="post_title">{{ selectedPost.title }}</p>
+          <p id="post_content" class="post_content">
+            {{ selectedPost.content }}
+          </p>
+          <img
+            :src="selectedPost.imgFile"
+            alt="Image du post"
+            v-if="selectedPost.imgFile"
+          />
+        </div>
+        <!-- Conteneur pour les boutons -->
+        <div class="buttons-container">
+          <!-- Bouton Retour -->
+          <router-link to="/mainboard" class="underline-disable">
+            <button class="back-btn">
+              <Icon icon="fontisto:arrow-return-left" color="white" />Retour
+            </button>
+          </router-link>
+
+          <!-- Bouton de suppression du post -->
+          <button
+            v-if="userLoggedId == selectedPost.UserId"
+            @click="confirmPostDelete(selectedPost.id)"
+            class="delete-btn"
+          >
+            Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Modal de confirmation pour la suppression -->
+    <ConfirmDialogue ref="confirmDialogue" />
+  </div>
+  <div v-else>
+    <p>Post non trouvé ou erreur lors du chargement du post.</p>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import store from "../modules/store.json";
+import { Icon } from "@iconify/vue";
+import MainHeader from "@/components/MainHeader.vue";
+
+import axios from "axios";
+import ConfirmDialogue from "./Modal_Button/ConfirmDialogue.vue";
+
+const selectedPost = ref(null);
+const confirmDialogue = ref(null);
+const router = useRouter();
+const route = useRoute();
+const postId = route.params.id;
+
+const userLoggedId = sessionStorage.getItem("user-id"); // Récupère l'ID de l'utilisateur connecté
+
+// Options pour les requêtes axios
+const axiosOptions = {
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + sessionStorage.getItem("user-token"),
+  },
+};
+
+// Obtenir un post par son ID
+const getPostById = async (id) => {
+  try {
+    const response = await axios.get(
+      store.api_host + `/post/${id}`,
+      axiosOptions
+    );
+    selectedPost.value = response.data;
+  } catch (error) {
+    console.error("Erreur lors de la récupération du post:", error);
+  }
+};
+
+// Fonction pour confirmer et supprimer un post
+const confirmPostDelete = async (postId) => {
+  const ok = await confirmDialogue.value.show({
+    title: "Suppression du post",
+    message:
+      "Voulez-vous vraiment supprimer cette publication ? Vous ne pourrez pas revenir en arrière !",
+    okButton: "Supprimer définitivement",
+  });
+
+  if (ok) {
+    try {
+      await axios.delete(`${store.api_host}/post/${postId}`, axiosOptions);
+      router.push("/mainboard"); // Rediriger vers MainBoard après suppression
+    } catch (error) {
+      console.error("Erreur lors de la suppression du post:", error);
+    }
+  }
+};
+
+onMounted(async () => {
+  if (postId) {
+    await getPostById(postId);
+  }
+});
+</script>
+
+<style scoped>
+.buttons-container[data-v-66e271b4] {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.back-btn,
+.delete-btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  /* Autres styles selon vos préférences */
+}
+
+/* Styles spécifiques pour le bouton Retour */
+.back-btn {
+  background-color: blue; /* Couleur de fond */
+  color: white; /* Couleur du texte */
+}
+.back-btn:hover {
+  background-color: darkblue; /* Couleur de fond au survol */
+}
+.back-btn .iconify {
+  margin-right: 10px;
+}
+
+/* Styles spécifiques pour le bouton Supprimer */
+.delete-btn {
+  background-color: red; /* Couleur de fond */
+  color: white; /* Couleur du texte */
+}
+.delete-btn:hover {
+  background-color: darkred; /* Couleur de fond au survol */
+}
+</style>
