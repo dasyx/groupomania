@@ -16,14 +16,7 @@
     <!-- Affichage des posts -->
     <template v-if="messageContent || messageContent.value">
       <h2 class="dashboard-title">Derniers posts</h2>
-      <div v-for="post in messageContent" :key="post.id">
-        <AllPosts
-          :title="post.title"
-          :content="post.content"
-          :imgFile="post.imgFile"
-          :postId="post.id"
-        />
-      </div>
+      <PostDisplay />
     </template>
 
     <!-- Message d'erreur si aucun post à afficher -->
@@ -40,7 +33,7 @@ import store from "../modules/store.json";
 import { useStorage } from "@vueuse/core";
 import MainHeader from "@/components/MainHeader.vue";
 import NewPost from "@/components/NewPost.vue";
-import AllPosts from "@/components/AllPosts.vue";
+import PostDisplay from "@/components/PostDisplay.vue";
 
 const registeredUsername = ref("");
 const messageContent = ref([]);

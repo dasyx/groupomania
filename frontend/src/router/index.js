@@ -3,11 +3,11 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import UserSignup from "../views/UserSignup.vue";
 import UserLogin from "../views/UserLogin.vue";
-import OnePost from "../components/OnePost.vue";
 import MainBoard from "../views/MainBoard.vue";
 import UserProfile from "../components/UserProfile.vue";
 import AdminComponent from "../components/AdminComponent.vue";
 import DeleteUser from "../components/DeleteUser.vue";
+import PostDisplay from "../components/PostDisplay.vue";
 
 // Configuration des routes
 const routes = [
@@ -47,9 +47,9 @@ const routes = [
     component: DeleteUser,
   },
   {
-    path: "/post/:id",
-    name: "one_post",
-    component: OnePost,
+    path: "/postdisplay",
+    name: "postdisplay",
+    component: PostDisplay,
   },
 ];
 
