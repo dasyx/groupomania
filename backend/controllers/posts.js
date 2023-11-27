@@ -6,7 +6,7 @@ const fs = require("fs");
 ========================****/
 exports.newPost = (req, res, next) => {
   // Vérification si il y a une image , sinon -> null
-  let imgUrl = null;
+  let imgUrl = "";
   if (req.file) {
     imgUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
   }

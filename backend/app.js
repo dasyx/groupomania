@@ -17,7 +17,17 @@ app.use(
   })
 );
 // Utilisation d'Helmet pour sécuriser les en-têtes HTTP
-app.use(helmet());
+// Attention : quand je l'utilise, mes images ne s'affichent plus dans le frontend
+//app.use(helmet());
+
+// Sécurisation des en-têtes HTTP
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; img-src 'self' http://localhost:3000;"
+  );
+  next();
+});
 
 // Utilisation du package Express pour traiter les données JSON et les données de formulaire
 app.use(express.urlencoded({ extended: true }));
