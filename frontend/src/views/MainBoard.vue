@@ -123,15 +123,8 @@ hr.welcome_msg-separate {
   align-items: center;
   text-align: left;
   margin-bottom: 20px;
-  background: linear-gradient(
-    #111112,
-    #13161f,
-    #151b2c,
-    #13244b,
-    #081635,
-    #263f76,
-    #28437d
-  );
+  background: linear-gradient(to right, #485fc7, #ffffff);
+
   padding: 10px 20px;
   color: white;
   font-size: 24px;

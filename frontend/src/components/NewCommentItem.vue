@@ -1,84 +1,75 @@
 <template>
-  <div>
-    <!-- form nouveau commentaire-->
-    <form class="newComment">
-      <div class="newComment_part">
-        <i class="far fa-comment-alt"></i>
-        <label for="newcomment">Ecrire un commentaire</label>
-      </div>
-      <div class="newComment_part">
-        <input type="text" id="newcomment" v-model="comment" class="newComment_input" placeholder="Survolez votre commentaire pour le supprimer" />
-        <button v-on:click="sendNewComment" class="newComment_button">Envoyer</button>
-      </div>
-    </form>
-
-    <p id="alert">{{msgError}}</p>
-  </div>
+  <form @submit.prevent="sendNewComment">
+    <textarea
+      v-model="comment"
+      placeholder="Ajoutez un commentaire..."
+    ></textarea>
+    <button type="submit">Commenter</button>
+    <p v-if="msgError">{{ msgError }}</p>
+  </form>
 </template>
 
-<script>
-const axios = require("axios");
-import store from '../modules/store.json'
-export default {
-  name: "NewCommentItem",
-  data(){
-    return{
-      msgError: "",
-      comment: "",
-    }
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import store from "../modules/store.json";
+
+const props = defineProps({
+  postId: {
+    type: Number,
   },
-   props: {
-    postId: {
-      type: Number,
-    },
-  }, 
-  methods: {
-    //Envoi nouveau commantaire
-    sendNewComment: function(e) {
-      e.preventDefault();
+});
 
-      let textRegex = /^[^=*<>{}]+$/;
-      this.msgError = "";
-      let error;
+const emit = defineEmits(["comment-added"]); // Définir les événements que vous souhaitez émettre
 
-      //test input comment
-      if (this.comment === "" || this.comment == null) {
-        error = "Vous devez écrire quelque chose !";
-      } else if (!textRegex.test(this.comment)) {
-        error = "Les caractères suivants sont interdits: = * < > { }";
-      }
+const comment = ref("");
+const msgError = ref("");
 
-      //si validation ok, requete
-      if (error) {
-        this.msgError = error;
-      } else {
-         let comment = {
-          UserId: sessionStorage.getItem("user"),
-          content: this.comment,
-          PostId: this.postId
-        };
-        axios({
+const sendNewComment = async () => {
+  let textRegex = /^[^=*<>{}]+$/;
+  msgError.value = "";
+  let error;
+
+  // Validation du commentaire
+  if (comment.value === "" || comment.value == null) {
+    error = "Vous devez écrire quelque chose !";
+  } else if (!textRegex.test(comment.value)) {
+    error = "Les caractères suivants sont interdits: = * < > { }";
+  }
+
+  // Envoi du commentaire si la validation est réussie
+  if (!error) {
+    try {
+      const response = await axios.post(
+        store.api_host + "/comment/new/",
+        {
+          UserId: sessionStorage.getItem("user-id"),
+          content: comment.value,
+          PostId: props.postId,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + sessionStorage.getItem("user-token")
+            Authorization: "Bearer " + sessionStorage.getItem("user-token"),
           },
-          method: "post",
-          url: store.api_host + '/comment/new/',
-          data: comment
-        })
-          .then(response => {
-             this.$router.go();
-            if (response.status === 201) {
-              return response;
-            } else {
-              throw (error = response);
-            }
-          })
-          .catch(error => {
-            this.msgError = error.response.data.error;
-          }); 
+        }
+      );
+
+      if (response.status === 201) {
+        comment.value = ""; // Réinitialiser le champ de commentaire
+        emit("comment-added", response.data); // Utiliser emit pour envoyer l'événement
+      } else {
+        throw new Error("Erreur lors de l’envoi du commentaire");
       }
+    } catch (error) {
+      msgError.value = error.response?.data?.error || error.message;
     }
+  } else {
+    msgError.value = error;
   }
 };
 </script>
+
+<style scoped>
+/* Vos styles ici */
+</style>
