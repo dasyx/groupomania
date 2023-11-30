@@ -4,14 +4,14 @@
 /* Feuille de style de Home.vue
 
 ========================================*/
-.hero {
-  text-align: center;
+html {
   background-image: url("../../public/img/earth_spaceview.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 400px;
+  height: 100%;
 }
+
 .hero-body .title {
   text-shadow: 4px 4px 4px #00000099;
   padding: 40px 0 20px 0;
@@ -78,7 +78,7 @@
 .form {
   margin: 0 auto;
   margin-top: 100px;
-  background: $background_low_contrast;
+  background: $background;
   border-radius: 20px;
   box-shadow: 5px 6px 5px;
   padding: 2rem;
@@ -211,7 +211,7 @@
 
 /*======================================================*/
 
-/* Feuille de style de NewPostItems.vue
+/* Feuille de style de AllPosts.vue
 
 =========================================================*/
 
@@ -463,7 +463,7 @@
 
 /*======================================================*/
 
-/* Feuille de style de Post.vue
+/* Feuille de style de OnePost.vue
 
 =========================================================*/
 
