@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mainboard">
     <MainHeader />
     <!-- Message de bienvenue -->
     <div class="welcome_msg">
@@ -104,6 +104,9 @@ const fetchPosts = async () => {
 </script>
 
 <style scoped>
+.mainboard {
+  background-color: #e5e5e5;
+}
 .welcome_msg {
   margin: 0 auto;
   width: 100%;
