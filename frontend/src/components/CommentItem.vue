@@ -20,6 +20,7 @@
             </p>
           </div>
           <p class="post_comment_content">{{ comment.content }}</p>
+          <button @click="deleteComment(comment.id)">Supprimer</button>
         </div>
       </div>
     </div>
@@ -50,13 +51,6 @@ const emit = defineEmits(["comment-added", "comment-deleted"]);
 
 const comment = ref("");
 const msgError = ref("");
-
-// Méthode pour ajouter un commentaire à la liste
-/* const addComment = (newComment) => {
-  if (selectedPost.value && selectedPost.value.Comments) {
-    selectedPost.value.Comments.push(newComment);
-  }
-}; */
 
 // fonction pour envoyer un nouveau commentaire
 const sendNewComment = async () => {
@@ -98,6 +92,21 @@ const sendNewComment = async () => {
     }
   } else {
     msgError.value = error;
+  }
+};
+
+// fonction pour supprimer un commentaire
+const deleteComment = async (commentId) => {
+  try {
+    await axios.delete(`${store.api_host}/comment/${commentId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("user-token"),
+      },
+    });
+    emit("comment-deleted", commentId);
+  } catch (error) {
+    console.error("Erreur lors de la suppression du commentaire:", error);
   }
 };
 </script>

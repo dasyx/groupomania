@@ -22,6 +22,7 @@
         <CommentItem
           :postId="selectedPost.id"
           :comments-prop="selectedPost.Comments"
+          @comment-deleted="handleCommentDeleted"
           @comment-added="handleCommentAdded"
         />
 
@@ -82,10 +83,18 @@ const axiosOptions = {
   },
 };
 
+// Fonction pour confirmer et supprimer un post
 const handleCommentAdded = (newComment) => {
   // Ajouter le nouveau commentaire à la liste des commentaires
   if (selectedPost.value && selectedPost.value.Comments) {
     selectedPost.value.Comments.push(newComment);
+  }
+};
+const handleCommentDeleted = (commentId) => {
+  if (selectedPost.value && selectedPost.value.Comments) {
+    selectedPost.value.Comments = selectedPost.value.Comments.filter(
+      (comment) => comment.id !== commentId
+    );
   }
 };
 
@@ -120,6 +129,7 @@ const confirmPostDelete = async (postId) => {
     }
   }
 };
+
 onMounted(async () => {
   if (postId) {
     await getPostById(postId);
