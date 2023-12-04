@@ -106,7 +106,7 @@ const fetchPosts = async () => {
 <style scoped>
 .mainboard {
   background-color: #e5e5e5;
-  min-height: 100vh;
+  height: 100%;
 }
 .welcome_msg {
   margin: 0 auto;

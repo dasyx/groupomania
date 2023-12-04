@@ -1,5 +1,5 @@
 <template>
-  <div class="post_container">
+  <div class="post_container" @scroll="handleScroll">
     <!-- Section pour afficher tous les posts -->
     <div class="dashboard-Items" v-for="post in posts" :key="post.id">
       <router-link
@@ -19,6 +19,9 @@
         </div>
       </router-link>
     </div>
+
+    <!-- Message ou loader si plus de posts sont en cours de chargement -->
+    <div v-if="loadingMore">Chargement...</div>
   </div>
 </template>
 
@@ -28,6 +31,9 @@ import store from "../modules/store.json";
 import axios from "axios";
 
 const posts = ref([]);
+const totalPosts = ref(0);
+const limit = 10; // Nombre de posts à charger à la fois
+let loadingMore = ref(false);
 
 // Options pour les requêtes axios
 const axiosOptions = {
@@ -39,23 +45,35 @@ const axiosOptions = {
 
 // Fonction pour récupérer les posts
 const fetchPosts = async () => {
+  if (totalPosts.value >= 50) return; // Arrêter le chargement si 50 posts sont atteints
+  loadingMore.value = true;
+
   try {
-    const response = await axios.get(store.api_host + "/post", axiosOptions);
-    posts.value = response.data;
+    const response = await axios.get(
+      `${store.api_host}/post?limit=${limit}&offset=${totalPosts.value}`,
+      axiosOptions
+    );
+    // Ici, response.data est directement le tableau de posts
+    posts.value = [...posts.value, ...response.data];
+    totalPosts.value += response.data.length;
   } catch (error) {
     console.error("Erreur lors de la récupération des posts:", error);
+  } finally {
+    loadingMore.value = false;
   }
 };
 
-onMounted(async () => {
-  // Récupérer les posts
-  await fetchPosts();
-  //const route = useRoute();
+const handleScroll = (event) => {
+  const { scrollTop, scrollHeight, clientHeight } = event.target;
 
-  // Ajout d'une vérification pour s'assurer que route et route.params sont définis
-  /* if (route && route.params && route.params.id) {
-    await getPostById(route.params.id);
-  } */
+  if (scrollHeight - scrollTop <= clientHeight + 5) {
+    // Chargement de plus de posts quand l'utilisateur arrive vers le bas
+    fetchPosts();
+  }
+};
+
+onMounted(() => {
+  fetchPosts();
 });
 </script>
 
