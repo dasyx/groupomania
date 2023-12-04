@@ -214,6 +214,14 @@
 
 =========================================================*/
 
+.post_container {
+  margin: 0 auto;
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
 .post {
   color: $primary-color;
   border: solid lighten($main-color, 40%) 1px;
@@ -222,10 +230,6 @@
   padding: 8px;
   text-decoration: none;
   background-color: white;
-
-  &_container {
-    margin: 120px 0;
-  }
 
   &_name {
     margin-bottom: 20px;
@@ -329,7 +333,7 @@
   border-radius: 5px;
   width: 60%;
   overflow: auto;
-  margin: 32px auto;
+  margin: 120px auto;
   @media screen and (max-width: 525px) {
     width: 90%;
   }

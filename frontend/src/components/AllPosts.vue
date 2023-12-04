@@ -19,20 +19,17 @@
         </div>
       </router-link>
     </div>
-
-    <!-- Message ou loader si plus de posts sont en cours de chargement -->
-    <div v-if="loadingMore">Chargement...</div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import store from "../modules/store.json";
+import { ref, onMounted, onUnmounted } from "vue";
 import axios from "axios";
+import store from "../modules/store.json";
 
 const posts = ref([]);
 const totalPosts = ref(0);
-const limit = 10; // Nombre de posts à charger à la fois
+const limit = 2; // Nombre de posts à charger à la fois
 let loadingMore = ref(false);
 
 // Options pour les requêtes axios
@@ -53,9 +50,13 @@ const fetchPosts = async () => {
       `${store.api_host}/post?limit=${limit}&offset=${totalPosts.value}`,
       axiosOptions
     );
-    // Ici, response.data est directement le tableau de posts
-    posts.value = [...posts.value, ...response.data];
-    totalPosts.value += response.data.length;
+    if (Array.isArray(response.data)) {
+      // Vérifier si la réponse est un tableau
+      posts.value = [...posts.value, ...response.data];
+      totalPosts.value += response.data.length;
+    } else {
+      console.error("Format de réponse inattendu:", response.data);
+    }
   } catch (error) {
     console.error("Erreur lors de la récupération des posts:", error);
   } finally {
@@ -63,18 +64,26 @@ const fetchPosts = async () => {
   }
 };
 
-const handleScroll = (event) => {
-  const { scrollTop, scrollHeight, clientHeight } = event.target;
+// Fonction pour détecter le défilement et charger plus de posts
+const handleScroll = () => {
+  const scrollableHeight =
+    document.documentElement.scrollHeight - window.innerHeight;
+  const scrolled = window.scrollY;
+  const isNearBottom = scrollableHeight - scrolled < 100; // 100px avant le bas
 
-  if (scrollHeight - scrollTop <= clientHeight + 5) {
-    // Chargement de plus de posts quand l'utilisateur arrive vers le bas
+  if (isNearBottom && !loadingMore.value && totalPosts.value < 50) {
     fetchPosts();
   }
 };
 
 onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
   fetchPosts();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
 });
 </script>
 
-<style scoped></style>
+<!-- Votre style existant... -->

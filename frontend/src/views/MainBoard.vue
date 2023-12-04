@@ -126,9 +126,7 @@ hr.welcome_msg-separate {
   display: flex;
   align-items: center;
   text-align: left;
-  margin-bottom: 20px;
   background: linear-gradient(to right, #485fc7, #ffffff);
-
   padding: 10px 20px;
   color: white;
   font-size: 24px;
@@ -139,5 +137,24 @@ hr.welcome_msg-separate {
 
 .dashboard-title .iconify {
   margin-right: 10px;
+}
+
+.no_post {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 20px;
+  color: #a5a5a5;
+}
+
+@media (max-width: 768px) {
+  .dashboard-title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard-title {
+    font-size: 16px;
+  }
 }
 </style>
