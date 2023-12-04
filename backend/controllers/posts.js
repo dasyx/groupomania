@@ -32,7 +32,9 @@ exports.newPost = (req, res, next) => {
 /*****  GET ALL POSTS    
 ===========================****/
 exports.getAllPosts = (req, res, next) => {
-  // Récupération de toutes les publication dans la database
+  const limit = parseInt(req.query.limit) || 10; // Nombre de posts par lot, par défaut 10
+  const offset = parseInt(req.query.offset) || 0; // Point de départ pour le lot de posts, par défaut 0
+
   sequelize.Post.findAll({
     include: [
       {
@@ -44,16 +46,11 @@ exports.getAllPosts = (req, res, next) => {
       },
     ],
     order: [["createdAt", "DESC"]],
+    limit: limit,
+    offset: offset,
   })
-    .then((posts) => {
-      console.log(posts);
-      res.status(200).json(posts);
-    })
-    .catch((error) =>
-      res.status(400).json({
-        error,
-      })
-    );
+    .then((posts) => res.status(200).json(posts))
+    .catch((error) => res.status(400).json({ error }));
 };
 
 /*****  GET ONE POST    
