@@ -32,7 +32,7 @@ exports.newPost = (req, res, next) => {
 /*****  GET ALL POSTS    
 ===========================****/
 exports.getAllPosts = (req, res, next) => {
-  const limit = parseInt(req.query.limit) || 10; // Nombre de posts par lot, par défaut 10
+  const limit = parseInt(req.query.limit) || 2; // Nombre de posts par lot, par défaut 10
   const offset = parseInt(req.query.offset) || 0; // Point de départ pour le lot de posts, par défaut 0
 
   sequelize.Post.findAll({
