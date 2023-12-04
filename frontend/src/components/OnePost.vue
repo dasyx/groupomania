@@ -22,8 +22,9 @@
         <CommentItem
           :postId="selectedPost.id"
           :comments-prop="selectedPost.Comments"
-          @comment-deleted="handleCommentDeleted"
+          :user-logged-id="userLoggedId ? parseInt(userLoggedId) : 0"
           @comment-added="handleCommentAdded"
+          @comment-deleted="handleCommentDeleted"
         />
 
         <!-- Conteneur pour les boutons -->

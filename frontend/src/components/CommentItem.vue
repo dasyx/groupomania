@@ -20,7 +20,12 @@
             </p>
           </div>
           <p class="post_comment_content">{{ comment.content }}</p>
-          <button @click="deleteComment(comment.id)">Supprimer</button>
+          <button
+            v-if="comment.UserId === userLoggedId"
+            @click="deleteComment(comment.id)"
+          >
+            Supprimer
+          </button>
         </div>
       </div>
     </div>
@@ -45,6 +50,7 @@ import store from "../modules/store.json";
 const props = defineProps({
   postId: Number,
   commentsProp: Array, // Prop pour recevoir les commentaires
+  userLoggedId: Number,
 });
 
 const emit = defineEmits(["comment-added", "comment-deleted"]);
