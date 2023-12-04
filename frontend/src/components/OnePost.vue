@@ -19,31 +19,11 @@
             v-if="selectedPost.imgFile"
           />
         </div>
-        <!-- Conteneur pour les commentaires -->
-        <div class="post_comments">
-          <div class="post_comments_title">
-            <i class="far fa-comment-alt"></i>
-            <p>Commentaires</p>
-          </div>
-          <div class="post_comments_list">
-            <div
-              v-for="comment in selectedPost.Comments"
-              :key="comment.id"
-              class="post_comment"
-            >
-              <div class="post_comment_name">
-                <i class="fas fa-user-circle"></i>
-                <p>
-                  {{
-                    comment.User ? comment.User.username : "Utilisateur inconnu"
-                  }}
-                </p>
-              </div>
-              <p class="post_comment_content">{{ comment.content }}</p>
-            </div>
-          </div>
-        </div>
-        <NewCommentItem :postId="selectedPost.id" @comment-added="addComment" />
+        <CommentItem
+          :postId="selectedPost.id"
+          :comments-prop="selectedPost.Comments"
+          @comment-added="handleCommentAdded"
+        />
 
         <!-- Conteneur pour les boutons -->
         <div class="buttons-container">
@@ -74,7 +54,7 @@
 </template>
 
 <script setup>
-import NewCommentItem from "./NewCommentItem.vue";
+import CommentItem from "./CommentItem.vue";
 import ConfirmDialogue from "./Modal_Button/ConfirmDialogue.vue";
 import MainHeader from "@/components/MainHeader.vue";
 
@@ -87,6 +67,7 @@ import axios from "axios";
 
 const selectedPost = ref(null);
 const confirmDialogue = ref(null);
+
 const router = useRouter();
 const route = useRoute();
 const postId = route.params.id;
@@ -101,8 +82,8 @@ const axiosOptions = {
   },
 };
 
-// Méthode pour ajouter un commentaire à la liste
-const addComment = (newComment) => {
+const handleCommentAdded = (newComment) => {
+  // Ajouter le nouveau commentaire à la liste des commentaires
   if (selectedPost.value && selectedPost.value.Comments) {
     selectedPost.value.Comments.push(newComment);
   }

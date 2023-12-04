@@ -1,0 +1,103 @@
+<template>
+  <div>
+    <!-- Conteneur pour les commentaires -->
+    <div class="post_comments">
+      <div class="post_comments_title">
+        <i class="far fa-comment-alt"></i>
+        <p>Commentaires</p>
+      </div>
+      <div class="post_comments_list">
+        <!-- Boucle sur les commentaires passés en prop -->
+        <div
+          v-for="comment in commentsProp"
+          :key="comment.id"
+          class="post_comment"
+        >
+          <div class="post_comment_name">
+            <i class="fas fa-user-circle"></i>
+            <p>
+              {{ comment.User ? comment.User.username : "Utilisateur inconnu" }}
+            </p>
+          </div>
+          <p class="post_comment_content">{{ comment.content }}</p>
+        </div>
+      </div>
+    </div>
+    <!-- ... formulaire et autres éléments ... -->
+    <form @submit.prevent="sendNewComment">
+      <textarea
+        v-model="comment"
+        placeholder="Ajoutez un commentaire..."
+      ></textarea>
+      <button type="submit">Commenter</button>
+      <p v-if="msgError">{{ msgError }}</p>
+    </form>
+  </div>
+</template>
+
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import store from "../modules/store.json";
+
+// Définir une prop pour les commentaires
+const props = defineProps({
+  postId: Number,
+  commentsProp: Array, // Prop pour recevoir les commentaires
+});
+
+const emit = defineEmits(["comment-added", "comment-deleted"]);
+
+const comment = ref("");
+const msgError = ref("");
+
+// Méthode pour ajouter un commentaire à la liste
+/* const addComment = (newComment) => {
+  if (selectedPost.value && selectedPost.value.Comments) {
+    selectedPost.value.Comments.push(newComment);
+  }
+}; */
+
+// fonction pour envoyer un nouveau commentaire
+const sendNewComment = async () => {
+  let textRegex = /^[^=*<>{}]+$/;
+  msgError.value = "";
+  let error;
+
+  if (comment.value === "" || comment.value == null) {
+    error = "Vous devez écrire quelque chose !";
+  } else if (!textRegex.test(comment.value)) {
+    error = "Les caractères suivants sont interdits: = * < > { }";
+  }
+
+  if (!error) {
+    try {
+      const response = await axios.post(
+        `${store.api_host}/comment/new/`,
+        {
+          UserId: sessionStorage.getItem("user-id"),
+          content: comment.value,
+          PostId: props.postId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + sessionStorage.getItem("user-token"),
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        comment.value = "";
+        emit("comment-added", response.data);
+      } else {
+        throw new Error("Erreur lors de l’envoi du commentaire");
+      }
+    } catch (error) {
+      msgError.value = error.response?.data?.error || error.message;
+    }
+  } else {
+    msgError.value = error;
+  }
+};
+</script>

@@ -246,9 +246,6 @@
   &_link {
     &:hover {
       border: solid lighten($primary-color, 20%) 1px;
-      .post_title {
-        text-decoration: none;
-      }
     }
   }
 

@@ -19,6 +19,8 @@
         </div>
       </router-link>
     </div>
+    <!-- Message ou loader si plus de posts sont en cours de chargement -->
+    <div v-if="loadingMore">Chargement...</div>
   </div>
 </template>
 
@@ -69,18 +71,21 @@ const handleScroll = () => {
   const scrollableHeight =
     document.documentElement.scrollHeight - window.innerHeight;
   const scrolled = window.scrollY;
-  const isNearBottom = scrollableHeight - scrolled < 100; // 100px avant le bas
+  const isNearBottom = scrollableHeight - scrolled < 5; // 5px avant le bas
 
+  // Charger plus de posts si l'utilisateur est proche du bas de la page
   if (isNearBottom && !loadingMore.value && totalPosts.value < 50) {
     fetchPosts();
   }
 };
 
+// Ajouter un écouteur d'événement pour le défilement
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
   fetchPosts();
 });
 
+// Supprimer l'écouteur d'événement pour le défilement
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
