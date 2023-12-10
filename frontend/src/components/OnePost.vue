@@ -5,7 +5,13 @@
       <div id="post" class="post">
         <div class="post_name">
           <i class="fas fa-user-circle"></i>
-          <p>{{ selectedPost.User.username }}</p>
+          <p>
+            {{
+              selectedPost.User
+                ? selectedPost.User.username
+                : "Utilisateur inconnu"
+            }}
+          </p>
         </div>
         <!-- Conteneur pour le titre, le contenu et l'image du post -->
         <div class="post_main">

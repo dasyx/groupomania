@@ -93,6 +93,7 @@ export default {
           if (response.status === 200) {
             sessionStorage.setItem("user-token", response.data.token);
             sessionStorage.setItem("user-id", response.data.userId);
+            sessionStorage.setItem("user-admin", response.data.isAdmin);
             router.push("/mainboard");
           }
         } catch (error) {

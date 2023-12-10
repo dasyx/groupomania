@@ -9,7 +9,7 @@
         <div class="post post_link">
           <div class="post_name">
             <i class="fas fa-user-circle"></i>
-            <p>{{ post.User.username }}</p>
+            <p>{{ post.User ? post.User.username : "Utilisateur inconnu" }}</p>
           </div>
           <div class="post_main">
             <p>{{ post.title }}</p>
