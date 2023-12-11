@@ -132,6 +132,32 @@ exports.getOneUser = (req, res, next) => {
     .catch((error) => console.log(error));
 };
 
+/*****   MODIFIE UN UTILISATEUR (USERNAME)
+======================================****/
+
+exports.updateUsername = (req, res, next) => {
+  const userId = req.params.id;
+  const newUsername = req.body.username;
+
+  sequelize.User.findOne({ where: { id: userId } })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ error: "Utilisateur non trouvé" });
+      }
+
+      user.username = newUsername;
+      user
+        .save()
+        .then(() =>
+          res
+            .status(200)
+            .json({ message: "Nom d'utilisateur mis à jour avec succès" })
+        )
+        .catch((error) => res.status(400).json({ error }));
+    })
+    .catch((error) => res.status(500).json({ error }));
+};
+
 /*****   RECUPERE TOUS LES UTILISATEURS   
 =========================================****/
 

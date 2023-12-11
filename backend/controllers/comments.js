@@ -79,3 +79,37 @@ exports.deleteComment = (req, res, next) => {
       })
     );
 };
+
+/*****  UPDATE COMMENT   
+===============================****/
+exports.updateComment = (req, res, next) => {
+  const commentId = req.params.id;
+  const updatedContent = req.body.content;
+
+  // Vérification des données
+  try {
+    if (updatedContent === "") throw "Vous devez écrire quelque chose";
+    if (!textRegex.test(updatedContent))
+      throw "Caractères spéciaux utilisés interdits * < > { }";
+  } catch (error) {
+    return res.status(400).json({
+      error: error,
+    });
+  }
+
+  // Mise à jour du commentaire
+  sequelize.Comment.update(
+    { content: updatedContent },
+    { where: { id: commentId } }
+  )
+    .then(() => {
+      res.status(200).json({
+        message: "Commentaire mis à jour avec succès",
+      });
+    })
+    .catch((error) =>
+      res.status(400).json({
+        error: "Impossible de mettre à jour le commentaire",
+      })
+    );
+};
