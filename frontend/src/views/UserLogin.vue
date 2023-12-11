@@ -1,59 +1,57 @@
 <template>
-  <form @submit.prevent="logValid" class="form">
-    <h1 class="title is-2">Connexion</h1>
+  <div>
+    <form @submit.prevent="logValid" class="form">
+      <h1 class="title is-2">Connexion</h1>
 
-    <!-- Affichage des Erreurs de Connexion -->
-    <div v-if="loginError" class="notification is-danger">
-      {{ loginError }}
-    </div>
+      <!-- Affichage des Erreurs de Connexion -->
+      <div v-if="loginError" class="notification is-danger">
+        {{ loginError }}
+      </div>
 
-    <div class="field">
-      <label for="email" class="label">Adresse électronique</label>
-      <div class="control has-icons-left has-icons-right">
-        <input
-          class="input"
-          type="email"
-          v-model="userForm.email"
-          id="email"
-          name="email"
-          placeholder="Veuillez saisir votre adresse email"
-        />
-        <span class="icon is-small is-left">
-          <i class="fas fa-envelope"></i>
-        </span>
+      <div class="field">
+        <label for="email" class="label">Adresse électronique</label>
+        <div class="control has-icons-left has-icons-right">
+          <input
+            class="input"
+            type="email"
+            v-model="userForm.email"
+            id="email"
+            name="email"
+            placeholder="Veuillez saisir votre adresse email"
+          />
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+          </span>
+        </div>
       </div>
-    </div>
 
-    <div class="field">
-      <label for="password" class="label">Mot de passe</label>
-      <div class="control has-icons-left">
-        <input
-          class="input"
-          type="password"
-          v-model="userForm.password"
-          id="password"
-          name="password"
-          placeholder="Veuillez saisir votre mot de passe"
-        />
-        <span class="icon is-small is-left">
-          <i class="fas fa-key"></i>
-        </span>
+      <div class="field">
+        <label for="password" class="label">Mot de passe</label>
+        <div class="control has-icons-left">
+          <input
+            class="input"
+            type="password"
+            v-model="userForm.password"
+            id="password"
+            name="password"
+            placeholder="Veuillez saisir votre mot de passe"
+          />
+          <span class="icon is-small is-left">
+            <i class="fas fa-key"></i>
+          </span>
+        </div>
       </div>
-    </div>
 
-    <div class="field is-grouped is-grouped-centered">
-      <div class="control">
-        <button class="button is-link">Soumettre</button>
+      <div class="field is-grouped is-grouped-centered">
+        <div class="control">
+          <button class="button is-link">Soumettre</button>
+        </div>
+        <div class="control">
+          <a href="/" class="button high_contrast">Annuler</a>
+        </div>
       </div>
-      <div class="control">
-        <a
-          href="http://localhost:8080/groupomania/"
-          class="button high_contrast"
-          >Annuler</a
-        >
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -93,7 +91,7 @@ export default {
           if (response.status === 200) {
             sessionStorage.setItem("user-token", response.data.token);
             sessionStorage.setItem("user-id", response.data.userId);
-            sessionStorage.setItem("user-admin", response.data.isAdmin);
+            sessionStorage.setItem("user-admin", response.data.userAdmin);
             router.push("/mainboard");
           }
         } catch (error) {

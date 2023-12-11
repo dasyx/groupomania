@@ -232,6 +232,10 @@
   text-decoration: none;
   background-color: white;
 
+  &_main p:nth-of-type(2) {
+    margin: 10px 0;
+  }
+
   &_name {
     margin-bottom: 20px;
     font-size: 12px;
@@ -240,7 +244,7 @@
     line-height: 0;
     .fa-user-circle {
       font-size: 18px;
-      padding: 2px;
+      padding: 5px;
     }
   }
 
@@ -258,8 +262,7 @@
   }
   &_content {
     font-size: 14px;
-    margin: 0;
-    padding-left: 8px;
+    margin: 10px 0;
   }
 
   &_image {
@@ -275,39 +278,6 @@
 
   &_comments {
     font-size: 12px;
-    li {
-      display: flex;
-      flex-direction: row;
-      padding: 8px;
-      margin: 8px 0;
-      background-color: lighten($primary-color, 40%);
-      border: solid 1px $background-color;
-      border-radius: 8px;
-      color: #000000;
-    }
-    li span {
-      font-weight: 600;
-    }
-    .fa-trash-alt {
-      float: right;
-    }
-    ul {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin: 0;
-      padding: 0 8px;
-    }
-    &-icon {
-      font-size: 12px;
-      letter-spacing: 0.4px;
-    }
-    &-icon:before {
-      font-family: "Font Awesome\ 5 Free";
-      content: "\f4ad";
-      font-size: 14px;
-      padding-right: 8px;
-    }
   }
 }
 
@@ -489,19 +459,48 @@
 #error_msg {
   color: #ff0000;
 }
+.post_comment {
+  margin-top: 30px;
+}
 .post_comments_title {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-.post_comments_title i {
-  padding-right: 5px;
+.post_comments_title i,
+.post_comment_name i {
+  font-size: large;
+  padding-right: 10px;
 }
 .post_comments-display {
   padding-right: 5px;
 }
 .post_comment_input {
   margin-top: 20px;
+}
+.post_comment_name {
+  display: flex;
+  align-items: center;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.post_comment_name i {
+  font-size: 2.2em;
+}
+.post_comment_content {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: solid lighten($primary-color, 60%) 1px;
+  border-radius: 4px;
+  background-color: #f5f7fd;
+  font-size: 1.1em;
+}
+.post_comment_input_name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
 }
 .post_comment_input textarea {
   width: 100%;

@@ -48,7 +48,7 @@
             @click="confirmPostDelete(selectedPost.id)"
             class="delete-btn"
           >
-            Supprimer
+            supprimer
           </button>
         </div>
       </div>
@@ -176,10 +176,12 @@ onMounted(async () => {
 
 /* Styles spécifiques pour le bouton Supprimer */
 .delete-btn {
-  background-color: red; /* Couleur de fond */
-  color: white; /* Couleur du texte */
+  background-color: white; /* Couleur de fond */
+  color: blue; /* Couleur du texte */
+  font-size: x-small;
 }
 .delete-btn:hover {
-  background-color: darkred; /* Couleur de fond au survol */
+  background-color: rgb(134, 134, 185);
+  color: azure; /* Couleur de fond au survol */
 }
 </style>

@@ -119,7 +119,7 @@
       </div>
       <div class="control">
         <button class="button high_contrast">
-          <a href="http://localhost:8080/groupomania/">Annuler</a>
+          <a href="/">Annuler</a>
         </button>
       </div>
     </div>
@@ -139,9 +139,7 @@ import { ref } from "vue";
 import axios from "axios";
 import store from "../modules/store.json";
 import { useStorage } from "@vueuse/core";
-
 import { useRouter } from "vue-router";
-
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength, email } from "@vuelidate/validators";
 
@@ -153,10 +151,8 @@ export default {
       username: "",
       email: "",
       password: "",
-      //confirmPassword: "",
     });
 
-    // Utilisation de useStorage pour stocker les informations de l'utilisateur
     const userToken = useStorage("user-token", null, sessionStorage);
     const userId = useStorage("user-id", null, sessionStorage);
     const userAdmin = useStorage("user-admin", null, sessionStorage);
@@ -165,12 +161,10 @@ export default {
     const usernameInputValid = ref(false);
     const passwordInputValid = ref(false);
 
-    // Vérification de la saisie du nom d'utilisateur
     const checkUsernameInput = () => {
       usernameInputValid.value = userForm.value.username.length >= 3;
     };
 
-    // Vérification de la saisie du mot de passe
     const checkPasswordInput = () => {
       passwordInputValid.value = userForm.value.password.length >= 8;
     };
@@ -183,18 +177,10 @@ export default {
       }
     };
 
-    // Vérification de la saisie de l'adresse email
     const rules = {
       username: { required, minLength: minLength(3) },
       email: { required, email },
-      password: {
-        required,
-        minLength: minLength(8),
-        //containsUppercase: helpers.regex("containsUppercase", /[A-Z]/),
-        //containsLowercase: helpers.regex("containsLowercase", /[a-z]/),
-        //containsNumber: helpers.regex("containsNumber", /[0-9]/),
-        //containsSpecial: helpers.regex("containsSpecial", /[^.=*<>{}]/),
-      },
+      password: { required, minLength: minLength(8) },
     };
 
     const v$ = useVuelidate(rules, userForm);
@@ -204,8 +190,6 @@ export default {
       v$.value.$touch();
 
       if (!v$.value.$invalid) {
-        console.log("formulaire valide");
-        console.log("Données saisies:", userForm.value);
         axios
           .post(store.api_host + "/user/signup/", {
             username: userForm.value.username,
@@ -213,29 +197,18 @@ export default {
             password: userForm.value.password,
           })
           .then((response) => {
-            console.log("Réponse du serveur:", response);
-
             if (response.status === 200 || response.status === 201) {
-              console.log("Formulaire envoyé avec succès");
-
-              // Stockage du token et de l'ID utilisateur dans sessionStorage
-              sessionStorage.setItem("user-token", response.data.token);
-              sessionStorage.setItem("user-id", response.data.userId);
-              sessionStorage.setItem(
-                "user-admin",
-                response.data.isAdmin ? "1" : "0"
-              );
+              userToken.value = response.data.token;
+              userId.value = response.data.userId;
+              userAdmin.value = response.data.isAdmin;
 
               console.log(
                 "Informations de l'utilisateur enregistrées dans le stockage de session:"
               );
-              console.log(
-                "user-token:",
-                userToken.value + "/n" + "user-id :",
-                userId.value,
-                "/n" + "user-admin:",
-                userAdmin.value
-              );
+              console.log("user-token:", userToken.value);
+              console.log("user-id :", userId.value);
+              console.log("user-admin:", userAdmin.value);
+
               router.push("/mainboard");
             } else {
               console.error("Erreur d'envoi de formulaire");

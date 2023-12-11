@@ -7,25 +7,33 @@
         <p>Commentaires</p>
       </div>
       <div class="post_comments_list">
-        <!-- Boucle sur les commentaires passés en prop -->
+        <!-- affichage du commentaire -->
         <div
           v-for="comment in commentsProp"
           :key="comment.id"
           class="post_comment"
         >
+          <!-- affichage du nom de l'utilisateur -->
           <div class="post_comment_name">
             <i class="fas fa-user-circle"></i>
             <p>
               {{ comment.User ? comment.User.username : "Utilisateur inconnu" }}
             </p>
           </div>
-          <p class="post_comment_content">{{ comment.content }}</p>
-          <button
-            v-if="comment.UserId === userLoggedId"
-            @click="deleteComment(comment.id)"
-          >
-            Supprimer
-          </button>
+          <div class="post_comment-text-container">
+            <p class="post_comment_content">{{ comment.content }}</p>
+
+            <!-- affichage du bouton de suppression du commentaire -->
+            <button
+              v-if="comment.UserId === userLoggedId"
+              @click="deleteComment(comment.id)"
+            >
+              <Icon icon="ph:dots-three" width="32" height="32" />
+              <v-tooltip activator="parent" location="bottom"
+                >Supprimer le commentaire</v-tooltip
+              >
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -33,14 +41,15 @@
     <form @submit.prevent="sendNewComment" class="comment-form">
       <v-textarea
         clearable
-        label="ajouter un commentaire"
+        label="Ajoutez un commentaire"
         variant="outlined"
         v-model="comment"
         placeholder="écrivez quelquechose..."
         class="post_comment_input"
       ></v-textarea>
       <button type="submit" class="submit-icon">
-        <i class="fa fa-arrow-right"></i>
+        <Icon icon="wpf:paperplane" />
+        <v-tooltip activator="parent" location="start">envoyer</v-tooltip>
       </button>
       <p v-if="msgError">{{ msgError }}</p>
     </form>
@@ -51,6 +60,8 @@
 import { ref } from "vue";
 import axios from "axios";
 import store from "../modules/store.json";
+
+import { Icon } from "@iconify/vue";
 
 // Définir une prop pour les commentaires
 const props = defineProps({
@@ -138,5 +149,11 @@ const deleteComment = async (commentId) => {
 
 .submit-icon i {
   color: #000;
+}
+
+.post_comment-text-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
