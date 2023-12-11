@@ -13,6 +13,6 @@ router.delete("/delete", auth, user.deleteUser);
 router.get("/", auth, authAdmin, user.getAllUsers);
 router.delete("/delete/:id", auth, authAdmin, user.deleteAccountAdmin);
 
-router.put("/update/:id", auth, user.updateUsername); // Utilisez 'authAdmin' aussi si nécessaire
+router.put("/update/:id", auth, user.updateUser);
 
 module.exports = router;

@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sequelize = require("../models/index.js");
 const db = require("../models");
+const upload = require("../middleware/multer-config");
+const multer = require("multer");
 
 let emailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 //let nameRegex = /^[^=*'<>{}0-9]{3,}$/;
@@ -80,7 +82,7 @@ exports.login = (req, res, next) => {
           error: "Utilisateur Introuvable",
         });
       }
-      //Si l'utilisateur est trouvé, comparaison des passwords
+      // Si l'utilisateur est trouvé, comparaison des mots de passe
       bcrypt
         .compare(req.body.password, user.password)
         .then((ok) => {
@@ -90,7 +92,7 @@ exports.login = (req, res, next) => {
             });
             return res.end();
           }
-          //Password ok, envoi du token d'authentification
+          // Mot de passe correct, envoi du token d'authentification et de l'URL de l'image de profil
           res.status(200).json({
             userId: user.id,
             userAdmin: user.admin,
@@ -104,6 +106,7 @@ exports.login = (req, res, next) => {
                 expiresIn: "24h",
               }
             ),
+            imgProfileUrl: user.imgProfile, // Ajout de l'URL de l'image de profil
           });
         })
         .catch((error) =>
@@ -132,30 +135,57 @@ exports.getOneUser = (req, res, next) => {
     .catch((error) => console.log(error));
 };
 
-/*****   MODIFIE UN UTILISATEUR (USERNAME)
+/*****   MODIFIE UN UTILISATEUR 
 ======================================****/
 
-exports.updateUsername = (req, res, next) => {
-  const userId = req.params.id;
-  const newUsername = req.body.username;
+exports.updateUser = (req, res, next) => {
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      return res.status(500).json({ error: err.message });
+    } else if (err) {
+      return res
+        .status(500)
+        .json({ error: "Erreur lors du téléchargement de l'image" });
+    }
 
-  sequelize.User.findOne({ where: { id: userId } })
-    .then((user) => {
-      if (!user) {
-        return res.status(404).json({ error: "Utilisateur non trouvé" });
-      }
+    // Si l'image est téléchargée, req.file.path est disponible
+    let imageUrl = req.file
+      ? `${req.protocol}://${req.get(
+          "host"
+        )}/images/${req.file.filename.replace(/\\+/g, "/")}`
+      : null;
 
-      user.username = newUsername;
-      user
-        .save()
-        .then(() =>
-          res
-            .status(200)
-            .json({ message: "Nom d'utilisateur mis à jour avec succès" })
-        )
-        .catch((error) => res.status(400).json({ error }));
-    })
-    .catch((error) => res.status(500).json({ error }));
+    const userId = req.params.id;
+    const newUsername = req.body.username;
+
+    sequelize.User.findOne({ where: { id: userId } })
+      .then((user) => {
+        if (!user) {
+          return res.status(404).json({ error: "Utilisateur non trouvé" });
+        }
+
+        // Mise à jour conditionnelle du nom d'utilisateur
+        if (newUsername && newUsername.trim() !== "") {
+          user.username = newUsername;
+        }
+
+        // Mise à jour de l'image si elle est présente
+        if (imageUrl) {
+          user.imgProfile = imageUrl;
+        }
+
+        user
+          .save()
+          .then(() =>
+            res.status(200).json({
+              message: "Utilisateur mis à jour avec succès",
+              imgProfileUrl: user.imgProfile,
+            })
+          )
+          .catch((error) => res.status(400).json({ error }));
+      })
+      .catch((error) => res.status(500).json({ error }));
+  });
 };
 
 /*****   RECUPERE TOUS LES UTILISATEURS   
