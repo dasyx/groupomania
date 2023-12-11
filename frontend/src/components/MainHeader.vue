@@ -15,7 +15,7 @@
     <Sidebar class="navbar-menu" v-if="state.userAdmin === 1">
       <ul class="navbar-end">
         <li class="navbar-item">
-          <a href="#/userprofile/">Mon profil </a>
+          <router-link to="/userprofile">Mon profil</router-link>
         </li>
         <li class="navbar-item">
           <router-link to="/admin">Espace administrateur </router-link>
@@ -37,7 +37,7 @@
     <Sidebar class="navbar-menu" v-if="state.userAdmin === 0">
       <ul class="navbar-end">
         <li class="navbar-item">
-          <a href="#/userprofile/">Mon profil </a>
+          <router-link to="/userprofile">Mon profil</router-link>
         </li>
         <li class="navbar-item">
           <router-link to="/delete_user" v-if="state.userLogged"

@@ -572,13 +572,14 @@
 =========================================================*/
 
 .adminPage {
+  background-color: #f5f7fd;
   color: black;
   font-size: 14px;
   box-sizing: border-box;
   display: flex;
-  width: 90%;
   padding-top: 16px;
   margin: auto;
+  min-height: 100vh;
   @media screen and (max-width: 525px) {
     flex-direction: column;
     align-items: center;
@@ -587,8 +588,8 @@
 }
 
 .users-list {
-  width: 200px;
-  min-width: 200px;
+  width: 25%;
+  //min-width: 200px;
   color: black;
   padding: 8px;
   display: flex;
@@ -599,7 +600,7 @@
 
   &_heading {
     color: $main-color;
-    font-size: 16px;
+    font-size: 1.8em;
     border-bottom: solid darken($primary-color, 20%) 1px;
     margin-bottom: 30px;
     @media screen and (max-width: 525px) {
@@ -612,19 +613,19 @@
     justify-content: center;
     align-items: center;
     height: 30px;
-    background-color: lighten($primary-color, 20%);
+    background-color: darken($primary-color, 20%);
+    color: #f5f7fd;
     border-radius: 5px;
     border-bottom: solid lighten($primary-color, 40%) 1px;
-    font-weight: 500;
+    font-weight: 700;
   }
 
   &_items {
     display: flex;
     flex-direction: column;
     border: solid lighten($primary-color, 40%) 1px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     a,
-    p,
     i {
       color: darken($main-color, 20%);
       font-size: 14px;
@@ -632,8 +633,20 @@
       text-decoration: none;
     }
     a {
+      margin: 20px 0;
       &:hover {
         text-decoration: underline;
+      }
+    }
+    button {
+      background-color: rgb(191, 209, 233);
+      border: none;
+      color: $main-color;
+      font-size: 14px;
+      padding: 8px;
+      &:hover {
+        background-color: $main-color;
+        color: white;
       }
     }
   }
