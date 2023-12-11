@@ -30,12 +30,18 @@
       </div>
     </div>
     <!-- ... formulaire et autres éléments ... -->
-    <form @submit.prevent="sendNewComment">
-      <textarea
+    <form @submit.prevent="sendNewComment" class="comment-form">
+      <v-textarea
+        clearable
+        label="ajouter un commentaire"
+        variant="outlined"
         v-model="comment"
-        placeholder="Ajoutez un commentaire..."
-      ></textarea>
-      <button type="submit">Commenter</button>
+        placeholder="écrivez quelquechose..."
+        class="post_comment_input"
+      ></v-textarea>
+      <button type="submit" class="submit-icon">
+        <i class="fa fa-arrow-right"></i>
+      </button>
       <p v-if="msgError">{{ msgError }}</p>
     </form>
   </div>
@@ -116,3 +122,21 @@ const deleteComment = async (commentId) => {
   }
 };
 </script>
+
+<style scoped>
+.comment-form {
+  position: relative;
+}
+
+.submit-icon {
+  position: absolute;
+  right: 20px;
+  bottom: 30px;
+  background: none;
+  border: none;
+}
+
+.submit-icon i {
+  color: #000;
+}
+</style>

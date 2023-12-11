@@ -38,7 +38,7 @@
           <!-- Bouton Retour -->
           <router-link to="/mainboard" class="underline-disable">
             <button class="back-btn">
-              <Icon icon="fontisto:arrow-return-left" color="white" />Retour
+              <Icon icon="fontisto:arrow-return-left" color="white" />retour
             </button>
           </router-link>
 
@@ -165,6 +165,7 @@ onMounted(async () => {
 .back-btn {
   background-color: blue; /* Couleur de fond */
   color: white; /* Couleur du texte */
+  font-size: small;
 }
 .back-btn:hover {
   background-color: darkblue; /* Couleur de fond au survol */
