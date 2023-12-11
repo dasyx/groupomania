@@ -8,6 +8,30 @@
       <span
         >Vous êtes connecté en tant que <b>{{ userLogged.username }}</b></span
       >
+
+      <!-- Formulaire de mise à jour du nom d'utilisateur -->
+      <form @submit.prevent="updateUsername">
+        <div class="field">
+          <label for="newUsername" class="label"
+            >Nouveau nom d'utilisateur</label
+          >
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              v-model="newUsername"
+              id="newUsername"
+              placeholder="Entrez votre nouveau nom d'utilisateur"
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <button class="button is-primary">Mettre à jour</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -27,6 +51,7 @@ export default {
     const userLogged = ref({ username: "" });
     const userToken = useStorage("user-token", null, sessionStorage);
     const userId = useStorage("user-id", null, sessionStorage);
+    const newUsername = ref(""); // Nouveau nom d'utilisateur
 
     const displayUserLogged = async () => {
       console.log("user-id:", userId.value);
@@ -64,6 +89,39 @@ export default {
       }
     };
 
+    const updateUsername = async () => {
+      if (!newUsername.value) {
+        console.error("Le nouveau nom d'utilisateur ne peut être vide.");
+        return;
+      }
+
+      try {
+        const response = await axios.put(
+          `${store.api_host}/user/update/${userId.value}`,
+          {
+            username: newUsername.value,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${userToken.value}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          console.log("Nom d'utilisateur mis à jour avec succès");
+          userLogged.value.username = newUsername.value;
+        } else {
+          console.error("Erreur lors de la mise à jour du nom d'utilisateur");
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la mise à jour du nom d'utilisateur:",
+          error
+        );
+      }
+    };
+
     onMounted(async () => {
       await displayUserLogged();
     });
@@ -71,6 +129,8 @@ export default {
     return {
       userLogged,
       displayUserLogged,
+      newUsername,
+      updateUsername, // Ajouter ici la méthode updateUsername
     };
   },
 };
