@@ -92,6 +92,15 @@ export default {
             sessionStorage.setItem("user-token", response.data.token);
             sessionStorage.setItem("user-id", response.data.userId);
             sessionStorage.setItem("user-admin", response.data.userAdmin);
+
+            // Stockage de l'URL de l'image de profil dans sessionStorage
+            if (response.data.imgProfileUrl) {
+              sessionStorage.setItem(
+                "imgProfileUrl",
+                response.data.imgProfileUrl
+              );
+            }
+
             router.push("/mainboard");
           }
         } catch (error) {

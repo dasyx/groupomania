@@ -15,9 +15,9 @@ $background_low_contrast: linear-gradient(
 $background_dark_contrast: linear-gradient(
   to bottom,
   hsl(210, 100%, 10%),
-  /* Bleu très foncé */ hsl(210, 100%, 20%),
-  /* Bleu intermédiaire plus foncé */ hsl(210, 100%, 30%)
-); /* Bleu clair */
+  hsl(210, 100%, 20%),
+  hsl(210, 100%, 30%)
+);
 $primary-color: #747474;
 $main-color: #264672;
 $background-color: #ebebeb;
