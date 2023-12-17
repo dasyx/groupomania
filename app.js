@@ -14,10 +14,24 @@ const cors = require("cors");
 // Configure CORS
 app.use(
   cors({
-    origin: "https://groupomania-i901848w8-dasyx.vercel.app", // Remplacez par l'URL de votre frontend
+    origin: function (origin, callback) {
+      // Vérifiez si l'origine correspond au modèle
+      if (
+        /^https:\/\/groupomania-[a-zA-Z0-9]+-dasyx\.vercel\.app$/.test(origin)
+      ) {
+        // Autorisez l'origine si elle correspond
+        callback(null, true);
+      } else {
+        // Bloquez la requête si elle ne correspond pas
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
   })
 );
 
+// ...
+
+// MODIFIER SI UTILISATION EN LOCAL
 /* app.use(
   cors({
     origin: "http://localhost:8080",
