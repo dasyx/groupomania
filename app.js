@@ -34,7 +34,7 @@ const corsOptions = {
     // Autorise les domaines Vercel avec un pattern spécifique et localhost
     if (
       /^https:\/\/groupomania-[a-zA-Z0-9]+-dasyx\.vercel\.app$/.test(origin) ||
-      origin === "http://localhost:3000"
+      origin.startsWith("http://localhost:3000")
     ) {
       callback(null, true); // Autoriser
     } else {
