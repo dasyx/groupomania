@@ -1,6 +1,7 @@
 const express = require("express");
 //const helmet = require("helmet");
 const path = require("path");
+const helmet = require("helmet");
 
 require("dotenv").config();
 
@@ -12,24 +13,8 @@ const app = express();
 const cors = require("cors");
 
 // Configure CORS
-/* app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Vérifiez si l'origine correspond au modèle
-      if (
-        /^https:\/\/groupomania-[a-zA-Z0-9]+-dasyx\.vercel\.app$/.test(origin)
-      ) {
-        // Autorisez l'origine si elle correspond
-        callback(null, true);
-      } else {
-        // Bloquez la requête si elle ne correspond pas
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-  })
-); */
 
-const corsOptions = {
+/* const corsOptions = {
   origin: function (origin, callback) {
     // Autorise les domaines Vercel avec un pattern spécifique et localhost
     if (
@@ -44,9 +29,9 @@ const corsOptions = {
   optionsSuccessStatus: 200, // Pour la compatibilité avec les anciens navigateurs
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); */
 
-// ...
+app.use(cors());
 
 // MODIFIER SI UTILISATION EN LOCAL
 /* app.use(
@@ -56,7 +41,7 @@ app.use(cors(corsOptions));
 ); */
 // Utilisation d'Helmet pour sécuriser les en-têtes HTTP
 // Attention : quand je l'utilise, mes images ne s'affichent plus dans le frontend
-//app.use(helmet());
+app.use(helmet());
 
 // Sécurisation des en-têtes HTTP
 app.use((req, res, next) => {
