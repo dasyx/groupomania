@@ -22,7 +22,7 @@ const corsOptions = {
     if (
       !origin ||
       whitelistRegex.test(origin) ||
-      origin === "http://srv980.hstgr.io:3000"
+      origin === "https://srv980.hstgr.io"
     ) {
       callback(null, true); // Autoriser
     } else {
