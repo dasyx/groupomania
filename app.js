@@ -45,8 +45,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(cors());
-
 // MODIFIER SI UTILISATION EN LOCAL
 /* app.use(
   cors({
