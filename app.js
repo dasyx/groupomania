@@ -45,7 +45,7 @@ app.use(
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; img-src 'self' http://srv980.hstgr.io:3000;"
+    "default-src 'self'; img-src 'self' *.vercel.app;"
   );
   next();
 });
