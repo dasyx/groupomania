@@ -1,5 +1,5 @@
 const express = require("express");
-const helmet = require("helmet");
+//const helmet = require("helmet");
 const path = require("path");
 
 require("dotenv").config();
@@ -11,11 +11,18 @@ const app = express();
 // En environnement de production, spécifiez les origines autorisées pour plus de sécurité
 const cors = require("cors");
 
+// Configure CORS
 app.use(
+  cors({
+    origin: "https://groupomania-i901848w8-dasyx.vercel.app", // Remplacez par l'URL de votre frontend
+  })
+);
+
+/* app.use(
   cors({
     origin: "http://localhost:8080",
   })
-);
+); */
 // Utilisation d'Helmet pour sécuriser les en-têtes HTTP
 // Attention : quand je l'utilise, mes images ne s'affichent plus dans le frontend
 //app.use(helmet());
