@@ -29,7 +29,22 @@ const cors = require("cors");
   })
 ); */
 
-app.use(cors());
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Autorise les domaines Vercel avec un pattern spécifique et localhost
+    if (
+      /^https:\/\/groupomania-[a-zA-Z0-9]+-dasyx\.vercel\.app$/.test(origin) ||
+      origin === "http://localhost:3000"
+    ) {
+      callback(null, true); // Autoriser
+    } else {
+      callback(new Error("Not allowed by CORS")); // Rejeter
+    }
+  },
+  optionsSuccessStatus: 200, // Pour la compatibilité avec les anciens navigateurs
+};
+
+app.use(cors(corsOptions));
 
 // ...
 
