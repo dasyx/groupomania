@@ -33,7 +33,7 @@ export default createStore({
             Authorization: "Bearer " + sessionStorage.getItem("user-token"),
           },
           method: "get",
-          url: "https://groupomania-dasyx.vercel.app/:3000/api/post/",
+          url: "https://groupomania-dasyx.vercel.app:3000/api/post/",
         });
         console.log("Bienvenue sur le forum !");
         commit("SET_MESSAGE_CONTENT", response.data);
