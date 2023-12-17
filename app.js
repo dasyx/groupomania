@@ -12,7 +12,7 @@ const app = express();
 const cors = require("cors");
 
 // Configure CORS
-app.use(
+/* app.use(
   cors({
     origin: function (origin, callback) {
       // Vérifiez si l'origine correspond au modèle
@@ -27,7 +27,7 @@ app.use(
       }
     },
   })
-);
+); */
 
 // ...
 
