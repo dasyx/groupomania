@@ -13,7 +13,7 @@ const cors = require("cors");
 
 // Configure CORS
 
-const whitelistRegex =
+/* const whitelistRegex =
   /^https:\/\/groupomania-[a-zA-Z0-9]+-dasyx\.vercel\.app$/;
 
 const corsOptions = {
@@ -32,7 +32,8 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); */
+app.use(cors());
 
 // MODIFIER SI UTILISATION EN LOCAL
 /* app.use(
