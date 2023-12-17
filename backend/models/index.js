@@ -5,9 +5,9 @@ const Sequelize = require("sequelize");
 const db = {};
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
+  process.env.HST_NAME,
+  process.env.HST_USER,
+  process.env.HST_PASSWORD,
   {
     host: dbConfig.HOST,
     dialect: dbConfig.dialect,

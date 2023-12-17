@@ -1,13 +1,13 @@
 module.exports = {
-    HOST: "localhost",
-    USER: process.env.DB_USER,
-    PASSWORD: process.env.DB_PASSWORD,
-    DB: process.env.DB_NAME,
-    dialect: "mysql",
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
-    }
-  };
+  HOST: "srv980.hstgr.io",
+  USER: process.env.HST_USER,
+  PASSWORD: process.env.HST_PASSWORD,
+  DB: process.env.HST_NAME,
+  dialect: "mysql",
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+  },
+};
