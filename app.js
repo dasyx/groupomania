@@ -31,6 +31,20 @@ const cors = require("cors");
 
 app.use(cors(corsOptions)); */
 
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Autorise toutes les requêtes provenant de http://localhost:3000/images/*
+    if (origin && origin.startsWith("http://localhost:3000/images/")) {
+      callback(null, true); // Autoriser
+    } else {
+      callback(new Error("Not allowed by CORS")); // Rejeter
+    }
+  },
+  optionsSuccessStatus: 200, // Pour la compatibilité avec les anciens navigateurs
+};
+
+app.use(cors(corsOptions));
+
 app.use(cors());
 
 // MODIFIER SI UTILISATION EN LOCAL
@@ -41,7 +55,7 @@ app.use(cors());
 ); */
 // Utilisation d'Helmet pour sécuriser les en-têtes HTTP
 // Attention : quand je l'utilise, mes images ne s'affichent plus dans le frontend
-app.use(helmet());
+//app.use(helmet());
 
 // Sécurisation des en-têtes HTTP
 app.use((req, res, next) => {
