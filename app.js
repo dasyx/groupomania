@@ -13,7 +13,7 @@ const cors = require("cors");
 
 // Configure CORS
 
-/* const whitelistRegex =
+const whitelistRegex =
   /^https:\/\/groupomania-[a-zA-Z0-9]+-dasyx\.vercel\.app$/;
 
 const corsOptions = {
@@ -22,7 +22,7 @@ const corsOptions = {
     if (
       !origin ||
       whitelistRegex.test(origin) ||
-      origin === "http://localhost:3000"
+      origin === "http://srv980.hstgr.io:3000"
     ) {
       callback(null, true); // Autoriser
     } else {
@@ -32,8 +32,8 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-app.use(cors(corsOptions)); */
-app.use(cors());
+app.use(cors(corsOptions));
+//app.use(cors());
 
 // MODIFIER SI UTILISATION EN LOCAL
 /* app.use(
