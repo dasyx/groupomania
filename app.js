@@ -1,7 +1,6 @@
 const express = require("express");
 //const helmet = require("helmet");
 const path = require("path");
-const helmet = require("helmet");
 
 require("dotenv").config();
 
@@ -14,33 +13,23 @@ const cors = require("cors");
 
 // Configure CORS
 
-/* const corsOptions = {
+const whitelistRegex =
+  /^https:\/\/groupomania-[a-zA-Z0-9]+-dasyx\.vercel\.app$/;
+
+const corsOptions = {
   origin: function (origin, callback) {
-    // Autorise les domaines Vercel avec un pattern spécifique et localhost
+    // Vérifier si l'origine est dans la whitelist ou est localhost
     if (
-      /^https:\/\/groupomania-[a-zA-Z0-9]+-dasyx\.vercel\.app$/.test(origin) ||
-      origin.startsWith("http://localhost:3000")
+      !origin ||
+      whitelistRegex.test(origin) ||
+      origin === "http://localhost:3000"
     ) {
       callback(null, true); // Autoriser
     } else {
       callback(new Error("Not allowed by CORS")); // Rejeter
     }
   },
-  optionsSuccessStatus: 200, // Pour la compatibilité avec les anciens navigateurs
-};
-
-app.use(cors(corsOptions)); */
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Autorise toutes les requêtes provenant de http://localhost:3000/images/*
-    if (origin && origin.startsWith("http://localhost:3000/images/")) {
-      callback(null, true); // Autoriser
-    } else {
-      callback(new Error("Not allowed by CORS")); // Rejeter
-    }
-  },
-  optionsSuccessStatus: 200, // Pour la compatibilité avec les anciens navigateurs
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
