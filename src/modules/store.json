@@ -1,4 +1,3 @@
 {
-    "api_host": "http://localhost:3000/api"
-
+  "api_host": "http://srv980.hstgr.io:3000/api"
 }
