@@ -137,11 +137,13 @@
 <script>
 import { ref } from "vue";
 import axios from "axios";
-import store from "../modules/store.json";
+//import store from "../modules/store.json";
 import { useStorage } from "@vueuse/core";
 import { useRouter } from "vue-router";
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength, email } from "@vuelidate/validators";
+
+const apiUrl = process.env.API_URL;
 
 export default {
   setup() {
@@ -191,7 +193,7 @@ export default {
 
       if (!v$.value.$invalid) {
         axios
-          .post(store.api_host + "api/user/signup/", {
+          .post(apiUrl + "api/user/signup/", {
             username: userForm.value.username,
             email: userForm.value.email,
             password: userForm.value.password,

@@ -38,12 +38,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import store from "../modules/store.json";
+//import store from "../modules/store.json";
 import { useStorage } from "@vueuse/core";
 import MainHeader from "@/components/MainHeader.vue";
 import NewPost from "@/components/NewPost.vue";
 import AllPosts from "@/components/AllPosts.vue";
 import { Icon } from "@iconify/vue";
+
+const apiUrl = process.env.API_URL;
 
 const registeredUsername = ref("");
 const messageContent = ref([]);
@@ -60,14 +62,11 @@ const displayUserLogged = async () => {
   }
 
   try {
-    const response = await axios.get(
-      `${store.api_host}api/user/${userId.value}`,
-      {
-        headers: {
-          Authorization: `Bearer ${userToken.value}`,
-        },
-      }
-    );
+    const response = await axios.get(`${apiUrl}api/user/${userId.value}`, {
+      headers: {
+        Authorization: `Bearer ${userToken.value}`,
+      },
+    });
 
     if (response.status === 200) {
       registeredUsername.value = response.data.username;
@@ -94,7 +93,7 @@ onMounted(async () => {
 
 const fetchPosts = async () => {
   try {
-    const response = await axios.get(`${store.api_host}/post/`, {
+    const response = await axios.get(`${apiUrl}/post/`, {
       headers: {
         Authorization: `Bearer ${userToken.value}`,
       },

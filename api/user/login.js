@@ -1,21 +1,19 @@
-const db = require("../../models");
+//const db = require("../../models");
 const userController = require("../../controllers/users");
 
 module.exports = async (req, res) => {
-  // Set CORS headers
-  /* res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"); */
+  try {
+    // Synchronisation à revoir pour la production
+    // await db.sequelize.sync();
 
-  await db.sequelize.sync();
+    if (req.method === "POST") {
+      return userController.login(req, res);
+    }
 
-  if (req.method === "POST") {
-    return userController.login(req, res);
-  } else if (req.method === "OPTIONS") {
-    // Handle preflight request for CORS
-    res.status(200).end();
-    return;
+    // Réponse pour les méthodes HTTP non gérées
+    res.status(405).send("Method Not Allowed");
+  } catch (error) {
+    console.error("Error in login route:", error);
+    res.status(500).send("Internal Server Error");
   }
-
-  res.status(405).send("Method Not Allowed");
 };

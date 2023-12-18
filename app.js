@@ -2,30 +2,14 @@ const express = require("express");
 const cors = require("cors");
 //const helmet = require("helmet");
 const path = require("path");
+// Dans un fichier d'initialisation ou au démarrage de votre application
+const db = require("./models");
+
+db.sequelize.sync().then(() => {
+  console.log("Les modèles sont synchronisés avec la base de données");
+});
 
 const app = express();
-
-/* const whitelistRegex =
-  /^https:\/\/groupomania-[a-zA-Z0-9]+-dasyx\.vercel\.app$/;
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Vérifier si l'origine est dans la whitelist ou est localhost
-    if (
-      !origin ||
-      whitelistRegex.test(origin) ||
-      origin === "https://groupomania.fr" ||
-      origin === "https://www.groupomania.fr"
-    ) {
-      callback(null, true); // Autoriser
-    } else {
-      callback(new Error("Not allowed by CORS")); // Rejeter
-    }
-  },
-  optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions)); */
 
 app.use(cors());
 
@@ -34,7 +18,5 @@ app.use(cors());
 
 // Gestion des fichiers statiques (pour les images)
 app.use("/images", express.static(path.join(__dirname, "images")));
-
-// Autres configurations globales si nécessaire
 
 module.exports = app;

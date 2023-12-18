@@ -56,11 +56,13 @@
 
 <script>
 import axios from "axios";
-import store from "../modules/store.json";
+//import store from "../modules/store.json";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { required, email, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
+
+const apiUrl = process.env.API_URL;
 
 export default {
   setup() {
@@ -85,7 +87,7 @@ export default {
       if (!v$.value.$invalid) {
         try {
           const response = await axios.post(
-            store.api_host + "api/user/login/",
+            apiUrl + "api/user/login/",
             userForm.value
           );
           if (response.status === 200) {
