@@ -61,7 +61,7 @@ const displayUserLogged = async () => {
 
   try {
     const response = await axios.get(
-      `${store.api_host}api/user/${userId.value}`,
+      `${store.api_host}api/user/getById/${userId.value}`,
       {
         headers: {
           Authorization: `Bearer ${userToken.value}`,
@@ -94,7 +94,7 @@ onMounted(async () => {
 
 const fetchPosts = async () => {
   try {
-    const response = await axios.get(`${store.api_host}/post/`, {
+    const response = await axios.get(`${store.api_host}post/`, {
       headers: {
         Authorization: `Bearer ${userToken.value}`,
       },
