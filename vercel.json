@@ -9,5 +9,5 @@
     { "src": "/api/signup", "dest": "/api/signup.js" },
     { "src": "/api/update", "dest": "/api/update.js" }
   ],
-  "builds": [{ "src": "/api/*.js", "use": "@vercel/node" }]
+  "builds": [{ "src": "/api/user/*.js", "use": "@vercel/node" }]
 }
