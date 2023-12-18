@@ -1,6 +1,6 @@
 const express = require("express");
-const app = express();
 const cors = require("cors");
+const app = express();
 //const helmet = require("helmet");
 const path = require("path");
 // Dans un fichier d'initialisation ou au démarrage de votre application
