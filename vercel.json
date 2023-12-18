@@ -9,5 +9,12 @@
       "src": "dist/index.html",
       "use": "@vercel/static"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://www.groupomania.fr",
+      "permanent": true
+    }
   ]
 }

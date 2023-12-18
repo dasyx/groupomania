@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import axios from "axios";
+//import axios from "axios";
 
 export default createStore({
   state: {
@@ -25,7 +25,7 @@ export default createStore({
       return nameRegex.test(name);
     },
     // Action pour charger le tableau de bord
-    async dashboardLoading({ commit }) {
+    /* async dashboardLoading({ commit }) {
       try {
         const response = await axios({
           headers: {
@@ -40,7 +40,7 @@ export default createStore({
       } catch (error) {
         console.error(error);
       }
-    },
+    }, */
     // Autres actions au besoin
   },
   modules: {
