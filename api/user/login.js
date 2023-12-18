@@ -1,5 +1,5 @@
 const db = require("../../models");
-const userController = require("../../controllers/userController");
+const userController = require("../../controllers/users");
 
 export default async function login(req, res) {
   try {
