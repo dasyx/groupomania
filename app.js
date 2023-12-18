@@ -13,7 +13,7 @@ const deleteUserRoute = require("./api/user/delete");
 const getUserByIdRoute = require("./api/user/getUserById");
 const getAllUsersRoute = require("./api/user/getAll");
 
-app.use("/api/user/login", cors());
+app.use(cors());
 
 // Gestion des fichiers statiques (pour les images)
 app.use("/images", express.static(path.join(__dirname, "images")));
