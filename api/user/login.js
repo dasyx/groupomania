@@ -1,7 +1,7 @@
 const db = require("../../models");
-const userController = require("../../controllers/users");
+const userController = require("../../controllers/userController");
 
-module.exports = async (req, res) => {
+export default async function login(req, res) {
   try {
     // Synchronisation à revoir pour la production
     await db.sequelize.sync();
@@ -16,4 +16,4 @@ module.exports = async (req, res) => {
     console.error("Error in login route:", error);
     res.status(500).send("Internal Server Error");
   }
-};
+}
