@@ -37,6 +37,7 @@
 
 <script>
 import { mapState } from "vuex";
+import store from "../modules/store.json";
 import UserSignup from "./UserSignup.vue"; // Assurez-vous que le chemin est correct
 import UserLogin from "./UserLogin.vue"; // Assurez-vous que le chemin est correct
 
@@ -60,8 +61,7 @@ export default {
     goToSignup() {
       this.currentComponent = "UserSignup";
       // Log the API_URL to the console
-      const apiUrl = process.env.VUE_APP_API_URL;
-      console.log("API URL:", apiUrl);
+      console.log("API URL:", store.api_host);
     },
     goToLogin() {
       this.currentComponent = "UserLogin";
