@@ -10,9 +10,6 @@
       "use": "@vercel/static"
     }
   ],
-  "env": {
-    "API_URL": "https://groupomania-dasyx-org.vercel.app"
-  },
   "redirects": [
     {
       "source": "/(.*)",
