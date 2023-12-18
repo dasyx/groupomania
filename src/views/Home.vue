@@ -60,13 +60,13 @@ export default {
     goToSignup() {
       this.currentComponent = "UserSignup";
       // Log the API_URL to the console
-      const apiUrl = process.env.API_URL;
+      const apiUrl = process.env.VUE_APP_API_URL;
       console.log("API URL:", apiUrl);
     },
     goToLogin() {
       this.currentComponent = "UserLogin";
       // Log the API_URL to the console
-      const apiUrl = process.env.API_URL;
+      const apiUrl = process.env.VUE_APP_API_URL;
       console.log("API URL:", apiUrl);
     },
   },
