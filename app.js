@@ -14,7 +14,7 @@ const corsOptions = {
     if (
       !origin ||
       whitelistRegex.test(origin) ||
-      origin === "http://localhost:3000"
+      origin === "https://groupomania.fr"
     ) {
       callback(null, true); // Autoriser
     } else {
