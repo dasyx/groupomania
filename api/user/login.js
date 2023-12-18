@@ -1,10 +1,10 @@
-//const db = require("../../models");
+const db = require("../../models");
 const userController = require("../../controllers/users");
 
 module.exports = async (req, res) => {
   try {
     // Synchronisation à revoir pour la production
-    // await db.sequelize.sync();
+    await db.sequelize.sync();
 
     if (req.method === "POST") {
       return userController.login(req, res);

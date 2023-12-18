@@ -3,11 +3,6 @@ const cors = require("cors");
 //const helmet = require("helmet");
 const path = require("path");
 // Dans un fichier d'initialisation ou au démarrage de votre application
-const db = require("./models");
-
-db.sequelize.sync().then(() => {
-  console.log("Les modèles sont synchronisés avec la base de données");
-});
 
 // Importez vos routes ici
 const loginRoute = require("./api/user/login");
