@@ -1,4 +1,5 @@
 const express = require("express");
+const app = express();
 const cors = require("cors");
 //const helmet = require("helmet");
 const path = require("path");
@@ -11,9 +12,16 @@ const updateUserRoute = require("./api/user/update");
 const deleteUserRoute = require("./api/user/delete");
 const getAllUsersRoute = require("./api/user/getAll");
 
-const app = express();
-
 app.use(cors());
+
+// Middleware pour le parsing des données JSON
+app.use(express.json());
+
+// Middleware pour le logging des requêtes
+app.use((req, res, next) => {
+  console.log(`${new Date().toLocaleString()}: ${req.method} ${req.path}`);
+  next();
+});
 
 // Gestion des fichiers statiques (pour les images)
 app.use("/images", express.static(path.join(__dirname, "images")));
