@@ -193,7 +193,7 @@ export default {
 
       if (!v$.value.$invalid) {
         axios
-          .post(apiUrl + "api/user/signup/", {
+          .post(apiUrl + "/api/user/signup/", {
             username: userForm.value.username,
             email: userForm.value.email,
             password: userForm.value.password,
