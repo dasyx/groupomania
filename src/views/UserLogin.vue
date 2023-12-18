@@ -85,7 +85,7 @@ export default {
       if (!v$.value.$invalid) {
         try {
           const response = await axios.post(
-            store.api_host + "/api/user/login/",
+            store.api_host + "api/user/login/",
             userForm.value
           );
           if (response.status === 200) {
