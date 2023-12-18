@@ -60,11 +60,14 @@ const displayUserLogged = async () => {
   }
 
   try {
-    const response = await axios.get(`${store.api_host}/user/${userId.value}`, {
-      headers: {
-        Authorization: `Bearer ${userToken.value}`,
-      },
-    });
+    const response = await axios.get(
+      `${store.api_host}api/user/${userId.value}`,
+      {
+        headers: {
+          Authorization: `Bearer ${userToken.value}`,
+        },
+      }
+    );
 
     if (response.status === 200) {
       registeredUsername.value = response.data.username;

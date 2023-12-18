@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "routes": [
+    { "src": "/api/[id]", "dest": "/api/[id].js" },
+    { "src": "/api/delete", "dest": "/api/delete.js" },
+    { "src": "/api/deleteUser", "dest": "/api/deleteUser.js" },
+    { "src": "/api/getAllUsers", "dest": "/api/getAllUsers.js" },
+    { "src": "/api/login", "dest": "/api/login.js" },
+    { "src": "/api/signup", "dest": "/api/signup.js" },
+    { "src": "/api/update", "dest": "/api/update.js" }
+  ],
+  "builds": [{ "src": "/api/*.js", "use": "@vercel/node" }]
+}
