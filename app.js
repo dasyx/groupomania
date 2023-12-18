@@ -5,7 +5,7 @@ const path = require("path");
 
 const app = express();
 
-const whitelistRegex =
+/* const whitelistRegex =
   /^https:\/\/groupomania-[a-zA-Z0-9]+-dasyx\.vercel\.app$/;
 
 const corsOptions = {
@@ -14,7 +14,8 @@ const corsOptions = {
     if (
       !origin ||
       whitelistRegex.test(origin) ||
-      origin === "https://groupomania.fr"
+      origin === "https://groupomania.fr" ||
+      origin === "https://www.groupomania.fr"
     ) {
       callback(null, true); // Autoriser
     } else {
@@ -24,7 +25,9 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); */
+
+app.use(cors());
 
 // Sécurité des en-têtes HTTP
 //app.use(helmet());
