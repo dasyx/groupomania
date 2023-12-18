@@ -62,7 +62,7 @@ import { useRouter } from "vue-router";
 import { required, email, minLength } from "@vuelidate/validators";
 import { useVuelidate } from "@vuelidate/core";
 
-const apiUrl = process.env.API_URL;
+const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   setup() {

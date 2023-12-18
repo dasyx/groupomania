@@ -45,7 +45,7 @@ import NewPost from "@/components/NewPost.vue";
 import AllPosts from "@/components/AllPosts.vue";
 import { Icon } from "@iconify/vue";
 
-const apiUrl = process.env.API_URL;
+const apiUrl = process.env.VUE_APP_API_URL;
 
 const registeredUsername = ref("");
 const messageContent = ref([]);
