@@ -9,12 +9,5 @@
       "src": "dist/index.html",
       "use": "@vercel/static"
     }
-  ],
-  "redirects": [
-    {
-      "source": "https://groupomania-dasyx-org.vercel.app",
-      "destination": "https://www.groupomania.fr",
-      "permanent": true
-    }
   ]
 }
