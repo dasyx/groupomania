@@ -26,7 +26,7 @@ app.use("/api/user/login", loginRoute);
 app.use("/api/user/signup", signupRoute);
 app.use("/api/user/update", updateUserRoute);
 app.use("/api/user/delete", deleteUserRoute);
-app.use("/api/user/getById/:id", getUserByIdRoute);
+app.use("/api/user/getById/", getUserByIdRoute);
 app.use("/api/user/getAll", getAllUsersRoute);
 
 module.exports = app;
