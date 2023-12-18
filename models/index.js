@@ -11,6 +11,7 @@ const sequelize = new Sequelize(
   {
     host: dbConfig.HOST,
     dialect: dbConfig.dialect,
+    dialectModule: require("mysql2"),
     logging: false,
 
     pool: {
