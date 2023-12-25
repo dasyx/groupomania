@@ -12,6 +12,7 @@ const updateUserRoute = require("./api/user/update");
 const deleteUserRoute = require("./api/user/delete");
 const getUserByIdRoute = require("./api/user/getUserById");
 const getAllUsersRoute = require("./api/user/getAll");
+const auth = require("./middleware/auth");
 
 app.use(cors());
 
@@ -22,11 +23,11 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 //app.use(helmet());
 
 // Utilisez vos routes importées ici
-app.use("/api/user/login", loginRoute);
-app.use("/api/user/signup", signupRoute);
-app.use("/api/user/update", updateUserRoute);
-app.use("/api/user/delete", deleteUserRoute);
-app.use("/api/user/getById/", getUserByIdRoute);
-app.use("/api/user/getAll", getAllUsersRoute);
+app.use("/api/user/login", auth, loginRoute);
+app.use("/api/user/signup", auth, signupRoute);
+app.use("/api/user/update", auth, updateUserRoute);
+app.use("/api/user/delete", auth, deleteUserRoute);
+app.use("/api/user/getById/", auth, getUserByIdRoute);
+app.use("/api/user/getAll", auth, getAllUsersRoute);
 
 module.exports = app;
