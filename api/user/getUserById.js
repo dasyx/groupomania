@@ -1,6 +1,5 @@
-import db from "../../models"; // Assurez-vous d'importer correctement le module Sequelize (db) depuis vos modèles
-import userController from "../../controllers/users";
-//import authMiddleware from "../../middleware/auth";
+const db = require("../../models");
+const userController = require("../../controllers/users");
 
 export default async function getUserById(req, res) {
   try {
@@ -10,18 +9,6 @@ export default async function getUserById(req, res) {
     if (req.method === "GET") {
       //const userId = req.params.id;
       return userController.getOneUser(req, res);
-
-      // Utilisez le middleware d'authentification ici
-      /* authMiddleware(req, res, async () => {
-        const user = await userController.getUserById(userId, req); // Utilisez le contrôleur pour obtenir l'utilisateur par son ID
-
-        if (!user) {
-          return res.status(404).json({ message: "Utilisateur non trouvé" });
-        }
-
-        // Vous pouvez retourner l'utilisateur trouvé ici
-        res.status(200).json(user);
-      }); */
     } else {
       // Réponse pour les méthodes HTTP non gérées
       res.status(405).send("Method Not Allowed");
