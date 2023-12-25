@@ -38,41 +38,48 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import store from "../modules/store.json";
+import store from "../modules/store.json"; // Assurez-vous que ce chemin est correct
 import { useStorage } from "@vueuse/core";
-import MainHeader from "@/components/MainHeader.vue";
+import MainHeader from "@/components/MainHeader.vue"; // Supposant que ces composants sont correctement configurés
 import NewPost from "@/components/NewPost.vue";
 import AllPosts from "@/components/AllPosts.vue";
 import { Icon } from "@iconify/vue";
 
+// Variables réactives pour stocker l'état et les données de l'utilisateur
 const registeredUsername = ref("");
 const messageContent = ref([]);
 const userLogged = ref(false);
 const userToken = useStorage("user-token", null, sessionStorage);
 const userId = useStorage("user-id", null, sessionStorage);
 
+// Fonction pour afficher le nom de l'utilisateur connecté
 const displayUserLogged = async () => {
   console.log("user-id:", userId.value);
+
+  // Vérifier si l'ID de l'utilisateur est présent
   if (!userId.value) {
     console.error("ID utilisateur non disponible");
     userLogged.value = false; // Mise à jour de l'état de connexion
     return;
   }
 
-  const url = `${store.api_host}api/user/${userId.value}`;
+  const url = `${store.api_host}api/user/${userId.value}`; // Assurez-vous que cette URL est correcte
   console.log("Full URL for user data:", url);
 
+  // Essayer de récupérer les informations de l'utilisateur
   try {
     const response = await axios.get(url, {
       headers: {
-        Authorization: `Bearer ${userToken.value}`,
+        Authorization: `Bearer ${userToken.value}`, // Utilisation du token pour l'authentification
       },
     });
 
-    registeredUsername.value = response.data.username;
+    // Mise à jour des variables avec les données de l'utilisateur
+    registeredUsername.value = response.data.username; // Assurez-vous que la réponse inclut un champ 'username'
     userLogged.value = true; // Mise à jour de l'état de connexion
     console.log("Nom d'utilisateur enregistré:", registeredUsername.value);
   } catch (error) {
+    // Gestion des erreurs lors de la récupération des informations
     console.error(
       "Erreur lors de la récupération des informations de l'utilisateur:",
       error
@@ -80,11 +87,6 @@ const displayUserLogged = async () => {
     userLogged.value = false; // Mise à jour de l'état de connexion
   }
 };
-
-onMounted(async () => {
-  await displayUserLogged();
-  //fetchPosts();
-});
 
 /* const fetchPosts = async () => {
   try {
@@ -98,6 +100,12 @@ onMounted(async () => {
     console.error("Erreur lors de la récupération des posts:", error);
   }
 }; */
+
+// Appel de la fonction lors du montage du composant
+onMounted(async () => {
+  await displayUserLogged();
+  // Vous pouvez activer ou ajouter d'autres fonctions ici, comme fetchPosts()
+});
 </script>
 
 <style scoped>
