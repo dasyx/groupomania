@@ -59,7 +59,7 @@ const displayUserLogged = async () => {
     return;
   }
 
-  const url = `${store.api_host}api/user/${userId.value}`;
+  const url = `${store.api_host}api/user/:id${userId.value}`;
   console.log("Full URL for user data:", url);
 
   try {
