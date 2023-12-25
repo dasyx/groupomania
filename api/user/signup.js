@@ -3,9 +3,7 @@ const userController = require("../../controllers/users");
 
 export default async function signup(req, res) {
   try {
-    if (process.env.NODE_ENV === "development") {
-      await db.sequelize.sync();
-    }
+    await db.sequelize.sync();
 
     if (req.method === "POST") {
       return userController.signup(req, res);
