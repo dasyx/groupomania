@@ -5,6 +5,8 @@ const app = express();
 const path = require("path");
 // Dans un fichier d'initialisation ou au démarrage de votre application
 
+app.use(cors());
+
 // Importez vos routes ici
 const loginRoute = require("./api/user/login");
 const signupRoute = require("./api/user/signup");
@@ -13,8 +15,6 @@ const deleteUserRoute = require("./api/user/delete");
 const getUserByIdRoute = require("./api/user/getUserById");
 const getAllUsersRoute = require("./api/user/getAll");
 const auth = require("./middleware/auth");
-
-app.use(cors());
 
 // Gestion des fichiers statiques (pour les images)
 app.use("/images", express.static(path.join(__dirname, "images")));
