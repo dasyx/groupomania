@@ -126,9 +126,6 @@ exports.getOneUser = (userId, req, res, next) => {
     attributes: ["id", "username", "admin"],
   })
     .then((user) => {
-      if (!user) {
-        return res.status(404).send("User not found"); // Handling user not found
-      }
       console.log(user);
       res.status(200).json(user);
     })

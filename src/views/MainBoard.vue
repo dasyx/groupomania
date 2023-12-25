@@ -63,7 +63,7 @@ const displayUserLogged = async () => {
     return;
   }
 
-  const url = `${store.api_host}api/user/login/${userId.value}`; // Assurez-vous que cette URL est correcte
+  const url = `${store.api_host}/api/user/${userId.value}`; // Assurez-vous que cette URL est correcte
   console.log("Full URL for user data:", url);
 
   // Essayer de récupérer les informations de l'utilisateur
@@ -74,10 +74,17 @@ const displayUserLogged = async () => {
       },
     });
 
-    // Mise à jour des variables avec les données de l'utilisateur
-    registeredUsername.value = response.data.username; // Assurez-vous que la réponse inclut un champ 'username'
-    userLogged.value = true; // Mise à jour de l'état de connexion
-    console.log("Nom d'utilisateur enregistré:", registeredUsername.value);
+    if (response.status === 200) {
+      console.log("Informations utilisateur:", response.data);
+      // Mise à jour des variables avec les données de l'utilisateur
+      registeredUsername.value = response.data.username; // Assurez-vous que la réponse inclut un champ 'username'
+      userLogged.value = true; // Mise à jour de l'état de connexion
+      console.log("Nom d'utilisateur enregistré:", registeredUsername.value);
+    } else {
+      console.error(
+        "Erreur lors de la récupération des informations de l'utilisateur"
+      );
+    }
   } catch (error) {
     // Gestion des erreurs lors de la récupération des informations
     console.error(
