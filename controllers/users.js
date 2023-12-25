@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sequelize = require("../models/index.js");
-const db = require("../models");
+//const db = require("../models");
 const upload = require("../middleware/multer-config");
 const multer = require("multer");
 
@@ -12,64 +12,59 @@ let passwordRegex = /^[^=*<>{}]{8,}$/;
 /*****   USER SIGNUP    
 ========================****/
 
-exports.signup = (req, res, next) => {
-  sequelize.User.findOne({
-    where: {
+// eslint-disable-next-line no-unused-vars
+exports.signup = async (req, res, next) => {
+  try {
+    console.log("Checking if user exists");
+    const user = await sequelize.User.findOne({
+      where: {
+        username: req.body.username,
+        email: req.body.email,
+      },
+    });
+
+    if (user) {
+      console.log("User already exists");
+      return res.status(401).json({
+        error: "Nom d'utilisateur ou adresse email déjà utilisée",
+      });
+    }
+
+    console.log("Hashing password");
+    const hash = await bcrypt.hash(req.body.password, 10);
+
+    console.log("Creating user");
+    const newUser = await sequelize.User.create({
       username: req.body.username,
       email: req.body.email,
-    },
-  })
-    .then((user) => {
-      if (user) {
-        return res.status(401).json({
-          error: "Nom d'utilisateur ou adresse email déjà utilisée",
-        });
-      }
-
-      // Hashage du mot de passe
-      bcrypt
-        .hash(req.body.password, 10)
-        .then((hash) => {
-          sequelize.User.create({
-            username: req.body.username,
-            email: req.body.email,
-            password: hash,
-            admin: 0, // ou req.body.admin si vous souhaitez le définir lors de l'inscription
-          })
-            .then((newUser) => {
-              const token = jwt.sign(
-                { userId: newUser.id, userAdmin: newUser.admin },
-                process.env.SECRET_TOKEN,
-                { expiresIn: "24h" }
-              );
-              res.status(201).json({
-                message: "Utilisateur créé avec succès",
-                userId: newUser.id,
-                token: token,
-                isAdmin: newUser.admin,
-              });
-            })
-            .catch((error) => {
-              res.status(500).json({
-                error: "Erreur lors de la création de l'utilisateur",
-              });
-            });
-        })
-        .catch((error) => {
-          res.status(500).json({
-            error: "Erreur lors du hashage du mot de passe",
-          });
-        });
-    })
-    .catch((error) => {
-      res.status(500).json({
-        error: "Erreur lors de la recherche de l'utilisateur",
-      });
+      password: hash,
+      admin: 0, // Modify as necessary
     });
+
+    console.log("Generating JWT token");
+    const token = jwt.sign(
+      { userId: newUser.id, userAdmin: newUser.admin },
+      process.env.SECRET_TOKEN,
+      { expiresIn: "24h" }
+    );
+
+    res.status(201).json({
+      message: "Utilisateur créé avec succès",
+      userId: newUser.id,
+      token: token,
+      isAdmin: newUser.admin,
+    });
+  } catch (error) {
+    console.error("Error in user signup:", error);
+    res.status(500).json({
+      error: "Internal Server Error: " + error.message,
+    });
+  }
 };
 
 /*****   USER LOGIN    
 ========================****/
+// eslint-disable-next-line no-unused-vars
 exports.login = (req, res, next) => {
   sequelize.User.findOne({
     where: {
