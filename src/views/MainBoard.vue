@@ -89,10 +89,10 @@ const displayUserLogged = async () => {
 
 onMounted(async () => {
   await displayUserLogged();
-  fetchPosts();
+  //fetchPosts();
 });
 
-const fetchPosts = async () => {
+/* const fetchPosts = async () => {
   try {
     const response = await axios.get(`${store.api_host}post/`, {
       headers: {
@@ -103,7 +103,7 @@ const fetchPosts = async () => {
   } catch (error) {
     console.error("Erreur lors de la récupération des posts:", error);
   }
-};
+}; */
 </script>
 
 <style scoped>
