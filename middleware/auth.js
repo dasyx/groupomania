@@ -2,14 +2,11 @@
 
 // Récupération du package jsonwebtoken
 const jwt = require("jsonwebtoken");
-import { next } from "some-package"; // Replace 'some-package' with the actual package name
 
 // Vérification du token utilisateur, si correspondance avec l'id de l'utilisateur dans la requête, il sera autorisé à changer les données qui lui sont liées.
 
 // Middleware d'authentification appliqué à toutes les routes de manière à les sécuriser
-// On va vérifier que l'utilisateur est authentifié avant d'autoriser l'envoi de ses requêtes
-
-export default async function userAuth(req, res) {
+module.exports = (req, res, next) => {
   try {
     // On récupère le token dans le header de la requête
     // Grâce à split, le deuxième élément sera utilisé
@@ -32,4 +29,4 @@ export default async function userAuth(req, res) {
       error: new Error("Requête invalide !"),
     });
   }
-}
+};
