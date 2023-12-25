@@ -104,6 +104,7 @@ exports.login = (req, res, next) => {
             imgProfileUrl: user.imgProfile, // Ajout de l'URL de l'image de profil
           });
         })
+        // eslint-disable-next-line no-unused-vars
         .catch((error) =>
           res.status(500).json({
             error: "erreur",
@@ -116,6 +117,7 @@ exports.login = (req, res, next) => {
 /*****   AFFICHER UN UTILISATEUR    
 ======================================****/
 
+// eslint-disable-next-line no-unused-vars
 exports.getOneUser = (req, res, next) => {
   sequelize.User.findOne({
     where: {
@@ -133,6 +135,7 @@ exports.getOneUser = (req, res, next) => {
 /*****   MODIFIE UN UTILISATEUR 
 ======================================****/
 
+// eslint-disable-next-line no-unused-vars
 exports.updateUser = (req, res, next) => {
   upload(req, res, function (err) {
     if (err instanceof multer.MulterError) {
@@ -186,6 +189,7 @@ exports.updateUser = (req, res, next) => {
 /*****   RECUPERE TOUS LES UTILISATEURS   
 =========================================****/
 
+// eslint-disable-next-line no-unused-vars
 exports.getAllUsers = (req, res, next) => {
   sequelize.User.findAll({
     attributes: ["id", "username", "admin"],
@@ -199,6 +203,7 @@ exports.getAllUsers = (req, res, next) => {
 
 /*****   SUPPRIMER UN UTILISATEUR    
 ===================================****/
+// eslint-disable-next-line no-unused-vars
 exports.deleteUser = (req, res, next) => {
   //vérification des inputs
   try {
@@ -247,12 +252,14 @@ exports.deleteUser = (req, res, next) => {
                 message: "Utilisateur bien supprimé",
               })
             )
+            // eslint-disable-next-line no-unused-vars
             .catch((error) =>
               res.status(400).json({
                 error: "l'utilisateur n'a pas pu être supprimé",
               })
             );
         })
+        // eslint-disable-next-line no-unused-vars
         .catch((error) =>
           res.status(500).json({
             error: "erreur bcrypt",
@@ -264,6 +271,7 @@ exports.deleteUser = (req, res, next) => {
 
 /*****   SUPPRIMER UN UTILISATEUR (ADMIN AUTH)    
 ================================================****/
+// eslint-disable-next-line no-unused-vars
 exports.deleteAccountAdmin = (req, res, next) => {
   //recherche de l'utilisateur
   sequelize.User.findOne({
@@ -288,6 +296,7 @@ exports.deleteAccountAdmin = (req, res, next) => {
             message: "L'utilisateur a été correctement supprimé",
           })
         )
+        // eslint-disable-next-line no-unused-vars
         .catch((error) =>
           res.status(400).json({
             error: "L'utilisateur n'a pas pu être supprimé",

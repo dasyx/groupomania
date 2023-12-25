@@ -59,6 +59,9 @@ const displayUserLogged = async () => {
     return;
   }
 
+  const url = `${store.api_host}api/user/${userId.value}`;
+  console.log("Full URL for user data:", url);
+
   try {
     const response = await axios.get(
       `${store.api_host}api/user/${userId.value}`,
