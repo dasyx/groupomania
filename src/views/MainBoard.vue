@@ -69,7 +69,7 @@ const displayUserLogged = async () => {
       }
     );
 
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
       registeredUsername.value = response.data.username;
       userLogged.value = true; // Mise à jour de l'état de connexion
       console.log("Nom d'utilisateur enregistré:", registeredUsername.value);
