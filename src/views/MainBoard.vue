@@ -59,17 +59,17 @@ const displayUserLogged = async () => {
     return;
   }
 
-  const url = `${store.api_host}api/user/${userId.value}`;
+  const url = `${store.api_host}api/user/id/${userId.value}`;
   console.log("Full URL for user data:", url);
 
   try {
     const response = await axios.get(
-      store.api_host + "api/user/" + userId.value
-      /* {
+      store.api_host + "api/user/id/" + userId.value,
+      {
         headers: {
           Authorization: `Bearer ${userToken.value}`,
         },
-      } */
+      }
     );
 
     if (response.status === 200 || response.status === 201) {

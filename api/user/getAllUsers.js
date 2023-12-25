@@ -4,9 +4,7 @@ const auth = require("../../middleware/auth");
 const authAdmin = require("../../middleware/authAdmin");
 
 module.exports = async (req, res) => {
-  if (process.env.NODE_ENV === "development") {
-    await db.sequelize.sync();
-  }
+  await db.sequelize.sync();
 
   if (req.method === "GET") {
     await auth(req, res);
