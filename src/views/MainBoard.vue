@@ -63,7 +63,7 @@ const displayUserLogged = async () => {
     return;
   }
 
-  const url = `${store.api_host}api/user/${userId.value}`; // Assurez-vous que cette URL est correcte
+  const url = `${store.api_host}api/user/login/${userId.value}`; // Assurez-vous que cette URL est correcte
   console.log("Full URL for user data:", url);
 
   // Essayer de récupérer les informations de l'utilisateur
