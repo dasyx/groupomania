@@ -59,7 +59,7 @@ const displayUserLogged = async () => {
 
   try {
     const response = await axios.get(
-      `${store.api_host}/api/user/${userId.value}`,
+      `${store.api_host}/mainboard/api/user/${userId.value}`,
       {
         headers: {
           Authorization: `Bearer ${userToken.value}`,
