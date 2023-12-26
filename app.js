@@ -20,6 +20,11 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const db = require("./models");
+
+// Synchronisation de la base de données
+db.sequelize.sync();
+
 // Gestion des fichiers statiques (pour les images)
 app.use("/images", express.static(path.join(__dirname, "images")));
 
