@@ -38,43 +38,47 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import store from "../modules/store.json"; // Assurez-vous que ce chemin est correct
+import store from "../modules/store.json";
 import { useStorage } from "@vueuse/core";
-import MainHeader from "@/components/MainHeader.vue"; // Supposant que ces composants sont correctement configurés
-import NewPost from "@/components/NewPost.vue";
-import AllPosts from "@/components/AllPosts.vue";
-import { Icon } from "@iconify/vue";
 
-// Variables réactives pour stocker l'état et les données de l'utilisateur
+// Variables réactives
 const registeredUsername = ref("");
-const messageContent = ref([]);
 const userLogged = ref(false);
 const userToken = useStorage("user-token", null, sessionStorage);
 const userId = useStorage("user-id", null, sessionStorage);
 
 // Fonction pour afficher le nom de l'utilisateur connecté
-const getRegisteredUsername = () => {
-  console.log(userToken.value);
-  console.log(userId.value);
+const getRegisteredUsername = async () => {
   if (userToken.value && userId.value) {
-    userLogged.value = true;
-  }
-  if (userToken.value) {
-    axios
-      .get(`${store.api_host}/user/${userId.value}`, {
-        headers: {
-          Authorization: `Bearer ${userToken.value}`,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
+    try {
+      const response = await axios.get(
+        `${store.api_host}/user/${userId.value}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userToken.value}`,
+          },
+        }
+      );
+
+      if (response.data && response.data.username) {
         registeredUsername.value = response.data.username;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        userLogged.value = true;
+        console.log("Nom d'utilisateur récupéré:", registeredUsername.value);
+      } else {
+        console.error("Le nom d'utilisateur n'est pas dans la réponse");
+      }
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération du nom d'utilisateur:",
+        error
+      );
+      userLogged.value = false; // mise à jour de l'état de connexion
+    }
+  } else {
+    console.error("Token ou ID utilisateur manquant");
   }
 };
+
 onMounted(getRegisteredUsername);
 </script>
 
