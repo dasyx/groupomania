@@ -18,7 +18,7 @@ const loginRoute = require("./api/user/login");
 const signupRoute = require("./api/user/signup");
 const updateUserRoute = require("./api/user/update");
 const deleteUserRoute = require("./api/user/delete");
-const getUserByIdRoute = require("./api/user/getUserById");
+const getUserByIdRoute = require("./api/user/[id]");
 //const getAllUsersRoute = require("./api/user/getAll");
 const auth = require("./middleware/auth");
 
