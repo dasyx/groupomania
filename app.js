@@ -7,10 +7,6 @@ const path = require("path");
 
 app.use(cors());
 
-// Utilisation du package Express pour traiter les données JSON et les données de formulaire
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
 // Gestion des fichiers statiques (pour les images)
 app.use("/images", express.static(path.join(__dirname, "images")));
 
