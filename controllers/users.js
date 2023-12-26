@@ -122,7 +122,6 @@ exports.getOneUser = (userId, req, res, next) => {
   sequelize.User.findOne({
     where: {
       id: userId, // Changed from req.params.id to userId
-      username: req.body.username,
     },
     attributes: ["id", "username", "admin"],
   })
