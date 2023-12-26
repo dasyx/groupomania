@@ -70,7 +70,6 @@ const displayUserLogged = async () => {
   try {
     const response = await axios.get(url, {
       headers: {
-        Accept: "application/json",
         Authorization: `Bearer ${userToken.value}`, // Utilisation du token pour l'authentification
       },
     });
