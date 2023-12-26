@@ -53,71 +53,23 @@ const userToken = useStorage("user-token", null, sessionStorage);
 const userId = useStorage("user-id", null, sessionStorage);
 
 // Fonction pour afficher le nom de l'utilisateur connecté
-const displayUserLogged = async () => {
-  console.log("user-id:", userId.value);
-
-  // Vérifier si l'ID de l'utilisateur est présent
-  if (!userId.value) {
-    console.error("ID utilisateur non disponible");
-    userLogged.value = false; // Mise à jour de l'état de connexion
-    return;
-  }
-
-  const url = `${store.api_host}mainboard/api/user/${userId.value}`; // Assurez-vous que cette URL est correcte
-  console.log("Full URL for user data:", url);
-
-  // Essayer de récupérer les informations de l'utilisateur
-  try {
-    const response = await axios.get(url, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken.value}`, // Utilisation du token pour l'authentification
-      },
-    });
-
-    if (
-      response.status === 200 ||
-      response.status === 201 ||
-      response.status === 304
-    ) {
-      //console.log("Informations utilisateur:", response.data);
-      // Mise à jour des variables avec les données de l'utilisateur
-      registeredUsername.value = response.data.username; // Assurez-vous que la réponse inclut un champ 'username'
-      userLogged.value = true; // Mise à jour de l'état de connexion
-      console.log("Nom d'utilisateur enregistré:", registeredUsername.value);
-    } else {
-      console.error(
-        "Erreur lors de la récupération des informations de l'utilisateur"
-      );
-    }
-  } catch (error) {
-    // Gestion des erreurs lors de la récupération des informations
-    console.error(
-      "Erreur lors de la récupération des informations de l'utilisateur:",
-      error
-    );
-    userLogged.value = false; // Mise à jour de l'état de connexion
+const getRegisteredUsername = () => {
+  if (userToken.value) {
+    axios
+      .get(`${store.api_host}api/user/${userId.value}`, {
+        headers: {
+          Authorization: `Bearer ${userToken.value}`,
+        },
+      })
+      .then((response) => {
+        registeredUsername.value = response.data.username;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 };
-
-/* const fetchPosts = async () => {
-  try {
-    const response = await axios.get(`${store.api_host}post/`, {
-      headers: {
-        Authorization: `Bearer ${userToken.value}`,
-      },
-    });
-    messageContent.value = response.data;
-  } catch (error) {
-    console.error("Erreur lors de la récupération des posts:", error);
-  }
-}; */
-
-// Appel de la fonction lors du montage du composant
-onMounted(async () => {
-  await displayUserLogged();
-  // Vous pouvez activer ou ajouter d'autres fonctions ici, comme fetchPosts()
-});
+onMounted(getRegisteredUsername);
 </script>
 
 <style scoped>
