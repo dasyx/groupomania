@@ -110,8 +110,8 @@ const displayUserLogged = async () => {
 }; */
 
 // Appel de la fonction lors du montage du composant
-onMounted(() => {
-  displayUserLogged();
+onMounted(async () => {
+  await displayUserLogged();
   // Vous pouvez activer ou ajouter d'autres fonctions ici, comme fetchPosts()
 });
 </script>
