@@ -8,10 +8,11 @@ export default async function getUserById(req, res) {
 
     if (req.method === "GET") {
       const userId = req.params.id; // Assurez-vous d'extraire l'ID de l'utilisateur
+      const username = req.params.username;
       if (!userId) {
         return res.status(400).send("User ID is required");
       }
-      return userController.getOneUser(userId, req, res); // Transmettez l'ID à la fonction du contrôleur
+      return userController.getOneUser(userId, username, req, res); // Transmettez l'ID à la fonction du contrôleur
     } else {
       // Réponse pour les méthodes HTTP non gérées
       res.status(405).send("Method Not Allowed");
