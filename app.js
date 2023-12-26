@@ -28,6 +28,6 @@ app.use("/api/user/signup", auth, signupRoute);
 app.use("/api/user/update", auth, updateUserRoute);
 app.use("/api/user/delete", auth, deleteUserRoute);
 //app.use("/api/user/getAll", auth, getAllUsersRoute);
-app.use("/api/user/:userId", auth, getUserByIdRoute);
+app.use("/api/user/:id", auth, getUserByIdRoute);
 
 module.exports = app;

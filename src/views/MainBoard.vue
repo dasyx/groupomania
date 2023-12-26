@@ -61,7 +61,7 @@ const getRegisteredUsername = () => {
   }
   if (userToken.value) {
     axios
-      .get(`${store.api_host}mainboard/api/user/${userId.value}`, {
+      .get(`${store.api_host}/user/${userId.value}`, {
         headers: {
           Authorization: `Bearer ${userToken.value}`,
         },
