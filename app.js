@@ -7,14 +7,6 @@ const path = require("path");
 
 app.use(cors());
 
-app.use((req, res, next) => {
-  res.setHeader(
-    "Content-Security-Policy",
-    "default-src 'self'; img-src 'self' *.vercel.app; "
-  );
-  next();
-});
-
 // Utilisation du package Express pour traiter les données JSON et les données de formulaire
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
