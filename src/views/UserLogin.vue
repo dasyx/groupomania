@@ -92,6 +92,7 @@ export default {
             sessionStorage.setItem("user-token", response.data.token);
             sessionStorage.setItem("user-id", response.data.userId);
             sessionStorage.setItem("user-admin", response.data.userAdmin);
+            sessionStorage.setItem("user-username", response.data.username);
 
             // Stockage de l'URL de l'image de profil dans sessionStorage
             if (response.data.imgProfileUrl) {

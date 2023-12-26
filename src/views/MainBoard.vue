@@ -40,46 +40,56 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import store from "../modules/store.json";
 import { useStorage } from "@vueuse/core";
+import MainHeader from "@/components/MainHeader.vue";
+import NewPost from "@/components/NewPost.vue";
+import AllPosts from "@/components/AllPosts.vue";
+import { Icon } from "@iconify/vue";
 
-// Variables réactives
 const registeredUsername = ref("");
+const messageContent = ref([]);
 const userLogged = ref(false);
 const userToken = useStorage("user-token", null, sessionStorage);
 const userId = useStorage("user-id", null, sessionStorage);
 
-// Fonction pour afficher le nom de l'utilisateur connecté
-const getRegisteredUsername = async () => {
-  if (userToken.value && userId.value) {
-    try {
-      const response = await axios.get(
-        `${store.api_host}/api/user/${userId.value}`,
-        {
-          headers: {
-            Authorization: `Bearer ${userToken.value}`,
-          },
-        }
-      );
+const displayUserLogged = async () => {
+  console.log("user-id:", userId.value);
+  if (!userId.value) {
+    console.error("ID utilisateur non disponible");
+    userLogged.value = false; // Mise à jour de l'état de connexion
+    return;
+  }
 
-      if (response.data && response.data.username) {
-        registeredUsername.value = response.data.username;
-        userLogged.value = true;
-        console.log("Nom d'utilisateur récupéré:", registeredUsername.value);
-      } else {
-        console.error("Le nom d'utilisateur n'est pas dans la réponse");
+  try {
+    const response = await axios.get(
+      `${store.api_host}api/user/${userId.value}`,
+      {
+        headers: {
+          Authorization: `Bearer ${userToken.value}`,
+        },
       }
-    } catch (error) {
+    );
+
+    if (response.status === 200) {
+      registeredUsername.value = response.data.username;
+      userLogged.value = true; // Mise à jour de l'état de connexion
+      console.log("Nom d'utilisateur enregistré:", registeredUsername.value);
+    } else {
       console.error(
-        "Erreur lors de la récupération du nom d'utilisateur:",
-        error
+        "Erreur lors de la récupération des informations de l'utilisateur"
       );
-      userLogged.value = false; // mise à jour de l'état de connexion
     }
-  } else {
-    console.error("Token ou ID utilisateur manquant");
+  } catch (error) {
+    console.error(
+      "Erreur lors de la récupération des informations de l'utilisateur:",
+      error
+    );
+    userLogged.value = false; // Mise à jour de l'état de connexion
   }
 };
 
-onMounted(getRegisteredUsername);
+onMounted(async () => {
+  await displayUserLogged();
+});
 </script>
 
 <style scoped>
