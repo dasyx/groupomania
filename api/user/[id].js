@@ -8,8 +8,6 @@ export default async function getUserById(req, res) {
 
     // Définir les headers CORS
     res.setHeader("Access-Control-Allow-Origin", "*"); // Ajustez selon vos besoins de sécurité
-    res.setHeader("Access-Control-Allow-Methods", "GET"); // Méthodes autorisées
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type"); // Headers autorisés
     res.setHeader("Content-Type", "application/json"); // Spécifier le type de contenu
 
     // Gérer les requêtes OPTIONS pour le pré-vérification CORS
