@@ -118,20 +118,23 @@ exports.login = (req, res, next) => {
 ======================================****/
 
 // eslint-disable-next-line no-unused-vars
-exports.getOneUser = (userId, req, res, next) => {
+exports.getOneUser = (req, res, next) => {
   sequelize.User.findOne({
     where: {
-      id: req.params.id, // Changed from req.params.id to userId
+      id: req.params.id, // Utilisez l'ID de la requête
     },
-    attributes: ["id", "username", "admin"],
+    attributes: ["id", "username", "admin"], // Spécifiez les attributs que vous voulez récupérer
   })
     .then((user) => {
-      console.log(user);
-      res.status(200).json(user);
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(404).send("User not found"); // Gestion si l'utilisateur n'est pas trouvé
+      }
     })
     .catch((error) => {
-      console.error(error); // More detailed error logging
-      res.status(500).send("Internal Server Error"); // Sending back an error response
+      console.error(error); // Journalisation plus détaillée des erreurs
+      res.status(500).send("Internal Server Error"); // Envoi d'une réponse d'erreur
     });
 };
 
