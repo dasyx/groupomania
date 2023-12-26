@@ -25,7 +25,6 @@
           height="30"
         />Consultez les publications récentes
       </h2>
-      <AllPosts />
     </template>
 
     <!-- Message d'erreur si aucun post à afficher -->
@@ -42,7 +41,6 @@ import store from "../modules/store.json";
 import { useStorage } from "@vueuse/core";
 import MainHeader from "@/components/MainHeader.vue";
 import NewPost from "@/components/NewPost.vue";
-import AllPosts from "@/components/AllPosts.vue";
 import { Icon } from "@iconify/vue";
 
 const registeredUsername = ref("");
