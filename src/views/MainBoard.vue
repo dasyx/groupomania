@@ -54,6 +54,11 @@ const userId = useStorage("user-id", null, sessionStorage);
 
 // Fonction pour afficher le nom de l'utilisateur connecté
 const getRegisteredUsername = () => {
+  console.log(userToken.value);
+  console.log(userId.value);
+  if (userToken.value && userId.value) {
+    userLogged.value = true;
+  }
   if (userToken.value) {
     axios
       .get(`${store.api_host}mainboard/api/user/${userId.value}`, {
