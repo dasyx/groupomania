@@ -75,17 +75,12 @@ const displayUserLogged = async () => {
       },
     });
 
-    if (response.status === 200 && response.data) {
-      //console.log("Informations utilisateur:", response.data);
-      // Mise à jour des variables avec les données de l'utilisateur
-      registeredUsername.value = response.data.username; // Assurez-vous que la réponse inclut un champ 'username'
-      userLogged.value = true; // Mise à jour de l'état de connexion
-      console.log("Nom d'utilisateur enregistré:", registeredUsername.value);
-    } else {
-      console.error(
-        "Erreur lors de la récupération des informations de l'utilisateur"
-      );
-    }
+    //console.log("Informations utilisateur:", response.data);
+    // Mise à jour des variables avec les données de l'utilisateur
+    registeredUsername.value = response.data.username; // Assurez-vous que la réponse inclut un champ 'username'
+    userLogged.value = true; // Mise à jour de l'état de connexion
+    console.log("Nom d'utilisateur enregistré:", registeredUsername.value);
+    console.log("État de connexion:", userLogged.value);
   } catch (error) {
     // Gestion des erreurs lors de la récupération des informations
     console.error(
