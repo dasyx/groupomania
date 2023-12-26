@@ -75,7 +75,7 @@ const displayUserLogged = async () => {
     });
 
     if (response.status === 200) {
-      console.log("Informations utilisateur:", response.data);
+      //console.log("Informations utilisateur:", response.data);
       // Mise à jour des variables avec les données de l'utilisateur
       registeredUsername.value = response.data.username; // Assurez-vous que la réponse inclut un champ 'username'
       userLogged.value = true; // Mise à jour de l'état de connexion
